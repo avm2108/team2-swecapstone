@@ -7,9 +7,9 @@ Ryheem Heard -
 Kiran Kumar Burugu -
 Gabriel Pimentel - 
 
-# Project Description 
+## Project Description 
 
-# Technology Stack 
+## Technology Stack 
 Communication: Microsoft Teams
 Project Management: Trello
 Version Control: GitHub
