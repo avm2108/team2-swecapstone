@@ -11,7 +11,10 @@ function generateIdempotencyKey() {
 }
 
 securitymanager.get('/key', (req, res) => {
-    const response = generateIdempotencyKey()
+    // const response = generateIdempotencyKey()
+    const response = [{
+        key: generateIdempotencyKey()
+    }]
     res.status(200).json(response)
 })
 
