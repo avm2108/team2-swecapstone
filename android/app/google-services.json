@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "171078895918",
+    "project_id": "ohm-dispatcher-mobile-app",
+    "storage_bucket": "ohm-dispatcher-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:171078895918:android:f5219740770d05820592bf",
+        "android_client_info": {
+          "package_name": "com.ohm.dispatcher"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "171078895918-krq6vjce3u5s3ukl6416gkoi3hf3183f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXLv1l6QRx25fP9F9NJ05F-SyfWScH6aU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "171078895918-krq6vjce3u5s3ukl6416gkoi3hf3183f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
