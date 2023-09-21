@@ -1,0 +1,182 @@
+#scooperdevlogo {
+    position: absolute;
+    left: 30px;
+    top: -50px;
+}
+
+#apiexploer {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+}
+
+#request {
+    position: absolute;
+    left: 900px;
+    top: 120px;
+    width: 600px;
+    height: 300px;
+    border-radius: 20px;
+    background-color: rgb(87, 119, 95);
+}
+
+#response {
+    position: absolute;
+    left: 900px;
+    top: 450px;
+    width: 600px;
+    height: 300px;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+#header {
+    color: white;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+#header2 {
+    color: rgb(110, 110, 110);
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+#resDiv {
+    background-color: rgb(169, 169, 169);
+}
+
+mat-form-field {
+    position: absolute;
+    left: 420px;
+    top: 120px;
+    width: 10%;
+    margin-right: 12px;
+}
+
+mat-card-content {
+    color: white;
+    padding: 20px;
+}
+
+#run {
+    position: absolute;
+    top: 240px;
+    left: 500px;
+    width: 70px;
+    height: 40px;
+    font-size: 15px;
+    padding: 5px;
+    color: white;
+    border: 2px solid rgb(59, 81, 65);
+    background-color: rgb(59, 81, 65);
+    border-radius: 10px;
+}
+
+#run:hover {
+    border: 2px solid rgb(39, 54, 43);
+    background-color: rgb(39, 54, 43);;
+}
+
+#rescontent {
+    color: black;
+}
+
+/* HTTP method */
+h1 {
+    position: absolute;
+    top: 210px;
+    left: 70px;
+    color: #FFF27D;
+    font-family: "ff-cocon-pro", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* endpoint URL */
+h2 {
+    position: absolute;
+    top: 215px;
+    left: 140px;
+    color: white;
+    font-family: "kohinoor-telugu", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Name of endpoint */
+label {
+    position: absolute;
+    top: 180px;
+    left: 70px;
+    color: #214C34;
+    font-family: "kohinoor-telugu", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 40px;
+}
+
+/* nav buttons */
+#nav {
+    position: absolute;
+    color: white;
+    border-radius: 30px;
+    background-color: #4EB780;
+    border: 2px solid #4EB780;
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    top: 20px;
+    left: 1250px;
+}
+
+#nav:hover {
+    border: 2px solid #4EB780;
+    background-color: #63e3a1;
+    border-radius: 10px;
+}
+
+#nav2 {
+    color: gray;
+    font-family: "kohinoor-telugu", sans-serif;
+    font-weight: 600;
+}
+
+#nav3 {
+    position: absolute;
+    color: white;
+    border-radius: 30px;
+    background-color: #4EB780;
+    border: 2px solid #4EB780;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    top: 20px;
+    left: 1400px;
+}
+
+#nav3:hover {
+    border: 2px solid #4EB780;
+    background-color: #63e3a1;
+    border-radius: 10px;
+}
+
+#nav4 {
+    position: absolute;
+    color: white;
+    border-radius: 30px;
+    background-color: #4EB780;
+    border: 2px solid #4EB780;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    top: 20px;
+    left: 1500px;
+}
+
+#nav4:hover {
+    border: 2px solid #4EB780;
+    background-color: #63e3a1;
+    border-radius: 10px;
+}
+
