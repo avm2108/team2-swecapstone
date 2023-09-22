@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApiexplorerComponent } from './apiexplorer/apiexplorer.component';
-import { application } from 'express';
-
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  {path: '', component: ApiexplorerComponent},
-  {path: 'api', component: ApiexplorerComponent}
+  {path: '', component: LoginComponent},
+  {path: 'api', component: ApiexplorerComponent},
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({

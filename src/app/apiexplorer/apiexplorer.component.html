@@ -1,8 +1,11 @@
+
 <link rel="stylesheet" href="https://use.typekit.net/nho3ddg.css">
 
 <img id="scooperdevlogo" src="assets/scooperdeveloper.png" alt="img" style="width: 20%;">
 
 <img id="apiexploer" src="assets/apiexploer.png" alt="img" style="width: 20%;">
+
+<!------------------------------------------------------ Nav ------------------------------------------------------->
 
 <button id="nav" mat-button [matMenuTriggerFor]="menu">Documentation</button>
 <mat-menu #menu="matMenu">
@@ -15,7 +18,14 @@
   <button id="nav2" mat-menu-item>Contact Us</button>
 </mat-menu>
 
-<button id="nav4">Sign In</button>
+<button id="nav4" [matMenuTriggerFor]="menu3">Account</button>
+<mat-menu #menu3="matMenu">
+  <button id="nav2" mat-menu-item (click)="logout()">Sign out</button>
+</mat-menu>
+
+<!------------------------------------------------------ Nav end --------------------------------------------------->
+
+<!-------------------------------------------------- Selection feilds ---------------------------------------------->
 
 <mat-form-field appearance="outline" color="primary">
     <mat-label>{{value}}</mat-label>
@@ -35,6 +45,8 @@
     </mat-select>
 </mat-form-field>
 
+<!-------------------------------------------------- Selection feilds end ---------------------------------------------->
+
 <label *ngIf="selected2 == 'key'">{{retrieveKey}}</label>
 <h1 *ngIf="selected2 == 'key'">{{get}}</h1>
 <h2 *ngIf="selected2 == 'key'">/key</h2>
@@ -52,4 +64,5 @@
     <br>
     <mat-divider id="resDiv"></mat-divider>
     <mat-card-content id="rescontent">{{displayKey}}</mat-card-content>
+    <mat-card-content *ngIf="displayErr == 'Error: Something bad happened; please try again later.'" id="rescontenterr">{{displayErr}}</mat-card-content>
 </mat-card>
