@@ -5,8 +5,12 @@ import React from 'react';
 import {HamburgerIcon, ScooperLogoMedium} from '../../svgs';
 import {DrawerActions} from '@react-navigation/native';
 import ProtectedWrapper from '../../components/hoc/ProtectedWrapper';
+import Icon from 'react-native-vector-icons/Feather';
 
-export function Layout({children = <></>, navigation}: any) {
+export function Layout({children = <></>, navigation, backIcon = false}: any) {
+  const handleGoBack = () => {
+    navigation.replace('Protected');
+  };
   return (
     <>
       <View
@@ -17,23 +21,45 @@ export function Layout({children = <></>, navigation}: any) {
           backgroundColor: STYLES.baseColor,
           alignItems: 'center',
         }}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.dispatch(DrawerActions.openDrawer());
-          }}
-          style={{
-            flex: 0.5 / 3,
-            paddingVertical: 31,
-          }}>
-          <HamburgerIcon />
-        </TouchableOpacity>
-        <View
-          style={{
-            alignItems: 'center',
-            flex: 2 / 3,
-          }}>
-          <ScooperLogoMedium />
-        </View>
+        {backIcon === false ? (
+          <>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.dispatch(DrawerActions.openDrawer());
+              }}
+              style={{
+                flex: 0.5 / 3,
+                paddingVertical: 31,
+              }}>
+              <HamburgerIcon />
+            </TouchableOpacity>
+            <View
+              style={{
+                alignItems: 'center',
+                flex: 2 / 3,
+              }}>
+              <ScooperLogoMedium />
+            </View>
+          </>
+        ) : (
+          <>
+            <TouchableOpacity
+              onPress={handleGoBack}
+              style={{
+                flex: 0.5 / 3,
+                paddingVertical: 31,
+              }}>
+              <Icon name="arrow-left" size={25} color="black" />
+            </TouchableOpacity>
+            <View
+              style={{
+                alignItems: 'center',
+                flex: 2 / 3,
+              }}>
+              <ScooperLogoMedium />
+            </View>
+          </>
+        )}
       </View>
       <ProtectedWrapper>{children}</ProtectedWrapper>
     </>

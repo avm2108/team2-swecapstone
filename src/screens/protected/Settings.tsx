@@ -18,7 +18,7 @@ import {
   PlusSmallIcon,
 } from '../../svgs';
 import {Card} from '../../components/general/Card';
-import {ScoopUpTeamInfo} from '../../components/protected/Profile/ScoopUpTeamInfo';
+// import {ScoopUpTeamInfo} from '../../components/protected/Profile/ScoopUpTeamInfo';
 
 const Drawer = createDrawerNavigator();
 
@@ -208,7 +208,7 @@ const SettingsList = ({listItems = [], title}: any) => {
                   )}
                 </TouchableOpacity>
               </Card>
-              {setting?.isSelected ? <ScoopUpTeamInfo /> : null}
+              {/* {setting?.isSelected ? <ScoopUpTeamInfo /> : null} */}
             </TouchableOpacity>
           </View>
         );

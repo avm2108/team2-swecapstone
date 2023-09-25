@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.ohm.dispatcher"
+    namespace "com.scooper"
     defaultConfig {
-        applicationId "com.ohm.dispatcher"
+        applicationId "com.scooper"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

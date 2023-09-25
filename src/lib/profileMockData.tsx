@@ -1,7 +1,13 @@
 import {
   DaughterSampleImageSmall,
   FatherSampleImageSmall,
+  KeyIcon,
+  LifeBuoyIcon,
+  LockIcon,
+  MapIcon,
+  PeopleIcon,
   SonSampleImageSmall,
+  SupportIcon,
 } from '../svgs';
 
 export const familyList = [
@@ -25,20 +31,17 @@ export const familyList = [
 export const accountSettingsList = [
   {
     name: 'Change Password',
-    relation: 'Aunt',
-    image: <FatherSampleImageSmall />,
+    image: <KeyIcon />,
     isSelected: false,
   },
   {
     name: 'Change SOS Pin',
-    relation: 'Uncle',
-    image: <FatherSampleImageSmall />,
+    image: <LifeBuoyIcon />,
     isSelected: false,
   },
   {
     name: 'Update Scoopup Team',
-    relation: 'Friend',
-    image: <FatherSampleImageSmall />,
+    image: <PeopleIcon />,
     isSelected: false,
   },
 ];
@@ -46,41 +49,104 @@ export const accountSettingsList = [
 export const systemSettingsList = [
   {
     name: 'Location Settings',
-    relation: 'Aunt',
-    image: <FatherSampleImageSmall />,
+    image: <MapIcon />,
     isSelected: false,
   },
   {
     name: 'Support',
-    relation: 'Uncle',
-    image: <FatherSampleImageSmall />,
+    image: <SupportIcon />,
     isSelected: false,
   },
   {
     name: 'Log Out',
-    relation: 'Friend',
-    image: <FatherSampleImageSmall />,
+    image: <LockIcon />,
     isSelected: false,
   },
 ];
 
 export const scoopUpTeamList = [
   {
+    id: 1,
     name: 'Anne Moore',
     relation: 'Aunt',
     image: <FatherSampleImageSmall />,
+    email: 'anne.more@gmail.com',
+    phone: '404-234-2345',
+    gender: 'Female',
     isSelected: false,
+    vehicleInfo: {
+      vehicle_model: {
+        label: 'Vehicle Make/Model',
+        value: 'Kia Soul',
+      },
+      vehicle_color: {
+        label: 'Vehicle Color',
+        value: 'White',
+      },
+      vehicle_year: {
+        label: 'Vehicle Year',
+        value: '2021',
+      },
+      phone_number: {
+        label: 'Phone Number',
+        value: '404-444-4444',
+      },
+    },
   },
   {
+    id: 2,
     name: 'Jim Moore',
     relation: 'Uncle',
     image: <FatherSampleImageSmall />,
+    email: 'jim.more@gmail.com',
+    phone: '494-134-8345',
+    gender: 'Male',
     isSelected: false,
+    vehicleInfo: {
+      vehicle_model: {
+        label: 'Vehicle Make/Model',
+        value: 'Kia Soul',
+      },
+      vehicle_color: {
+        label: 'Vehicle Color',
+        value: 'White',
+      },
+      vehicle_year: {
+        label: 'Vehicle Year',
+        value: '2021',
+      },
+      phone_number: {
+        label: 'Phone Number',
+        value: '404-444-4444',
+      },
+    },
   },
   {
+    id: 3,
     name: 'Trish Reed',
     relation: 'Friend',
     image: <FatherSampleImageSmall />,
+    email: 'trish.reed@gmail.com',
+    phone: '454-690-3145',
+    gender: 'Male',
     isSelected: false,
+    vehicleInfo: {
+      vehicle_model: {
+        label: 'Vehicle Make/Model',
+        value: 'Kia Soul',
+      },
+      vehicle_color: {
+        label: 'Vehicle Color',
+        value: 'White',
+      },
+      vehicle_year: {
+        label: 'Vehicle Year',
+        value: '2021',
+      },
+      phone_number: {
+        label: 'Phone Number',
+        value: '404-444-4444',
+      },
+    },
   },
 ];

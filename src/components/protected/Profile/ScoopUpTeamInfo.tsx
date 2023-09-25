@@ -3,8 +3,18 @@ import {Text, View} from 'react-native';
 import React from 'react';
 import {STYLES} from '../../../constants/styles';
 import {DeleteSmallIcon} from '../../../svgs';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 
-export function ScoopUpTeamInfo() {
+export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
+  const navigation = useNavigation();
+  const handleEdit = (scooperId: any) => {
+    // @ts-ignore
+    navigation.replace('Protected', {
+      screen: 'EditProfile',
+      params: {scooperId: scooperId, data: allInfo},
+    });
+  };
   return (
     <View
       style={{
@@ -21,32 +31,36 @@ export function ScoopUpTeamInfo() {
       <View style={{flexDirection: 'row'}}>
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={infoData.vehicle_model.label}
-          subtitle={infoData.vehicle_model.value}
+          title={vehicleInfo?.vehicle_model?.label}
+          subtitle={vehicleInfo?.vehicle_model?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={infoData.vehicle_color.label}
-          subtitle={infoData.vehicle_color.value}
+          title={vehicleInfo?.vehicle_color?.label}
+          subtitle={vehicleInfo?.vehicle_color?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <View style={{flex: 1 / 3, alignItems: 'flex-end'}}>
-          <Text style={{color: STYLES.lightGreenColor, fontSize: 8}}>Edit</Text>
+          <TouchableOpacity onPress={() => handleEdit(id)}>
+            <Text style={{color: STYLES.lightGreenColor, fontSize: 8}}>
+              Edit
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{flexDirection: 'row'}}>
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={infoData.vehicle_year.label}
-          subtitle={infoData.vehicle_year.value}
+          title={vehicleInfo?.vehicle_year?.label}
+          subtitle={vehicleInfo?.vehicle_year?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
 
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={infoData.phone_number.label}
-          subtitle={infoData.phone_number.value}
+          title={vehicleInfo?.phone_number?.label}
+          subtitle={vehicleInfo?.phone_number?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <View style={{flex: 1 / 3, alignItems: 'flex-end'}}>
@@ -56,25 +70,6 @@ export function ScoopUpTeamInfo() {
     </View>
   );
 }
-
-const infoData = {
-  vehicle_model: {
-    label: 'Vehicle Make/Model',
-    value: 'Kia Soul',
-  },
-  vehicle_color: {
-    label: 'Vehicle Color',
-    value: 'White',
-  },
-  vehicle_year: {
-    label: 'Vehicle Year',
-    value: '2021',
-  },
-  phone_number: {
-    label: 'Phone Number',
-    value: '404-444-4444',
-  },
-};
 
 export const TitleWithSubText = ({
   title,

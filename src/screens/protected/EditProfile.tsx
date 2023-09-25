@@ -1,48 +1,22 @@
-/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import {Text, TouchableOpacity, View} from 'react-native';
-import React, {useCallback, useState} from 'react';
+import {Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Layout} from './Layout';
-import {
-  ArrowDownSmallIcon,
-  ArrowRightSmallIcon,
-  MotherSampleImageMedium,
-  PlusSmallIcon,
-} from '../../svgs';
+import {MotherSampleImageMedium} from '../../svgs';
 import {STYLES} from '../../constants/styles';
 import {Card} from '../../components/general/Card';
 import {useNavigation} from '@react-navigation/native';
-import {ScoopUpTeamInfo} from '../../components/protected/Profile/ScoopUpTeamInfo';
-import {familyList, scoopUpTeamList} from '../../lib/profileMockData';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import SideBar from '../../components/protected/Sidebar';
+import {familyList} from '../../lib/profileMockData';
+import {TextInput} from 'react-native';
 
-const Drawer = createDrawerNavigator();
-
-export default function ProfileWithDrawer({navigation}: any) {
-  return (
-    <Drawer.Navigator
-      screenOptions={{
-        headerShown: false,
-        drawerStyle: {
-          width: '100%',
-        },
-      }}
-      id="ProfileDrawer"
-      drawerContent={(props: any) => {
-        return (
-          <SideBar id="ProfileDrawer" navigation={navigation} {...props} />
-        );
-      }}>
-      <Drawer.Screen name="ProfileWithDrawer" component={Profile} />
-    </Drawer.Navigator>
-  );
+export default function EditProfileWithDrawer({route}: any) {
+  return <Profile info={route?.params?.data} />;
 }
 
-function Profile() {
+function Profile({info}: any) {
   const navigation = useNavigation();
   return (
-    <Layout navigation={navigation}>
+    <Layout navigation={navigation} backIcon={true}>
       <View
         style={{
           paddingTop: 29,
@@ -52,9 +26,8 @@ function Profile() {
           borderTopRightRadius: 20,
         }}>
         <ParentCard />
-        <PersonalInformation />
+        <PersonalInformation info={info} />
         <FamilyInformation />
-        <ScoopUpTeamList />
       </View>
     </Layout>
   );
@@ -116,14 +89,42 @@ const ParentCard = () => {
   );
 };
 
-const PersonalInformation = () => {
+const PersonalInformation = ({info}: any) => {
+  const [prefilledData, setPrefilledData] = useState(() => info);
+
+  useEffect(() => {
+    setPrefilledData(info);
+  }, [info]);
+
+  const handleChange = (path: any, value: any) => {
+    setPrefilledData((prevState: any) => {
+      const newState = {...prevState};
+      const keys = path?.split('.');
+
+      if (keys?.length === 1) {
+        // Update a top-level property
+        newState[keys?.[0]] = value;
+      } else {
+        // Update a nested property
+        let current = newState;
+        for (let i = 0; i < keys?.length - 1; i++) {
+          current = current[keys?.[i]];
+        }
+        current[keys[keys?.length - 1]] = value;
+      }
+
+      return newState;
+    });
+  };
+
   return (
     <Card
       style={{
-        paddingVertical: 7,
-        paddingLeft: 10,
-        paddingRight: 40,
+        paddingTop: 19,
+        paddingLeft: 13,
+        paddingRight: 29,
         marginTop: 15,
+        paddingBottom: 27,
       }}>
       <Text
         style={{
@@ -146,15 +147,19 @@ const PersonalInformation = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <TitleWithSubText
+          <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Phone Number'}
-            subtitle={'404-478-7707'}
+            handleChange={(value: string) => handleChange('phone', value)}
+            inputFieldValue={prefilledData?.phone}
           />
-          <TitleWithSubText
+          <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            subtitle={'Ford Escape'}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_model.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_model?.value}
           />
         </View>
         <View
@@ -163,15 +168,19 @@ const PersonalInformation = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <TitleWithSubText
+          <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Email Address'}
-            subtitle={'tkim3@gmail.com'}
+            handleChange={(value: string) => handleChange('email', value)}
+            inputFieldValue={prefilledData?.email}
           />
-          <TitleWithSubText
+          <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Year'}
-            subtitle={'2018'}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_year.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_year?.value}
           />
         </View>
         <View
@@ -180,15 +189,19 @@ const PersonalInformation = () => {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <TitleWithSubText
+          <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Gender'}
-            subtitle={'Female'}
+            handleChange={(value: string) => handleChange('gender', value)}
+            inputFieldValue={prefilledData?.gender}
           />
-          <TitleWithSubText
+          <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Color'}
-            subtitle={'Black'}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_color.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
           />
         </View>
       </View>
@@ -196,12 +209,12 @@ const PersonalInformation = () => {
   );
 };
 
-const TitleWithSubText = ({
+const TitleWithInputField = ({
   title,
-  subtitle,
   style = {},
   titleStyle = {},
-  subTitleStyle = {},
+  handleChange = () => {},
+  inputFieldValue = '',
 }: any) => {
   return (
     <View style={{...style}}>
@@ -214,9 +227,24 @@ const TitleWithSubText = ({
         }}>
         {title}
       </Text>
-      <Text style={{color: STYLES.greenColor, fontSize: 6, ...subTitleStyle}}>
-        {subtitle}
-      </Text>
+      <TextInput
+        onChange={handleChange}
+        style={{
+          paddingHorizontal: 7,
+          height: 18,
+          paddingVertical: 0,
+          fontSize: 6,
+          marginRight: 10,
+          borderRadius: 4,
+          marginTop: 7,
+          color: STYLES.lightGreenColor,
+          backgroundColor: STYLES.veryLightGrayColor,
+        }}
+        value={inputFieldValue}
+      />
+      {/* <Text style={{color: STYLES.greenColor, fontSize: 6, ...inputFieldStyle}}>
+        {inputFieldValue}
+      </Text> */}
     </View>
   );
 };
@@ -269,90 +297,5 @@ const FamilyInformation = () => {
         })}
       </View>
     </Card>
-  );
-};
-
-const ScoopUpTeamList = () => {
-  const [list, setList] = useState(scoopUpTeamList);
-
-  const toggleShowInfo = useCallback(
-    (name: any) => {
-      setList((prevList: any) => {
-        return prevList?.map((item: any) => {
-          return item?.name === name
-            ? {...item, isSelected: !item.isSelected}
-            : item;
-        });
-      });
-    },
-    [list],
-  );
-
-  return (
-    <View style={{paddingTop: 12}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            color: STYLES.greenColor,
-            fontWeight: '700',
-            fontSize: 12,
-          }}>
-          Scoop-up Team
-        </Text>
-        <PlusSmallIcon />
-      </View>
-
-      {list?.map((familyMember, index) => {
-        return (
-          <View key={`familyMember_${index}`}>
-            <Card
-              style={{
-                paddingVertical: 7,
-                paddingLeft: 10,
-                marginTop: 15,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <ImageWithInfo
-                style={{
-                  gap: 7,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                image={familyMember?.image}
-                info={
-                  <PersonInfo
-                    name={familyMember?.name}
-                    relation={familyMember?.relation}
-                  />
-                }
-              />
-              <TouchableOpacity
-                onPress={() => toggleShowInfo(familyMember?.name)}
-                style={{padding: 13}}>
-                {familyMember?.isSelected ? (
-                  <ArrowDownSmallIcon />
-                ) : (
-                  <ArrowRightSmallIcon />
-                )}
-              </TouchableOpacity>
-            </Card>
-            {familyMember?.isSelected ? (
-              <ScoopUpTeamInfo
-                id={familyMember?.id}
-                vehicleInfo={familyMember?.vehicleInfo}
-                allInfo={familyMember}
-              />
-            ) : null}
-          </View>
-        );
-      })}
-    </View>
   );
 };

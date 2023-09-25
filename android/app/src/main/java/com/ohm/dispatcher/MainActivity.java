@@ -1,4 +1,4 @@
-package com.ohm.dispatcher;
+package com.scooper;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

@@ -1,4 +1,4 @@
-package com.ohm.dispatcher;
+package com.scooper;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
