@@ -19,6 +19,7 @@ import { initializeApp } from 'firebase/app';
 import { environment } from '../environments/environment';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { FormsModule } from '@angular/forms';
+import { authguardGuard } from './authguard.guard';
 
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { UserCredential, getAuth } from '@angular/fire/auth'; 
 import { AngularFireAuth} from '@angular/fire/compat/auth'
 import { Router } from '@angular/router';
 
@@ -7,29 +8,19 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  token: any
+  token = false
 
   constructor(private fireuth: AngularFireAuth,  private router: Router) { }
 
-  getUserToken() {
-    return this.fireuth.idToken.subscribe({
-      next: (res: any) => {
-        if (res != null) {
-          return true
-        }
-        return false
-      },
-      error: (err: any) => {
-        console.log(err, 'ERROR')
-        return false
-      }
-    })
+  isAuthenticated(): boolean {
+    const auth = getAuth()
+    return auth.currentUser !== null
   }
 
   //login
   login(email: string, password: string) {
     this.fireuth.signInWithEmailAndPassword(email, password).then( () => {
-        localStorage.setItem('token', 'true');
+        this.token = true
         this.router.navigate(['api']);
     }, err => {
         alert(err.message); 
@@ -40,7 +31,7 @@ export class AuthService {
   //log out
   logout() {
     this.fireuth.signOut().then( () => {
-     localStorage.removeItem('token');
+    this.token = false
      this.router.navigate(['']);
     }, err => {
       alert(err.message);
