@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, Image, LogBox} from 'react-native';
+import {View, Image, Alert} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Auth, Protected} from './src/stacks';
@@ -8,19 +8,15 @@ import {navigationRef} from './src/utils/rootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // @ts-ignore
 import ScooperImage from './src/assets/scooper.png';
-
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/redux/store';
+import firebaseAuth from '@react-native-firebase/auth';
 
 const Stack = createStackNavigator();
 export const AuthContext = React.createContext(null);
 
 function App(): JSX.Element {
-  React.useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
   const [state, dispatch] = React.useReducer(
     (prevState: any, action: any) => {
       switch (action.type) {
@@ -78,29 +74,69 @@ function App(): JSX.Element {
         try {
           console.log('🚀 ~ file: App.tsx:82 ~ signIn: ~ payload:', payload);
 
-          const response = {
-            success: true,
-            token: 'sample_token_value',
-          };
-          if (response.success === false) {
-            console.log(
-              'response.success === false: ',
-              response.success === false,
+          // Users can both register and sign in using a method called createUserWithEmailAndPassword
+          // sign in to an existing account with signInWithEmailAndPassword
+          const firebaseResponse =
+            await firebaseAuth().signInWithEmailAndPassword(
+              payload.email,
+              payload.password,
             );
-            return response;
-          } else {
-            await AsyncStorage.setItem('@access_token', response.token);
 
-            dispatch({type: 'SIGN_IN', token: response.token});
-            return response;
-          }
+          console.log(
+            'User account created & signed in!',
+            JSON.stringify(firebaseResponse, null, 2),
+          );
+
+          await AsyncStorage.setItem(
+            '@access_token',
+            firebaseResponse?.user?.uid,
+          );
+
+          dispatch({type: 'SIGN_IN', token: firebaseResponse?.user?.uid});
+          return firebaseResponse;
+          // }
         } catch (error) {
-          console.log('🚀 ~ file: App.tsx:78 ~ signIn: ~ error:', error);
-          return error;
+          console.log('🚀 ~ file: App.tsx:78 ~ signIn: ~ error:', error.code);
+
+          if (error.code === 'auth/email-already-in-use') {
+            return {
+              success: false,
+              errorType: 'email',
+              message: 'That email address is already in use!',
+            };
+          }
+
+          if (error.code === 'auth/invalid-email') {
+            return {
+              success: false,
+              errorType: 'email',
+              message: 'That email address is invalid!',
+            };
+          }
+
+          // if (error.code === 'auth/email-already-in-use') {
+          //   return 'That email address is already in use!'
+          // }
+
+          if (error.code === 'auth/invalid-login') {
+            return {
+              success: false,
+              errorType: 'both',
+              message: 'Invalid email or password',
+            };
+          }
+
+          return {success: false, message: 'Something went wrong'};
         }
       },
       signOut: async () => {
         await AsyncStorage.clear();
+        const firebaseResponse = await firebaseAuth().signOut();
+        console.log(
+          '🚀 ~ file: App.tsx:140 ~ signOut: ~ firebaseResponse:',
+          JSON.stringify(firebaseResponse, null, 2),
+        );
+
         dispatch({type: 'SIGN_OUT'});
       },
       signUp: async () => {

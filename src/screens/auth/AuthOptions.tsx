@@ -25,7 +25,7 @@ export default function AuthOptions() {
             color={STYLES.greenColor}
             wrapperStyle={{marginBottom: 18, paddingVertical: 16}}
             title="Login"
-            textStyles={{fontSize: 20}}
+            textStyles={{fontSize: 20, fontFamily: 'Nunito-Bold'}}
             onPress={() => {
               // @ts-ignore
               navigation.navigate('LoginWithUsernameAndPassword');
@@ -36,7 +36,7 @@ export default function AuthOptions() {
             color={STYLES.greenColor}
             wrapperStyle={{marginBottom: 40, paddingVertical: 16}}
             title="Register"
-            textStyles={{fontSize: 20}}
+            textStyles={{fontSize: 20, fontFamily: 'Nunito-Bold'}}
             // onPress={handleSubmit}
             // processing={isApiCalling}
           />

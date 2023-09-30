@@ -53,25 +53,27 @@ export default function LoginWithEmailAndPassword() {
           password: password,
         };
         const response = await signIn(payload);
+        console.log(
+          '🚀 ~ file: LoginWithUsernameAndPassword.tsx:56 ~ handleSubmit ~ response:',
+          response,
+        );
 
         if (response.success === false) {
-          const apiEmailError =
-            response.message === 'error_message_email_not_registered';
+          const apiEmailError = response.errorType === 'email';
 
-          const apiPasswordError =
-            response.message === 'error_message_password_wrong';
+          const apiPasswordError = response.errorType === 'both';
 
           if (apiEmailError) {
             console.log('apiEmailError: ', apiEmailError);
             setPasswordError('');
             //@ts-ignore
-            setEmailError(authErrors[response.message]);
+            setEmailError(response?.message);
             setIsApiCalling(false);
           } else if (apiPasswordError) {
             console.log('apiPasswordError: ', apiPasswordError);
             setEmailError('');
             //@ts-ignore
-            setPasswordError(authErrors[response.message]);
+            setPasswordError(response?.message);
             setIsApiCalling(false);
           }
         }
@@ -112,7 +114,8 @@ export default function LoginWithEmailAndPassword() {
           style={{
             color: STYLES.lightGreenColor,
             fontSize: 20,
-            fontWeight: 700,
+            fontFamily: 'Nunito-Bold',
+
             paddingTop: 12,
             textAlign: 'center',
             marginBottom: 31,
@@ -176,7 +179,7 @@ export default function LoginWithEmailAndPassword() {
             }}
             title="Sign In"
             onPress={handleSubmit}
-            textStyles={{fontSize: 12}}
+            textStyles={{fontSize: 12, fontFamily: 'Nunito-Bold'}}
             processing={isApiCalling}
           />
           <View
@@ -186,8 +189,8 @@ export default function LoginWithEmailAndPassword() {
               style={{
                 color: STYLES.lightGreenColor,
                 fontSize: 10,
-                fontWeight: 700,
                 textAlign: 'center',
+                fontFamily: 'Nunito-Bold',
               }}>
               Forgot Password?{' '}
             </Text>
@@ -197,7 +200,7 @@ export default function LoginWithEmailAndPassword() {
                 style={{
                   color: STYLES.lightGreenColor,
                   fontSize: 10,
-                  fontWeight: 700,
+                  fontFamily: 'Nunito-Bold',
                   textAlign: 'center',
                   textDecorationLine: 'underline',
                 }}>
@@ -217,6 +220,7 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingVertical: 8,
     fontSize: 11,
+    fontFamily: 'Nunito-Bold',
     width: '100%',
   },
   inputBoxContainer: {
@@ -230,7 +234,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    fontWeight: '700',
+    fontFamily: 'Nunito-Bold',
     marginBottom: 24,
     color: 'black',
     textAlign: 'center',
@@ -242,6 +246,7 @@ const styles = StyleSheet.create({
     color: 'red',
     marginBottom: 8,
     fontSize: 10,
+    fontFamily: 'Nunito-Bold',
   },
   validInput: {
     borderColor: 'green',

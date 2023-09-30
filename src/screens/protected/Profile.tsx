@@ -87,7 +87,7 @@ const PersonInfo = ({
         <Text
           style={{
             color: STYLES.blackColor,
-            fontWeight: '800',
+            fontFamily: 'Nunito-ExtraBold',
             fontSize: 12,
             ...nameTextStyle,
           }}>
@@ -128,7 +128,7 @@ const PersonalInformation = () => {
       <Text
         style={{
           color: STYLES.greenColor,
-          fontWeight: '700',
+          fontFamily: 'Nunito-Bold',
           fontSize: 12,
         }}>
         Personal Information
@@ -208,13 +208,19 @@ const TitleWithSubText = ({
       <Text
         style={{
           color: STYLES.blackColor,
-          fontWeight: '800',
+          fontFamily: 'Nunito-ExtraBold',
           fontSize: 8,
           ...titleStyle,
         }}>
         {title}
       </Text>
-      <Text style={{color: STYLES.greenColor, fontSize: 6, ...subTitleStyle}}>
+      <Text
+        style={{
+          color: STYLES.greenColor,
+          fontSize: 6,
+          ...subTitleStyle,
+          fontFamily: 'Nunito-Bold',
+        }}>
         {subtitle}
       </Text>
     </View>
@@ -233,7 +239,7 @@ const FamilyInformation = () => {
       <Text
         style={{
           color: STYLES.greenColor,
-          fontWeight: '700',
+          fontFamily: 'Nunito-Bold',
           fontSize: 12,
         }}>
         Family
@@ -299,7 +305,7 @@ const ScoopUpTeamList = () => {
         <Text
           style={{
             color: STYLES.greenColor,
-            fontWeight: '700',
+            fontFamily: 'Nunito-Bold',
             fontSize: 12,
           }}>
           Scoop-up Team

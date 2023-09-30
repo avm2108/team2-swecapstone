@@ -17,7 +17,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 // Import your reducers
 import mapReducer from './mapSlice';
-import driverReducer from './driverSlice';
+import userReducer from './userSlice';
 import dispatcherReducer from './dispatcherSlice';
 
 // RootState type
@@ -38,7 +38,7 @@ const persistConfig = {
 // Combine all reducers
 const rootReducer = combineReducers({
   map: mapReducer,
-  drivers: driverReducer,
+  user: userReducer,
   dispatchers: dispatcherReducer,
 });
 

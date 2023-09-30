@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   distanceText: {
     fontSize: 12,
-    fontWeight: 'bold',
+    fontFamily: 'Nunito-Bold',
     color: 'black',
   },
 });

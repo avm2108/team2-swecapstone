@@ -22,7 +22,7 @@ export const EmergencyActions = () => {
         <Text
           style={{
             fontSize: 10,
-            fontWeight: '700',
+            fontFamily: 'Nunito-Bold',
             color: STYLES.lightGreenColor,
           }}>
           Check In
@@ -42,7 +42,7 @@ export const EmergencyActions = () => {
         <Text
           style={{
             fontSize: 10,
-            fontWeight: '700',
+            fontFamily: 'Nunito-Bold',
             color: STYLES.lightGreenColor,
           }}>
           SOS

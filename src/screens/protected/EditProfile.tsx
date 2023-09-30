@@ -60,14 +60,19 @@ const PersonInfo = ({
         <Text
           style={{
             color: STYLES.blackColor,
-            fontWeight: '800',
+            fontFamily: 'Nunito-Bold',
             fontSize: 12,
             ...nameTextStyle,
           }}>
           {name}
         </Text>
         <Text
-          style={{color: STYLES.greenColor, fontSize: 6, ...relationTextStyle}}>
+          style={{
+            color: STYLES.greenColor,
+            fontSize: 6,
+            ...relationTextStyle,
+            fontFamily: 'Nunito-Bold',
+          }}>
           {relation}
         </Text>
       </View>
@@ -129,7 +134,7 @@ const PersonalInformation = ({info}: any) => {
       <Text
         style={{
           color: STYLES.greenColor,
-          fontWeight: '700',
+          fontFamily: 'Nunito-Bold',
           fontSize: 12,
         }}>
         Personal Information
@@ -221,7 +226,7 @@ const TitleWithInputField = ({
       <Text
         style={{
           color: STYLES.blackColor,
-          fontWeight: '800',
+          fontFamily: 'Nunito-Bold',
           fontSize: 8,
           ...titleStyle,
         }}>
@@ -234,6 +239,7 @@ const TitleWithInputField = ({
           height: 18,
           paddingVertical: 0,
           fontSize: 6,
+          fontFamily: 'Nunito-Bold',
           marginRight: 10,
           borderRadius: 4,
           marginTop: 7,
@@ -261,7 +267,7 @@ const FamilyInformation = () => {
       <Text
         style={{
           color: STYLES.greenColor,
-          fontWeight: '700',
+          fontFamily: 'Nunito-Bold',
           fontSize: 12,
         }}>
         Family

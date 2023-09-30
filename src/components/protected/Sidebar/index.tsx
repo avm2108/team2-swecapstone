@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AuthContext} from '../../../../App';
@@ -9,6 +9,8 @@ import {STYLES} from '../../../constants/styles';
 import {CustomModal} from '../../general/Modal';
 import Button from '../../Button';
 import {MotherSampleImageMedium} from '../../../svgs';
+import * as React from 'react';
+import {useSelector} from 'react-redux';
 
 export interface MenuItemInterface {
   label: string;
@@ -44,52 +46,20 @@ const SideBar: React.FC = ({id, navigation}: any) => {
   const {signOut} = React.useContext(AuthContext);
   const [showLogoutConfirmationPopup, setShowLogoutConfirmationPopup] =
     useState(false);
+  // @ts-ignore
+  const {user} = useSelector(state => state?.user);
 
   const handleSelectOption = (value: string) => {
     switch (value) {
-      case 'normal':
-        // @ts-ignore
-        navigation.navigate('Protected', {
-          screen: 'TripsList',
-          params: {key: 'request_list', screenHeading: 'Normal Trips'},
-        });
-        break;
-      case 'accepted':
-        // @ts-ignore
-        navigation.navigate('Protected', {
-          screen: 'TripsList',
-          params: {
-            key: 'accepted_request_list',
-            screenHeading: 'Accepted Trips',
-          },
-        });
-        break;
-      case 'arrived':
-        // @ts-ignore
-        navigation.navigate('Protected', {
-          screen: 'TripsList',
-          params: {key: 'arrived_request_list', screenHeading: 'Arrived Trips'},
-        });
-        break;
-      case 'started':
-        // @ts-ignore
-        navigation.navigate('Protected', {
-          screen: 'TripsList',
-          params: {key: 'started_request_list', screenHeading: 'Started Trips'},
-        });
-        break;
       case 'logout':
         setShowLogoutConfirmationPopup(true);
 
         break;
       default:
-        // @ts-ignore
-        navigation.navigate('Protected', {
-          screen: 'TripsList',
-          params: {key: 'request_list', screenHeading: 'Normal Trips'},
-        });
+        return;
     }
   };
+
   return (
     <>
       <LinearGradientBase
@@ -123,9 +93,9 @@ const SideBar: React.FC = ({id, navigation}: any) => {
             style={{
               height: 25,
               width: 25,
-              fontWeight: '700',
               color: STYLES.whiteColor,
               fontSize: 20,
+              fontFamily: 'Nunito-Bold',
             }}>
             X
           </Text>
@@ -141,11 +111,11 @@ const SideBar: React.FC = ({id, navigation}: any) => {
           <MotherSampleImageMedium />
           <Text
             style={{
-              fontWeight: '700',
               color: STYLES.lightGreenColor,
               fontSize: 20,
+              fontFamily: 'Nunito-Bold',
             }}>
-            Tracy Kim
+            {user?.displayName || user?.email || ''}
           </Text>
         </View>
         <View
@@ -165,7 +135,7 @@ const SideBar: React.FC = ({id, navigation}: any) => {
                 <Text
                   style={{
                     color: STYLES.whiteColor,
-                    fontFamily: 'Nunito-Black',
+                    fontFamily: 'Nunito-Bold',
                     textAlign: 'center',
                     fontSize: 20,
                   }}>
@@ -195,8 +165,8 @@ const SideBar: React.FC = ({id, navigation}: any) => {
         <Text
           style={{
             fontSize: 28,
-            fontWeight: '800',
             textAlign: 'center',
+            fontFamily: 'Nunito-ExtraBold',
             color: STYLES.whiteColor,
           }}>
           Confirm Log Out
@@ -207,7 +177,7 @@ const SideBar: React.FC = ({id, navigation}: any) => {
             color={STYLES.greenColor}
             wrapperStyle={{paddingHorizontal: 32}}
             title="Confirm"
-            textStyles={{fontSize: 16}}
+            textStyles={{fontSize: 16, fontFamily: 'Nunito-Bold'}}
             onPress={() => {
               // @ts-ignore
               signOut();
@@ -221,7 +191,11 @@ const SideBar: React.FC = ({id, navigation}: any) => {
               backgroundColor: STYLES.whiteColor,
             }}
             title="Cancel"
-            textStyles={{fontSize: 16, color: STYLES.redColor}}
+            textStyles={{
+              fontSize: 16,
+              color: STYLES.redColor,
+              fontFamily: 'Nunito-Bold',
+            }}
             onPress={() => {
               setShowLogoutConfirmationPopup(false);
             }}

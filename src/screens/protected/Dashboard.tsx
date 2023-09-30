@@ -23,8 +23,6 @@ export default function DashboardWithDrawerAndBottomTabs() {
 }
 
 function DashboardWithDrawer({navigation}: any) {
-  // @ts-ignore
-
   return (
     <Drawer.Navigator
       screenOptions={{

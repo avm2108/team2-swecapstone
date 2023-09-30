@@ -39,7 +39,7 @@ export const FamilyListCard = () => {
         <Text
           style={{
             fontSize: 12,
-            fontWeight: '700',
+            fontFamily: 'Nunito-Bold',
             color: STYLES.lightGreenColor,
           }}>
           Family
@@ -55,15 +55,25 @@ export const FamilyListCard = () => {
                   <Text
                     style={{
                       fontSize: 11,
-                      fontWeight: '700',
+                      fontFamily: 'Nunito-Bold',
                       color: STYLES.blackColor,
                     }}>
                     {familyPerson.name}
                   </Text>
-                  <Text style={{fontSize: 6, color: STYLES.greenColor}}>
+                  <Text
+                    style={{
+                      fontSize: 6,
+                      color: STYLES.greenColor,
+                      fontFamily: 'Nunito-Regular',
+                    }}>
                     {familyPerson.status}
                   </Text>
-                  <Text style={{fontSize: 6, color: STYLES.blackColor}}>
+                  <Text
+                    style={{
+                      fontSize: 6,
+                      color: STYLES.blackColor,
+                      fontFamily: 'Nunito-Regular',
+                    }}>
                     {familyPerson.checkedInSince}
                   </Text>
                 </View>

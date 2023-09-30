@@ -34,7 +34,7 @@ export default function Button({
           textAlign: 'center',
           color: disableButton ? 'black' : 'white',
           fontSize: 16,
-          fontWeight: '600',
+          fontFamily: 'Nunito-Regular',
           ...textStyles,
         }}>
         {processing ? 'Processing...' : title}

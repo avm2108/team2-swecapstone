@@ -83,8 +83,8 @@ export const TitleWithSubText = ({
       <Text
         style={{
           color: STYLES.blackColor,
-          fontWeight: '800',
           fontSize: 8,
+          fontFamily: 'Nunito-ExtraBold',
           ...titleStyle,
         }}>
         {title}

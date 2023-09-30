@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: 'com.google.gms.google-services' 
 
 import com.android.build.OutputFile
 
@@ -157,7 +158,8 @@ dependencies {
     implementation project(':react-native-vector-icons')
      // Import the Firebase BoM
     implementation('com.google.firebase:firebase-bom:32.2.3')
-
+    // implementation('com.google.firebase:firebase-bom:32.3.1')
+    // implementation 'com.google.firebase:firebase-analytics'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {

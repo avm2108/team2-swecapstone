@@ -119,6 +119,7 @@ export function BottomTabNavigation({HomeScreen = <></>}) {
           paddingTop: 2,
           paddingBottom: 2,
           fontSize: 8,
+          fontFamily: 'Nunito-Bold',
         },
         tabBarActiveTintColor: STYLES.greenColor,
         tabBarInactiveTintColor: STYLES.lightGreenColor,

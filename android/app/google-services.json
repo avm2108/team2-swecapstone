@@ -1,36 +1,27 @@
 {
   "project_info": {
-    "project_number": "171078895918",
-    "project_id": "ohm-dispatcher-mobile-app",
-    "storage_bucket": "ohm-dispatcher-mobile-app.appspot.com"
+    "project_number": "383739983847",
+    "firebase_url": "https://scooper-df18f-default-rtdb.firebaseio.com",
+    "project_id": "scooper-df18f",
+    "storage_bucket": "scooper-df18f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:171078895918:android:f5219740770d05820592bf",
+        "mobilesdk_app_id": "1:383739983847:android:0bf43975c72c45dbe0af42",
         "android_client_info": {
-          "package_name": "com.ohm.dispatcher"
+          "package_name": "com.scooper"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "171078895918-krq6vjce3u5s3ukl6416gkoi3hf3183f.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDXLv1l6QRx25fP9F9NJ05F-SyfWScH6aU"
+          "current_key": "AIzaSyBqhCfFj17id70ssiiolesv8QoLBE_4V0Y"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "171078895918-krq6vjce3u5s3ukl6416gkoi3hf3183f.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

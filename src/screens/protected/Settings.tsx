@@ -94,7 +94,7 @@ const PersonInfo = ({
           <Text
             style={{
               color: STYLES.blackColor,
-              fontWeight: '800',
+              fontFamily: 'Nunito-Bold',
               fontSize: 12,
               ...nameTextStyle,
             }}>
@@ -106,6 +106,7 @@ const PersonInfo = ({
             style={{
               color: STYLES.greenColor,
               fontSize: 6,
+              fontFamily: 'Nunito-Bold',
               ...relationTextStyle,
             }}>
             {relation}
@@ -158,7 +159,7 @@ const SettingsList = ({listItems = [], title}: any) => {
         <Text
           style={{
             color: STYLES.greenColor,
-            fontWeight: '700',
+            fontFamily: 'Nunito-Bold',
             fontSize: 12,
           }}>
           {title}
