@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Dashboard, EditProfile} from '../screens';
+import AddScoopupMember from '../screens/protected/AddScoopUpMember';
 const Stack = createStackNavigator();
 
 export default function Protected() {
@@ -16,6 +17,13 @@ export default function Protected() {
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="AddScoopUpMember"
+        component={AddScoopupMember}
         options={{
           headerShown: false,
         }}

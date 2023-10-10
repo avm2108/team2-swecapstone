@@ -280,6 +280,7 @@ const FamilyInformation = () => {
 
 const ScoopUpTeamList = () => {
   const [list, setList] = useState(scoopUpTeamList);
+  const navigation = useNavigation();
 
   const toggleShowInfo = useCallback(
     (name: any) => {
@@ -293,6 +294,13 @@ const ScoopUpTeamList = () => {
     },
     [list],
   );
+
+  const handleClickAddScoopUpTeam = () => {
+    // @ts-ignore
+    navigation.navigate('Protected', {
+      screen: 'AddScoopUpMember',
+    });
+  };
 
   return (
     <View style={{paddingTop: 12}}>
@@ -310,7 +318,9 @@ const ScoopUpTeamList = () => {
           }}>
           Scoop-up Team
         </Text>
-        <PlusSmallIcon />
+        <TouchableOpacity onPress={handleClickAddScoopUpTeam}>
+          <PlusSmallIcon />
+        </TouchableOpacity>
       </View>
 
       {list?.map((familyMember, index) => {

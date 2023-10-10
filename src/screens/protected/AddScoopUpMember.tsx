@@ -1,19 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Layout} from './Layout';
-import {MotherSampleImageMedium} from '../../svgs';
 import {STYLES} from '../../constants/styles';
 import {Card} from '../../components/general/Card';
 import {useNavigation} from '@react-navigation/native';
-import {familyList} from '../../lib/profileMockData';
 import {TextInput} from 'react-native';
+import {Button} from '../../components';
 
-export default function EditProfileWithDrawer({route}: any) {
-  return <Profile info={route?.params?.data} />;
+export default function AddScoopupMemberWithDrawer({route}: any) {
+  return <ScoopUpMemberForm info={route?.params?.data} />;
 }
 
-function Profile({info}: any) {
+function ScoopUpMemberForm({info}: any) {
   const navigation = useNavigation();
   return (
     <Layout navigation={navigation} backIcon={true}>
@@ -25,74 +24,11 @@ function Profile({info}: any) {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}>
-        <ParentCard />
         <PersonalInformation info={info} />
-        <FamilyInformation />
       </View>
     </Layout>
   );
 }
-
-const ImageWithInfo = ({direction = 'row', image, info, style}: any) => {
-  return (
-    <>
-      <View
-        style={{
-          flexDirection: direction,
-          ...style,
-        }}>
-        {image}
-        {info}
-      </View>
-    </>
-  );
-};
-
-const PersonInfo = ({
-  name,
-  relation,
-  nameTextStyle = {},
-  relationTextStyle = {},
-}: any) => {
-  return (
-    <>
-      <View>
-        <Text
-          style={{
-            color: STYLES.blackColor,
-            fontFamily: 'Nunito-Bold',
-            fontSize: 12,
-            ...nameTextStyle,
-          }}>
-          {name}
-        </Text>
-        <Text
-          style={{
-            color: STYLES.greenColor,
-            fontSize: 6,
-            ...relationTextStyle,
-            fontFamily: 'Nunito-Bold',
-          }}>
-          {relation}
-        </Text>
-      </View>
-    </>
-  );
-};
-
-const ParentCard = () => {
-  return (
-    <ImageWithInfo
-      style={{
-        gap: 7,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      image={<MotherSampleImageMedium />}
-      info={<PersonInfo name={'Tracy Kim'} relation={'Mother'} />}
-    />
-  );
-};
 
 const PersonalInformation = ({info}: any) => {
   const [prefilledData, setPrefilledData] = useState(() => info);
@@ -133,32 +69,16 @@ const PersonalInformation = ({info}: any) => {
         marginTop: 15,
         paddingBottom: 27,
       }}>
-      <View
+      <Text
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          color: STYLES.greenColor,
+          fontFamily: 'Nunito-Bold',
+          fontSize: 12,
+          paddingBottom: 14,
         }}>
-        <Text
-          style={{
-            color: STYLES.greenColor,
-            fontFamily: 'Nunito-Bold',
-            fontSize: 12,
-          }}>
-          Personal Information
-        </Text>
-        <TouchableOpacity onPress={handleSave}>
-          <Text
-            style={{
-              color: STYLES.greenColor,
-              fontFamily: 'Nunito-Bold',
-              fontSize: 8,
-              textDecorationLine: 'underline',
-            }}>
-            Save
-          </Text>
-        </TouchableOpacity>
-      </View>
+        Add Scoop-up Member
+      </Text>
+
       <View
         style={{
           gap: 7,
@@ -174,13 +94,13 @@ const PersonalInformation = ({info}: any) => {
           }}>
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Phone Number'}
+            title={'First Name'}
             handleChange={(value: string) => handleChange('phone', value)}
             inputFieldValue={prefilledData?.phone}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Vehicle Make/Model'}
+            title={'Last Name'}
             handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_model.value', value)
             }
@@ -195,13 +115,13 @@ const PersonalInformation = ({info}: any) => {
           }}>
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Email Address'}
+            title={'Phone Number'}
             handleChange={(value: string) => handleChange('email', value)}
             inputFieldValue={prefilledData?.email}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Vehicle Year'}
+            title={'Relation'}
             handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_year.value', value)
             }
@@ -216,17 +136,103 @@ const PersonalInformation = ({info}: any) => {
           }}>
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Gender'}
+            title={'Vehicle Make/Model'}
             handleChange={(value: string) => handleChange('gender', value)}
             inputFieldValue={prefilledData?.gender}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Vehicle Color'}
+            title={'License Plate'}
             handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_color.value', value)
             }
             inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <TitleWithInputField
+            style={{flex: 1 / 2}}
+            title={'Vehicle Year'}
+            handleChange={(value: string) => handleChange('gender', value)}
+            inputFieldValue={prefilledData?.gender}
+          />
+          <TitleWithInputField
+            style={{flex: 1 / 2}}
+            title={'License Color'}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_color.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <TitleWithInputField
+            style={{flex: 1 / 2}}
+            title={'User Picture'}
+            handleChange={(value: string) => handleChange('gender', value)}
+            inputFieldValue={prefilledData?.gender}
+          />
+          <View style={{flex: 1 / 2}} />
+          {/* 
+          <TitleWithInputField
+            style={{flex: 1 / 2}}
+            title={'License Color'}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_color.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
+          /> */}
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'space-between',
+          }}>
+          <Button
+            color={STYLES.greenColor}
+            wrapperStyle={{
+              marginTop: 16,
+              height: 20,
+              // width: 190,
+              // paddingVertical: 8,
+              paddingHorizontal: 17,
+              paddingVertical: 0,
+            }}
+            title="Save"
+            onPress={() => {}}
+            textStyles={{fontSize: 14, fontFamily: 'Nunito-SemiBold'}}
+            // processing={isApiCalling}
+          />
+          <Button
+            color={'transparent'}
+            wrapperStyle={{
+              marginTop: 16,
+              height: 20,
+              paddingVertical: 0,
+              paddingHorizontal: 17,
+              borderWidth: 1,
+            }}
+            title="Cancel"
+            onPress={() => {}}
+            textStyles={{
+              fontSize: 14,
+              fontFamily: 'Nunito-Bold',
+              color: 'black',
+            }}
+            // processing={isApiCalling}
           />
         </View>
       </View>
@@ -272,56 +278,5 @@ const TitleWithInputField = ({
         {inputFieldValue}
       </Text> */}
     </View>
-  );
-};
-
-const FamilyInformation = () => {
-  return (
-    <Card
-      style={{
-        paddingVertical: 7,
-        paddingLeft: 10,
-        paddingRight: 40,
-        marginTop: 15,
-      }}>
-      <Text
-        style={{
-          color: STYLES.greenColor,
-          fontFamily: 'Nunito-Bold',
-          fontSize: 12,
-        }}>
-        Family
-      </Text>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingTop: 12,
-        }}>
-        {familyList?.map((familyMember, index) => {
-          return (
-            <ImageWithInfo
-              key={`familyMember_${index}`}
-              style={{
-                gap: 7,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              direction="column"
-              image={familyMember?.image}
-              info={
-                <PersonInfo
-                  name={familyMember?.name}
-                  relation={familyMember?.relation}
-                  relationTextStyle={{textAlign: 'center'}}
-                />
-              }
-            />
-          );
-        })}
-      </View>
-    </Card>
   );
 };
