@@ -1,10 +1,22 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, View} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {LocationFillIcon} from '../../../svgs';
 import {STYLES} from '../../../constants/styles';
+import {useNavigation} from '@react-navigation/native';
 
 export const EmergencyActions = () => {
+  const navigation = useNavigation();
+
+  const handleGoToSOS = () => {
+    console.log(
+      '🚀 ~ file: EmergencyActions.tsx:16 ~ handleGoToSOS ~ handleGoToSOS:',
+    );
+    navigation.navigate('Protected', {
+      screen: 'EnterSOSPIN',
+    });
+  };
+
   return (
     <View
       style={{flexDirection: 'row', gap: 8, backgroundColor: 'transparent'}}>
@@ -28,7 +40,8 @@ export const EmergencyActions = () => {
           Check In
         </Text>
       </View>
-      <View
+      <TouchableOpacity
+        onPress={handleGoToSOS}
         style={{
           backgroundColor: STYLES.whiteColor,
           gap: 4,
@@ -47,7 +60,7 @@ export const EmergencyActions = () => {
           }}>
           SOS
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };

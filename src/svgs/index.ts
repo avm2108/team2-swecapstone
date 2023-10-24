@@ -24,3 +24,4 @@ export * from './PeopleIcon';
 export * from './LifeBuoyIcon';
 export * from './LockIcon';
 export * from './MapIcon';
+export * from './PINScreenCrossButtonIcon';
