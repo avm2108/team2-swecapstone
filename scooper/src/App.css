@@ -1,0 +1,174 @@
+body{
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+
+}
+
+nav
+{
+  color: blue;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.image-Setting {
+  margin-top:40px;
+  width: 80%;
+  height: 20%;
+
+}
+.home-container-child{
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center; 
+  background-color: white;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px; 
+  border-color: #214C34;
+  width: 100%;
+  border: 2px  solid #214C34;
+  height: 80vh;
+
+}
+.home-container-Login{
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  background-color: white;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px; 
+  border-color: #214C34;
+  width: 100%;
+  border: 2px  solid #214C34;
+  height: 80vh;
+
+}
+.home-container-Login >p {
+  color: #214C34;
+  font-size: 28px;
+  font-family:'Nunito', sans-serif;
+}
+
+.home-container-main 
+{
+  background-color: #FFF27D;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  height: 100vh;
+}
+.button-setting
+{
+  color: black;
+  background-color: #FFF27D;
+  border-color: none;
+  width: 300px;
+  height:50px;
+  border-radius: 5px;
+  border: 2px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: 'Nunito', sans-serif;
+}
+
+
+.Sign-In-Button
+{
+  color: black;
+  background-color: #FFF27D;
+  border-color: none;
+  width: 230px;
+  height:40px;
+  border-radius: 7px;
+  border: 2px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Nunito', sans-serif;
+}
+
+
+#forget-password
+{
+  font-size: 10px;
+  margin-top: 8px; 
+  font-family: 'Nunito', sans-serif;
+}
+
+
+.font-Style
+{
+  font-family: 'Nunito', sans-serif;
+}
+.required-indicator {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  font-size: 30px;
+  color: #FF0000;
+  margin-bottom: 20px;
+  transform: translateY(-50%);
+}
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #214C34;
+  padding: 15px 0;
+  position: relative;
+  align-items: center; /* Center items vertically */
+}
+
+/* Rest of your CSS styles */
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background-color: transparent;
+  color: #4EB780;
+  border-radius: 5px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.navbar {
+  color: #fff;
+}
+
+.sidebar.show {
+  display: block;
+}
+
+.sidebar.hide {
+  display: none;
+}
+
+.close-icon {
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+}
+
+.top-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+}
