@@ -86,7 +86,11 @@ function App(): JSX.Element {
             'User account created & signed in!',
             JSON.stringify(firebaseResponse, null, 2),
           );
-
+          
+          await AsyncStorage.setItem(
+            '@user_email',
+            JSON.stringify(firebaseResponse?.user?.email),
+          );
           await AsyncStorage.setItem(
             '@access_token',
             firebaseResponse?.user?.uid,
