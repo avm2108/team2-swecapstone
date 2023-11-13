@@ -9,6 +9,7 @@ import {authErrors} from '../../constants/auth';
 import {STYLES} from '../../constants/styles';
 import {ScooperLogo} from '../../svgs/ScooperLogo';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 
 export default function LoginWithEmailAndPassword() {
   const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ export default function LoginWithEmailAndPassword() {
   // @ts-ignore
   const {signIn} = React.useContext(AuthContext);
   const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/;
-
+  const navigation = useNavigation();
   const handleSubmit = async () => {
     try {
       console.log(
@@ -89,6 +90,11 @@ export default function LoginWithEmailAndPassword() {
       setApiError('Oops! Something went wrong, Please try again later.');
       setIsApiCalling(false);
     }
+  };
+
+  const handleGoToChangePassword = () => {
+    // @ts-ignore
+    navigation.navigate('Auth', {screen: 'ChangePassword'});
   };
 
   return (
@@ -194,7 +200,7 @@ export default function LoginWithEmailAndPassword() {
               }}>
               Forgot Password?{' '}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleGoToChangePassword}>
               <Text
                 // @ts-ignore
                 style={{

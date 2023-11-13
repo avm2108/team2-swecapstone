@@ -5,7 +5,9 @@ import {
   Dashboard,
   EditProfile,
   EnterSOSPIN,
+  ScheduledScoopUp,
   SendSOS,
+  SubmittedRequests,
   VerifySOSPIN,
 } from '../screens';
 import AddScoopupMember from '../screens/protected/AddScoopUpMember';
@@ -60,6 +62,20 @@ export default function Protected() {
       <Stack.Screen
         name="CancelSOS"
         component={CancelSOS}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="SubmittedRequests"
+        component={SubmittedRequests}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ScheduledScoopUp"
+        component={ScheduledScoopUp}
         options={{
           headerShown: false,
         }}

@@ -9,6 +9,17 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function AuthOptions() {
   const navigation = useNavigation();
+
+  const handleGoToLogin = () => {
+    // @ts-ignore
+    navigation.navigate('LoginWithUsernameAndPassword');
+  };
+
+  const handleGoToRegister = () => {
+    // @ts-ignore
+    navigation.navigate('Register');
+  };
+
   return (
     <AuthScreenWrapper showBackArrowIcon={false}>
       <View
@@ -26,19 +37,14 @@ export default function AuthOptions() {
             wrapperStyle={{marginBottom: 18, paddingVertical: 16}}
             title="Login"
             textStyles={{fontSize: 20, fontFamily: 'Nunito-Bold'}}
-            onPress={() => {
-              // @ts-ignore
-              navigation.navigate('LoginWithUsernameAndPassword');
-            }}
-            // processing={isApiCalling}
+            onPress={handleGoToLogin}
           />
           <Button
             color={STYLES.greenColor}
             wrapperStyle={{marginBottom: 40, paddingVertical: 16}}
             title="Register"
             textStyles={{fontSize: 20, fontFamily: 'Nunito-Bold'}}
-            // onPress={handleSubmit}
-            // processing={isApiCalling}
+            onPress={handleGoToRegister}
           />
         </View>
       </View>
