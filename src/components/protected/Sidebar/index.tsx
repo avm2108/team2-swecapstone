@@ -19,17 +19,17 @@ export interface MenuItemInterface {
 
 const menuOptions = [
   {
-    name: 'normal',
+    name: 'scheduled_scoop_up',
     title: 'Schedule Scoop Up',
     icon: <Icon name="car" color="black" size={25} />,
   },
   {
-    name: 'accepted',
+    name: 'family_management',
     title: 'Family Management',
     icon: <Icon name="car" color="black" size={25} />,
   },
   {
-    name: 'arrived',
+    name: 'contact_school',
     title: 'Contact School',
     icon: <Icon name="car" color="black" size={25} />,
   },
@@ -53,7 +53,16 @@ const SideBar: React.FC = ({id, navigation}: any) => {
     switch (value) {
       case 'logout':
         setShowLogoutConfirmationPopup(true);
-
+        break;
+      case 'scheduled_scoop_up':
+        navigation.navigate('Protected', {
+          screen: 'SubmittedRequests',
+        });
+        break;
+      case 'family_management':
+        navigation.navigate('Protected', {
+          screen: 'ScheduledScoopUp',
+        });
         break;
       default:
         return;

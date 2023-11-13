@@ -9,8 +9,9 @@ import {
   Keyboard,
   View,
   Pressable,
-  Text,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
+
 import {useNavigation} from '@react-navigation/native';
 import {STYLES} from '../../constants/styles';
 
@@ -71,7 +72,7 @@ const AuthScreenWrapper = ({children, showBackArrowIcon = true, ...props}) => {
                 ...props.childrenWrapperStyles,
               }}>
               <View style={{...backArrowIconWrapperStyle}}>
-                {showBackArrowIcon && (
+                {showBackArrowIcon ? (
                   <Pressable
                     hitSlop={{top: 30, left: 30, right: 30, bottom: 30}}
                     onPress={() => {
@@ -81,9 +82,9 @@ const AuthScreenWrapper = ({children, showBackArrowIcon = true, ...props}) => {
                           navigation.canGoBack() && navigation.pop();
                     }}
                     style={{width: 50}}>
-                    <Text>Back</Text>
+                    <Icon name="arrow-left" size={25} color="black" />
                   </Pressable>
-                )}
+                ) : null}
               </View>
               {children}
             </View>

@@ -8,7 +8,6 @@ import {Card} from '../../components/general/Card';
 import {useNavigation} from '@react-navigation/native';
 import {familyList} from '../../lib/profileMockData';
 import {TextInput} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 
 export default function EditProfileWithDrawer({route}: any) {
   return <Profile info={route?.params?.data} />;
@@ -102,8 +101,7 @@ const PersonalInformation = ({info}: any) => {
     setPrefilledData(info);
   }, [info]);
 
-  const handleChange = (path: any, valueInput: any) => {
-    const value = valueInput.nativeEvent.text;
+  const handleChange = (path: any, value: any) => {
     setPrefilledData((prevState: any) => {
       const newState = {...prevState};
       const keys = path?.split('.');
@@ -124,14 +122,7 @@ const PersonalInformation = ({info}: any) => {
     });
   };
 
-  const handleSave = () => {
-    const docRef = firestore().collection('person').doc(info?.id);
-    delete prefilledData?.id;
-    docRef.update(prefilledData).then((result: any) => {
-      console.log('Success', result);
-    });
-
-  };
+  const handleSave = () => {};
 
   return (
     <Card
@@ -190,7 +181,7 @@ const PersonalInformation = ({info}: any) => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            handleChange={(value: any) =>
+            handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_model.value', value)
             }
             inputFieldValue={prefilledData?.vehicleInfo?.vehicle_model?.value}
@@ -232,7 +223,7 @@ const PersonalInformation = ({info}: any) => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Color'}
-            handleChange={(value: any) =>
+            handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_color.value', value)
             }
             inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}

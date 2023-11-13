@@ -1,28 +1,25 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import { Text, TouchableOpacity, View } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Layout } from './Layout';
+import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {Layout} from './Layout';
 import {
   ArrowDownSmallIcon,
   ArrowRightSmallIcon,
   MotherSampleImageMedium,
   PlusSmallIcon,
 } from '../../svgs';
-import { STYLES } from '../../constants/styles';
-import { Card } from '../../components/general/Card';
-import { useNavigation } from '@react-navigation/native';
-import { ScoopUpTeamInfo } from '../../components/protected/Profile/ScoopUpTeamInfo';
-import { familyList, scoopUpTeamList } from '../../lib/profileMockData';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {STYLES} from '../../constants/styles';
+import {Card} from '../../components/general/Card';
+import {useNavigation} from '@react-navigation/native';
+import {ScoopUpTeamInfo} from '../../components/protected/Profile/ScoopUpTeamInfo';
+import {familyList, scoopUpTeamList} from '../../lib/profileMockData';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import SideBar from '../../components/protected/Sidebar';
-import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 
-
-export default function ProfileWithDrawer({ navigation }: any) {
+export default function ProfileWithDrawer({navigation}: any) {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -63,7 +60,7 @@ function Profile() {
   );
 }
 
-const ImageWithInfo = ({ direction = 'row', image, info, style }: any) => {
+const ImageWithInfo = ({direction = 'row', image, info, style}: any) => {
   return (
     <>
       <View
@@ -97,7 +94,7 @@ const PersonInfo = ({
           {name}
         </Text>
         <Text
-          style={{ color: STYLES.greenColor, fontSize: 6, ...relationTextStyle }}>
+          style={{color: STYLES.greenColor, fontSize: 6, ...relationTextStyle}}>
           {relation}
         </Text>
       </View>
@@ -120,31 +117,6 @@ const ParentCard = () => {
 };
 
 const PersonalInformation = () => {
-  const [personData, setPersonData] = useState<any>(null);
-
-  
-  const navigation = useNavigation();
-  const handleEditClick = () => {
-    navigation.navigate('Protected', {screen: 'EditProfile', params: {data: personData}});
-  }
-  useEffect(() => {
-    // Reference to the "users" collection
-    AsyncStorage.getItem(
-      '@user_email'
-    ).then((res: any) => {
-      console.log('res', res);
-      const personRef = firestore().collection('person');
-      console.log(personRef);
-      personRef.onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((documentSnapshot) => {
-          const personDetails = documentSnapshot.data();
-          personDetails.id = documentSnapshot.id;
-          setPersonData(personDetails ? personDetails : null);
-        });
-      })
-    });
-
-  }, []);
   return (
     <Card
       style={{
@@ -153,33 +125,14 @@ const PersonalInformation = () => {
         paddingRight: 40,
         marginTop: 15,
       }}>
-      <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-      }}>
-        <View>
-          <Text
-            style={{
-              color: STYLES.greenColor,
-              fontFamily: 'Nunito-Bold',
-              fontSize: 12,
-            }}>
-            Personal Information
-          </Text>
-        </View>
-        <View>
-        <TouchableOpacity onPress={handleEditClick}>
-          <Text
-            style={{
-              color: STYLES.greenColor,
-              fontFamily: 'Nunito-Bold',
-              fontSize: 8,
-            }}>
-            Edit
-          </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <Text
+        style={{
+          color: STYLES.greenColor,
+          fontFamily: 'Nunito-Bold',
+          fontSize: 12,
+        }}>
+        Personal Information
+      </Text>
       <View
         style={{
           gap: 7,
@@ -194,14 +147,14 @@ const PersonalInformation = () => {
             justifyContent: 'center',
           }}>
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Phone Number'}
-            subtitle={personData ? personData?.phone : 'N/A'}
+            subtitle={'404-478-7707'}
           />
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            subtitle={personData ? personData?.vehicleInfo?.vehicle_model?.value : 'N/A'}
+            subtitle={'Ford Escape'}
           />
         </View>
         <View
@@ -211,14 +164,14 @@ const PersonalInformation = () => {
             justifyContent: 'center',
           }}>
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Email Address'}
-            subtitle={personData ? personData?.email : 'N/A'}
+            subtitle={'tkim3@gmail.com'}
           />
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Vehicle Year'}
-            subtitle={personData ? personData?.vehicleInfo?.vehicle_year?.value : 'N/A'}
+            subtitle={'2018'}
           />
         </View>
         <View
@@ -228,14 +181,14 @@ const PersonalInformation = () => {
             justifyContent: 'center',
           }}>
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Gender'}
-            subtitle={personData ? personData?.gender : 'N/A'}
+            subtitle={'Female'}
           />
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Vehicle Color'}
-            subtitle={personData ? personData?.vehicleInfo?.vehicle_color?.value : 'N/A'}
+            subtitle={'Black'}
           />
         </View>
       </View>
@@ -251,7 +204,7 @@ const TitleWithSubText = ({
   subTitleStyle = {},
 }: any) => {
   return (
-    <View style={{ ...style }}>
+    <View style={{...style}}>
       <Text
         style={{
           color: STYLES.blackColor,
@@ -314,7 +267,7 @@ const FamilyInformation = () => {
                 <PersonInfo
                   name={familyMember?.name}
                   relation={familyMember?.relation}
-                  relationTextStyle={{ textAlign: 'center' }}
+                  relationTextStyle={{textAlign: 'center'}}
                 />
               }
             />
@@ -334,7 +287,7 @@ const ScoopUpTeamList = () => {
       setList((prevList: any) => {
         return prevList?.map((item: any) => {
           return item?.name === name
-            ? { ...item, isSelected: !item.isSelected }
+            ? {...item, isSelected: !item.isSelected}
             : item;
         });
       });
@@ -350,7 +303,7 @@ const ScoopUpTeamList = () => {
   };
 
   return (
-    <View style={{ paddingTop: 12 }}>
+    <View style={{paddingTop: 12}}>
       <View
         style={{
           flexDirection: 'row',
@@ -398,7 +351,7 @@ const ScoopUpTeamList = () => {
               />
               <TouchableOpacity
                 onPress={() => toggleShowInfo(familyMember?.name)}
-                style={{ padding: 13 }}>
+                style={{padding: 13}}>
                 {familyMember?.isSelected ? (
                   <ArrowDownSmallIcon />
                 ) : (

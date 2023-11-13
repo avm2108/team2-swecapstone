@@ -4,7 +4,7 @@ export const STYLES = {
   lightGreenColor: '#214C34',
   whiteColor: '#FFFFFF',
   blackColor: '#000000',
-  veryLightGrayColor: '#D9D9D9',
+  veryLightGrayColor: '#D9D9D94D',
   redColor: '#CA0000',
   lightGrayColor: '#4F4F4F78',
 };
