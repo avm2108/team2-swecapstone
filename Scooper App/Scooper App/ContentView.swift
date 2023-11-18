@@ -102,10 +102,10 @@ struct ContentView: View {
                     List(content: {
                         
 //                        ACTIVE STUDENTS
-                        ForEach(vm.students ?? [Student(id: "", status: false, position: 1000)]) { student in
+                        ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(id: "", address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 1000, grade: "", guardian: Parent(id: "", email: "", name: "", phone: "", relation: "", vehicle: Vehicle(id: "", color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
                             if (student.status && student.scooper != "BUS") {
                                 NavigationLink {
-                                    Dismissal(grade: student.grade ?? "", name: student.name ?? "", id: student.id)
+                                    Dismissal(grade: student.grade, name: student.name, id: student.id)
                                 } label: {
                                     HStack {
                                         Circle()
@@ -113,13 +113,13 @@ struct ContentView: View {
                                             .foregroundStyle(Color.blue)
                                         VStack(alignment: .leading) {
                                             HStack {
-                                                Text(student.name ?? "")
+                                                Text(student.name )
                                                     .font(.headline)
                                                 Circle()
                                                     .frame(width: 5, height: 5)
                                                     .foregroundStyle(Color.green)
                                             }
-                                            Text(student.scooper ?? "")
+                                            Text(student.scooper )
                                                 .font(.subheadline)
                                                 .foregroundStyle(Color.gray.opacity(0.4))
                                         }
@@ -135,10 +135,10 @@ struct ContentView: View {
                         
 //                        INACTIVE STUDENTS
                         Section {
-                            ForEach(vm.students ?? [Student(id: "", status: false, position: 1000)]) { student in
+                            ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 1000, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
                                 if (!student.status) {
                                     NavigationLink {
-                                        Dismissal(grade: student.grade ?? "", name: student.name ?? "", id: student.id)
+                                        Dismissal(grade: student.grade , name: student.name, id: student.id)
                                     } label: {
                                         HStack {
                                             Circle()
@@ -146,13 +146,13 @@ struct ContentView: View {
                                                 .foregroundStyle(Color.blue)
                                             VStack(alignment: .leading) {
                                                 HStack {
-                                                    Text(student.name ?? "")
+                                                    Text(student.name )
                                                         .font(.headline)
                                                     Circle()
                                                         .frame(width: 5, height: 5)
                                                         .foregroundStyle(Color.red)
                                                 }
-                                                Text(student.scooper ?? "")
+                                                Text(student.scooper)
                                                     .font(.subheadline)
                                                     .foregroundStyle(Color.gray.opacity(0.4))
                                             }
@@ -169,10 +169,10 @@ struct ContentView: View {
                         
 //                        BUS RIDERS
                         Section {
-                            ForEach(vm.students ?? [Student(id: "", status: false, position: 1000)]) { student in
+                            ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(id: "", address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 1000, grade: "", guardian: Parent(id: "", email: "", name: "", phone: "", relation: "", vehicle: Vehicle(id: "", color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
                                 if (student.scooper == "BUS") {
                                     NavigationLink {
-                                        Dismissal(grade: student.grade ?? "", name: student.name ?? "", id: student.id)
+                                        Dismissal(grade: student.grade , name: student.name , id: student.id)
                                     } label: {
                                         HStack {
                                             Circle()
@@ -180,13 +180,13 @@ struct ContentView: View {
                                                 .foregroundStyle(Color.blue)
                                             VStack(alignment: .leading) {
                                                 HStack {
-                                                    Text(student.name ?? "")
+                                                    Text(student.name)
                                                         .font(.headline)
                                                     Circle()
                                                         .frame(width: 5, height: 5)
                                                         .foregroundStyle(Color.green)
                                                 }
-                                                Text(student.scooper ?? "")
+                                                Text(student.scooper)
                                                     .font(.subheadline)
                                                     .foregroundStyle(Color.gray.opacity(0.4))
                                             }
@@ -200,11 +200,6 @@ struct ContentView: View {
                             }
                         } header: {
                             Text("Bus")
-                        }
-                    })
-                    .onAppear(perform: {
-                        Task(priority: .high) {
-                            try await vm.getStudents()
                         }
                     })
                     .navigationTitle(Text("Dismissal"))
@@ -227,6 +222,11 @@ struct ContentView: View {
                     .padding()
                 }
             })
+            .onAppear {
+                Task(priority: .high) {
+                    try await vm.getStudents()
+                }
+            }
         }
         .environmentObject(vm)
         .onAppear {

@@ -9,14 +9,14 @@ import Foundation
 
 struct Student: Codable, Identifiable, Comparable {
     var id: String
-    var name: String?
-    var birth: String?
-    var address: Address?
-    var scooper: String?
+    var name: String
+    var birth: String
+    var address: Address
+    var scooper: String
     var status: Bool
     var position: Int
-    var grade: String?
-    var guardian: Parent?
+    var grade: String
+    var guardian: Parent
     
     static func == (lhs: Student, rhs: Student) -> Bool {
         return lhs.status == rhs.status
@@ -29,17 +29,17 @@ struct Student: Codable, Identifiable, Comparable {
 
 struct Address: Codable, Identifiable {
     var id: String?
-    var address, city, state, zipCode: String?
-    var type: String?
+    var address, city, state, zipCode: String
+    var type: String
 }
 
 struct Parent: Codable, Identifiable {
     var id: String?
-    var email, name, phone, relation: String?
-    var vehicle: Vehicle?
+    var email, name, phone, relation: String
+    var vehicle: Vehicle
 }
 
 struct Vehicle: Codable, Identifiable {
     var id: String?
-    var color, year, model, make, licensePlate: String?
+    var color, year, model, make, licensePlate: String
 }

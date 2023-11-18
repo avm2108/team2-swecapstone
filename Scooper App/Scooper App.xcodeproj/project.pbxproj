@@ -123,8 +123,8 @@
 				91ABC2A82B05B45F00676EC1 /* ParentView.swift */,
 				91ABC2B82B05B95300676EC1 /* Dismissal.swift */,
 				916C09C82B05FEB0008009C9 /* Loading Screen.swift */,
-				91037E7F2B06B515000329BC /* MapView.swift */,
 				91037E812B06BF08000329BC /* StudentDetails.swift */,
+				91037E7F2B06B515000329BC /* MapView.swift */,
 				91037E832B06C4C9000329BC /* Menu.swift */,
 				91037E852B06C872000329BC /* SchedulingView.swift */,
 			);

@@ -26,72 +26,104 @@ struct StudentDetails: View {
     @State private var email = ""
     @State private var relation = ""
     @State private var studentID = ""
+    @State private var vehicleColor = ""
+    @State private var vehicleYear = ""
+    @State private var vehicleModel = ""
+    @State private var vehicleMake = ""
+    @State private var licensePlate = ""
+    
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             HStack {
-                Text("Add Student")
+                Text("Student")
                     .font(.largeTitle.bold())
                     .foregroundStyle(.black)
-                .padding()
+                    .padding()
                 
                 Spacer()
                 
                 Button {
                     isPresented = true
                 } label: {
-                    Image(systemName: "plus.circle.fill")
+                    Image(systemName: "person.crop.circle.badge.plus")
                         .resizable()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 50, height: 40)
                         .foregroundStyle(.blue)
                         .padding()
                 }
             }
             .popover(isPresented: $isPresented, content: {
                 VStack {
-                    Text("Add Guardian")
-                        .font(.largeTitle.bold())
-                        .foregroundStyle(.black)
-                    
-                    TextField("First Name", text: $fname)
-                        .padding()
-                        .border(.black)
-                        .background(.white)
-                    
-                    TextField("Last Name", text: $lname)
-                        .padding()
-                        .border(.black)
-                        .background(.white)
-                    
-                    TextField("Phone Number", text: $phone)
-                        .padding()
-                        .border(.black)
-                        .background(.white)
-                    
-                    TextField("Email", text: $email)
-                        .padding()
-                        .border(.black)
-                        .background(.white)
-                    
-                    TextField("relation", text: $relation)
-                        .padding()
-                        .border(.black)
-                        .background(.white)
-                    
-                    if (studentID == "") {
-                        TextField("Student ID", text: $studentID)
+                    ScrollView(.vertical) {
+                        Text("Add Guardian")
+                            .font(.largeTitle.bold())
+                            .foregroundStyle(.black)
+                        
+                        TextField("First Name", text: $fname)
                             .padding()
                             .border(.black)
                             .background(.white)
+                        
+                        TextField("Last Name", text: $lname)
+                            .padding()
+                            .border(.black)
+                            .background(.white)
+                        
+                        TextField("Phone Number", text: $phone)
+                            .padding()
+                            .border(.black)
+                            .background(.white)
+                        
+                        TextField("Email", text: $email)
+                            .padding()
+                            .border(.black)
+                            .background(.white)
+                        
+                        TextField("Relation", text: $relation)
+                            .padding()
+                            .border(.black)
+                            .background(.white)
+                        
+                        Section {
+                            TextField("Color", text: $vehicleColor)
+                                .padding()
+                                .border(.black)
+                                .background(.white)
+                            
+                            TextField("Make", text: $vehicleMake)
+                                .padding()
+                                .border(.black)
+                                .background(.white)
+                            
+                            TextField("Model", text: $vehicleModel)
+                                .padding()
+                                .border(.black)
+                                .background(.white)
+                            
+                            TextField("Year", text: $vehicleYear)
+                                .padding()
+                                .border(.black)
+                                .background(.white)
+                            
+                            TextField("License Plate", text: $licensePlate)
+                                .padding()
+                                .border(.black)
+                                .background(.white)
+                        } header: {
+                            Text("Car Information")
+                                .font(.largeTitle.bold())
+                                .foregroundStyle(.black)
+                        }
                     }
                     
                     Spacer()
                     
                     Button {
+                        vm.updateStudent(id: studentID, parent: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate)))
                         isPresented = false
-//                        vm.updateStudent(id: self.studentID, email: self.email, name: self.fname + " " + self.lname, phone: self.phone, relation: self.relation)
                         reset()
                         self.dismiss.callAsFunction()
                     } label: {
@@ -112,6 +144,7 @@ struct StudentDetails: View {
             Spacer()
             
             ScrollView(.vertical) {
+                
                 VStack(spacing: 20) {
                     TextField("First Name", text: $studentFname)
                         .padding()
@@ -181,14 +214,10 @@ struct StudentDetails: View {
             }
 
             Button {
-                Task {
-                    do {
-//                        try await vm.addStudent(student: Student(id: self.studentID, name: self.studentFname + " " + self.studentLname, birth: self.birth, address: Address(id: "", address: self.address, city: self.city, state: self.state, zipCode: self.zipCode, type: self.type), scooper: self.fname + " " + self.lname, status: true, position: 0, grade: self.grade))
-                    } catch {
-                        print("Error adding student")
-                    }
-                }
-                
+                let dateFomatter = DateFormatter()
+                dateFomatter.dateStyle = .short
+                self.birth = dateFomatter.string(from: birthdate)
+                vm.addStudent(student: Student(id: studentID, name: studentFname + " " + studentLname, birth: birth, address: Address(address: address, city: city, state: state, zipCode: zipCode, type: type), scooper: fname + " " + lname, status: true, position: 0, grade: grade, guardian: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate))))
                 isPresented = true
             } label: {
                 Text("Add")
@@ -201,11 +230,6 @@ struct StudentDetails: View {
             .clipShape(Rectangle())
             .cornerRadius(10)
             .padding()
-        }
-        .onAppear {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .short
-            self.birth = dateFormatter.string(from: birthdate)
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.2))

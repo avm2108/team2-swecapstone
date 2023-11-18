@@ -1,7 +1,14 @@
 {
   "images" : [
     {
-      "filename" : "scooperappicon.png",
+      "display-gamut" : "sRGB",
+      "filename" : "Artboard 1.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
+    {
+      "display-gamut" : "display-P3",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
