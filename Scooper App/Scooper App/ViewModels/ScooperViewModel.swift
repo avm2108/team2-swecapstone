@@ -30,42 +30,7 @@ final class ScooperViewModel: ObservableObject {
         self.secureKey = decoded
     }
     
-    func getUser() {
-        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/user/lFc4lWXlGTQvdb5FFXZP") else {
-            fatalError("Missing URL")
-        }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
-        
-        let dataTask = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
-            if let error = error {
-                print("Request error: ", error)
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse else {return}
-            
-            if response.statusCode == 200 {
-                guard let data = data else {return}
-                DispatchQueue.main.async { [weak self] in
-                    do {
-                        let decorder = JSONDecoder()
-                        let decoded = try decorder.decode([User].self, from: data)
-                        self?.user = decoded
-//                        if let str = String(data: data, encoding: .utf8) {
-//                            print(str)
-//                        }
-                    } catch let error {
-                        print("Error decoding: ", error)
-                    }
-                }
-            }
-        }
-        dataTask.resume()
-    }
-    
-//    func getStudents() async throws {
+//    func getStudents() {
 //        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student") else {
 //            fatalError("Missing URL")
 //        }
@@ -73,14 +38,34 @@ final class ScooperViewModel: ObservableObject {
 //        var urlRequest = URLRequest(url: url)
 //        urlRequest.httpMethod = "GET"
 //        
-//        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-//        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
-//        let decoder = JSONDecoder()
-//        let decoded = try decoder.decode([Student].self, from: data)
-//        self.students = decoded
+//        let dataTask = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
+//            if let error = error {
+//                print("Request error: ", error)
+//                return
+//            }
+//            
+//            guard let response = response as? HTTPURLResponse else {return}
+//            
+//            if response.statusCode == 200 {
+//                guard let data = data else {return}
+//                DispatchQueue.main.async { [weak self] in
+//                    do {
+//                        let decorder = JSONDecoder()
+//                        let decoded = try decorder.decode([Student].self, from: data)
+//                        self?.students = decoded
+//                        if let str = String(data: data, encoding: .utf8) {
+//                            print(str)
+//                        }
+//                    } catch let error {
+//                        print("Error decoding: ", error)
+//                    }
+//                }
+//            }
+//        }
+//        dataTask.resume()
 //    }
     
-    func getStudents() {
+    func getStudents() async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student") else {
             fatalError("Missing URL")
         }
@@ -88,32 +73,13 @@ final class ScooperViewModel: ObservableObject {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
         
-        let dataTask = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
-            if let error = error {
-                print("Request error: ", error)
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse else {return}
-            
-            if response.statusCode == 200 {
-                guard let data = data else {return}
-                DispatchQueue.main.async { [weak self] in
-                    do {
-                        let decorder = JSONDecoder()
-                        let decoded = try decorder.decode([Student].self, from: data)
-                        self?.students = decoded
-                        if let str = String(data: data, encoding: .utf8) {
-                            print(str)
-                        }
-                    } catch let error {
-                        print("Error decoding: ", error)
-                    }
-                }
-            }
-        }
-        dataTask.resume()
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode([Student].self, from: data)
+        self.students = decoded
     }
+    
     
     func getCoordinates(id: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/location") else {

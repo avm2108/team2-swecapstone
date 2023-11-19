@@ -10,23 +10,23 @@ import SwiftUI
 struct ParentView: View {
     
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
-    @State var info: User
+    @State var info: Student
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         //Display unique code here
         ScrollView(.vertical) {
-            VStack(alignment: .leading) {
-                Text(info.name)
+            VStack(alignment: .center) {
+                Text(info.guardian.name)
                     .font(.largeTitle.bold())
                 
                 AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/\(info)"))
                 
-                Text("Code:")
-                    .font(.title)
-                    .fontWeight(.heavy)
-                
-                HStack {
+                VStack {
+                    Text("Code:")
+                        .font(.title)
+                        .fontWeight(.heavy)
+                    
                     ForEach(vm.secureKey ?? [Key(key: "")]) { item in
                         
                         Text(item.key)
@@ -43,36 +43,30 @@ struct ParentView: View {
                     }
                 })
                 
-                VStack(alignment: .leading) {
-                    Text("Vehicle:")
+                VStack(alignment: .center) {
+                    Text("Vehicle: \(info.guardian.vehicle.licensePlate)")
                         .font(.title)
                         .fontWeight(.heavy)
                     HStack(spacing: 10) {
-                        Text("Make:")
+                        Text("Make: \(info.guardian.vehicle.make)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-//                        Text(info.vehicle.make)
-                        Text("Model:")
+                        Text("Model: \(info.guardian.vehicle.model)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-//                        Text(info.vehicle.model)
-                        Spacer()
                     }
                     HStack(spacing: 20) {
-                        Text("Color:")
+                        Text("Color: \(info.guardian.vehicle.color)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-//                        Text(info.vehicle.color)
-                        Text("Year:")
+                        Text("Year: \(info.guardian.vehicle.year)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-//                        Text(info.vehicle.year)
-                        Spacer()
                     }
                 }
                 .frame(width: 400)
             }
-            .padding(.leading)
+            .padding()
         }
         .padding(.leading, 30)
         .navigationBarBackButtonHidden(true)
@@ -92,7 +86,7 @@ struct ParentView: View {
 }
     
 #Preview {
-    ParentView(info: User(id: "", phone: "555-555-5343", name: "John Doe", email: "john@test.com"))
+    ParentView(info: Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "john@test.com", name: "John Doe", phone: "534-563-5321", relation: "Father", vehicle: Vehicle(color: "White", year: "2022", model: "Civic", make: "Honda", licensePlate: "MFG5352"))))
 }
 
 extension String {

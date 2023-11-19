@@ -40,7 +40,7 @@ struct StudentDetails: View {
             HStack {
                 Text("Student")
                     .font(.largeTitle.bold())
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Color("scooperYellow"))
                     .padding()
                 
                 Spacer()
@@ -140,6 +140,7 @@ struct StudentDetails: View {
                 }
                 .padding()
             })
+            .background(Color("scooperGreen"))
             
             Spacer()
             
