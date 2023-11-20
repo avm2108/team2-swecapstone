@@ -1,0 +1,674 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		91037E802B06B515000329BC /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E7F2B06B515000329BC /* MapView.swift */; };
+		91037E822B06BF08000329BC /* StudentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E812B06BF08000329BC /* StudentDetails.swift */; };
+		91037E842B06C4C9000329BC /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E832B06C4C9000329BC /* Menu.swift */; };
+		91037E862B06C872000329BC /* SchedulingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E852B06C872000329BC /* SchedulingView.swift */; };
+		916C09C92B05FEB0008009C9 /* Loading Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916C09C82B05FEB0008009C9 /* Loading Screen.swift */; };
+		916C09CC2B0615AD008009C9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 916C09CB2B0615AD008009C9 /* Launch Screen.storyboard */; };
+		91ABC2A92B05B45F00676EC1 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2A82B05B45F00676EC1 /* ParentView.swift */; };
+		91ABC2AB2B05B4D800676EC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2AA2B05B4D800676EC1 /* User.swift */; };
+		91ABC2AD2B05B52A00676EC1 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2AC2B05B52A00676EC1 /* Student.swift */; };
+		91ABC2AF2B05B55800676EC1 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2AE2B05B55800676EC1 /* School.swift */; };
+		91ABC2B12B05B5A000676EC1 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B02B05B5A000676EC1 /* Key.swift */; };
+		91ABC2B62B05B8F800676EC1 /* ScooperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */; };
+		91ABC2B92B05B95300676EC1 /* Dismissal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B82B05B95300676EC1 /* Dismissal.swift */; };
+		91F794F22AB39843000F6575 /* Scooper_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F794F12AB39843000F6575 /* Scooper_AppApp.swift */; };
+		91F794F42AB39843000F6575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F794F32AB39843000F6575 /* ContentView.swift */; };
+		91F794F62AB39844000F6575 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91F794F52AB39844000F6575 /* Assets.xcassets */; };
+		91F794F92AB39844000F6575 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91F794F82AB39844000F6575 /* Preview Assets.xcassets */; };
+		91F795032AB39844000F6575 /* Scooper_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F795022AB39844000F6575 /* Scooper_AppTests.swift */; };
+		91F7950D2AB39844000F6575 /* Scooper_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F7950C2AB39844000F6575 /* Scooper_AppUITests.swift */; };
+		91F7950F2AB39844000F6575 /* Scooper_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F7950E2AB39844000F6575 /* Scooper_AppUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		91F794FF2AB39844000F6575 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91F794E62AB39843000F6575 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 91F794ED2AB39843000F6575;
+			remoteInfo = "Scooper App";
+		};
+		91F795092AB39844000F6575 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 91F794E62AB39843000F6575 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 91F794ED2AB39843000F6575;
+			remoteInfo = "Scooper App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		91037E7F2B06B515000329BC /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		91037E812B06BF08000329BC /* StudentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetails.swift; sourceTree = "<group>"; };
+		91037E832B06C4C9000329BC /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		91037E852B06C872000329BC /* SchedulingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulingView.swift; sourceTree = "<group>"; };
+		916C09C82B05FEB0008009C9 /* Loading Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Loading Screen.swift"; sourceTree = "<group>"; };
+		916C09CA2B06153D008009C9 /* Scooper-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Scooper-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		916C09CB2B0615AD008009C9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		91ABC2A82B05B45F00676EC1 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
+		91ABC2AA2B05B4D800676EC1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		91ABC2AC2B05B52A00676EC1 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		91ABC2AE2B05B55800676EC1 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
+		91ABC2B02B05B5A000676EC1 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScooperViewModel.swift; sourceTree = "<group>"; };
+		91ABC2B82B05B95300676EC1 /* Dismissal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dismissal.swift; sourceTree = "<group>"; };
+		91F794EE2AB39843000F6575 /* Scooper App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scooper App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91F794F12AB39843000F6575 /* Scooper_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scooper_AppApp.swift; sourceTree = "<group>"; };
+		91F794F32AB39843000F6575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		91F794F52AB39844000F6575 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		91F794F82AB39844000F6575 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		91F794FE2AB39844000F6575 /* Scooper AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Scooper AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91F795022AB39844000F6575 /* Scooper_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scooper_AppTests.swift; sourceTree = "<group>"; };
+		91F795082AB39844000F6575 /* Scooper AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Scooper AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91F7950C2AB39844000F6575 /* Scooper_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scooper_AppUITests.swift; sourceTree = "<group>"; };
+		91F7950E2AB39844000F6575 /* Scooper_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scooper_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		91F794EB2AB39843000F6575 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91F794FB2AB39844000F6575 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91F795052AB39844000F6575 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		91ABC2B32B05B6B800676EC1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				91ABC2B02B05B5A000676EC1 /* Key.swift */,
+				91ABC2AC2B05B52A00676EC1 /* Student.swift */,
+				91ABC2AE2B05B55800676EC1 /* School.swift */,
+				91ABC2AA2B05B4D800676EC1 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		91ABC2B42B05B8D700676EC1 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		91ABC2B72B05B93500676EC1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				91ABC2A82B05B45F00676EC1 /* ParentView.swift */,
+				91ABC2B82B05B95300676EC1 /* Dismissal.swift */,
+				916C09C82B05FEB0008009C9 /* Loading Screen.swift */,
+				91037E812B06BF08000329BC /* StudentDetails.swift */,
+				91037E7F2B06B515000329BC /* MapView.swift */,
+				91037E832B06C4C9000329BC /* Menu.swift */,
+				91037E852B06C872000329BC /* SchedulingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		91F794E52AB39843000F6575 = {
+			isa = PBXGroup;
+			children = (
+				916C09CB2B0615AD008009C9 /* Launch Screen.storyboard */,
+				91F794F02AB39843000F6575 /* Scooper App */,
+				91F795012AB39844000F6575 /* Scooper AppTests */,
+				91F7950B2AB39844000F6575 /* Scooper AppUITests */,
+				91F794EF2AB39843000F6575 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		91F794EF2AB39843000F6575 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				91F794EE2AB39843000F6575 /* Scooper App.app */,
+				91F794FE2AB39844000F6575 /* Scooper AppTests.xctest */,
+				91F795082AB39844000F6575 /* Scooper AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		91F794F02AB39843000F6575 /* Scooper App */ = {
+			isa = PBXGroup;
+			children = (
+				916C09CA2B06153D008009C9 /* Scooper-App-Info.plist */,
+				91ABC2B72B05B93500676EC1 /* Views */,
+				91ABC2B42B05B8D700676EC1 /* ViewModels */,
+				91ABC2B32B05B6B800676EC1 /* Models */,
+				91F794F12AB39843000F6575 /* Scooper_AppApp.swift */,
+				91F794F32AB39843000F6575 /* ContentView.swift */,
+				91F794F52AB39844000F6575 /* Assets.xcassets */,
+				91F794F72AB39844000F6575 /* Preview Content */,
+			);
+			path = "Scooper App";
+			sourceTree = "<group>";
+		};
+		91F794F72AB39844000F6575 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				91F794F82AB39844000F6575 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		91F795012AB39844000F6575 /* Scooper AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				91F795022AB39844000F6575 /* Scooper_AppTests.swift */,
+			);
+			path = "Scooper AppTests";
+			sourceTree = "<group>";
+		};
+		91F7950B2AB39844000F6575 /* Scooper AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				91F7950C2AB39844000F6575 /* Scooper_AppUITests.swift */,
+				91F7950E2AB39844000F6575 /* Scooper_AppUITestsLaunchTests.swift */,
+			);
+			path = "Scooper AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		91F794ED2AB39843000F6575 /* Scooper App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91F795122AB39844000F6575 /* Build configuration list for PBXNativeTarget "Scooper App" */;
+			buildPhases = (
+				91F794EA2AB39843000F6575 /* Sources */,
+				91F794EB2AB39843000F6575 /* Frameworks */,
+				91F794EC2AB39843000F6575 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Scooper App";
+			productName = "Scooper App";
+			productReference = 91F794EE2AB39843000F6575 /* Scooper App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		91F794FD2AB39844000F6575 /* Scooper AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91F795152AB39844000F6575 /* Build configuration list for PBXNativeTarget "Scooper AppTests" */;
+			buildPhases = (
+				91F794FA2AB39844000F6575 /* Sources */,
+				91F794FB2AB39844000F6575 /* Frameworks */,
+				91F794FC2AB39844000F6575 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91F795002AB39844000F6575 /* PBXTargetDependency */,
+			);
+			name = "Scooper AppTests";
+			productName = "Scooper AppTests";
+			productReference = 91F794FE2AB39844000F6575 /* Scooper AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		91F795072AB39844000F6575 /* Scooper AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91F795182AB39844000F6575 /* Build configuration list for PBXNativeTarget "Scooper AppUITests" */;
+			buildPhases = (
+				91F795042AB39844000F6575 /* Sources */,
+				91F795052AB39844000F6575 /* Frameworks */,
+				91F795062AB39844000F6575 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91F7950A2AB39844000F6575 /* PBXTargetDependency */,
+			);
+			name = "Scooper AppUITests";
+			productName = "Scooper AppUITests";
+			productReference = 91F795082AB39844000F6575 /* Scooper AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		91F794E62AB39843000F6575 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					91F794ED2AB39843000F6575 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+					91F794FD2AB39844000F6575 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 91F794ED2AB39843000F6575;
+					};
+					91F795072AB39844000F6575 = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 91F794ED2AB39843000F6575;
+					};
+				};
+			};
+			buildConfigurationList = 91F794E92AB39843000F6575 /* Build configuration list for PBXProject "Scooper App" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 91F794E52AB39843000F6575;
+			productRefGroup = 91F794EF2AB39843000F6575 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				91F794ED2AB39843000F6575 /* Scooper App */,
+				91F794FD2AB39844000F6575 /* Scooper AppTests */,
+				91F795072AB39844000F6575 /* Scooper AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		91F794EC2AB39843000F6575 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				916C09CC2B0615AD008009C9 /* Launch Screen.storyboard in Resources */,
+				91F794F92AB39844000F6575 /* Preview Assets.xcassets in Resources */,
+				91F794F62AB39844000F6575 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91F794FC2AB39844000F6575 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91F795062AB39844000F6575 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		91F794EA2AB39843000F6575 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91ABC2B62B05B8F800676EC1 /* ScooperViewModel.swift in Sources */,
+				91ABC2B12B05B5A000676EC1 /* Key.swift in Sources */,
+				91037E862B06C872000329BC /* SchedulingView.swift in Sources */,
+				91ABC2AB2B05B4D800676EC1 /* User.swift in Sources */,
+				91037E802B06B515000329BC /* MapView.swift in Sources */,
+				91ABC2AF2B05B55800676EC1 /* School.swift in Sources */,
+				91F794F42AB39843000F6575 /* ContentView.swift in Sources */,
+				916C09C92B05FEB0008009C9 /* Loading Screen.swift in Sources */,
+				91ABC2B92B05B95300676EC1 /* Dismissal.swift in Sources */,
+				91037E822B06BF08000329BC /* StudentDetails.swift in Sources */,
+				91037E842B06C4C9000329BC /* Menu.swift in Sources */,
+				91ABC2A92B05B45F00676EC1 /* ParentView.swift in Sources */,
+				91ABC2AD2B05B52A00676EC1 /* Student.swift in Sources */,
+				91F794F22AB39843000F6575 /* Scooper_AppApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91F794FA2AB39844000F6575 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91F795032AB39844000F6575 /* Scooper_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91F795042AB39844000F6575 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91F7950F2AB39844000F6575 /* Scooper_AppUITestsLaunchTests.swift in Sources */,
+				91F7950D2AB39844000F6575 /* Scooper_AppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		91F795002AB39844000F6575 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 91F794ED2AB39843000F6575 /* Scooper App */;
+			targetProxy = 91F794FF2AB39844000F6575 /* PBXContainerItemProxy */;
+		};
+		91F7950A2AB39844000F6575 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 91F794ED2AB39843000F6575 /* Scooper App */;
+			targetProxy = 91F795092AB39844000F6575 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		91F795102AB39844000F6575 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		91F795112AB39844000F6575 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		91F795132AB39844000F6575 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Scooper App/Preview Content\"";
+				DEVELOPMENT_TEAM = RVQQDT2H28;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Scooper-App-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		91F795142AB39844000F6575 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Scooper App/Preview Content\"";
+				DEVELOPMENT_TEAM = RVQQDT2H28;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Scooper-App-Info.plist";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-App";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		91F795162AB39844000F6575 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RVQQDT2H28;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Scooper App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Scooper App";
+			};
+			name = Debug;
+		};
+		91F795172AB39844000F6575 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RVQQDT2H28;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Scooper App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Scooper App";
+			};
+			name = Release;
+		};
+		91F795192AB39844000F6575 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RVQQDT2H28;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Scooper App";
+			};
+			name = Debug;
+		};
+		91F7951A2AB39844000F6575 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RVQQDT2H28;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = "Scooper App";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		91F794E92AB39843000F6575 /* Build configuration list for PBXProject "Scooper App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91F795102AB39844000F6575 /* Debug */,
+				91F795112AB39844000F6575 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91F795122AB39844000F6575 /* Build configuration list for PBXNativeTarget "Scooper App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91F795132AB39844000F6575 /* Debug */,
+				91F795142AB39844000F6575 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91F795152AB39844000F6575 /* Build configuration list for PBXNativeTarget "Scooper AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91F795162AB39844000F6575 /* Debug */,
+				91F795172AB39844000F6575 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91F795182AB39844000F6575 /* Build configuration list for PBXNativeTarget "Scooper AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91F795192AB39844000F6575 /* Debug */,
+				91F7951A2AB39844000F6575 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 91F794E62AB39843000F6575 /* Project object */;
+}
