@@ -1,27 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "team2-swe7903capstone",
-  "version": "1.0.0",
-  "description": "Team 2 SWE7903 Capstone",
-  "main": "index.js",
-  "scripts": {
-    "start": "npm-start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "team2-swecapstone"
-  },
-  "keywords": [
-    "react",
-    "nodejs",
-    "express",
-    "web application"
-  ],
-  "author": "Alexis McNeill",
-  "license": "ISC",
-  "dependencies": {
-    "node": "^20.5.0"
-=======
   "name": "labexam",
   "version": "0.1.0",
   "proxy": "http://localhost:3000",
@@ -66,6 +43,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
->>>>>>> refs/remotes/origin/main
   }
 }
