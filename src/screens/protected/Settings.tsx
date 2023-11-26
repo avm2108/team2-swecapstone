@@ -77,10 +77,10 @@ export const ParentCard = ({iconColor, textColor}: any) => {
         // justifyContent: 'center',
       }}
       image={
-        personData?.photoURL ? (
+        personData?.imageURL ? (
           <Image
-            source={{uri: personData?.photoURL}}
-            style={{height: 40, width: 40}}
+            source={{uri: personData?.imageURL}}
+            style={{height: 40, width: 40, borderRadius: 12}}
           />
         ) : (
           <MaterialCommunityIcons
