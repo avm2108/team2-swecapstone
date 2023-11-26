@@ -16,6 +16,7 @@ export const DateTimePicker = ({
         modal
         open={open}
         date={date}
+        mode="time"
         onConfirm={(date: any) => {
           //   setOpen(false);
           //   setDate(date);

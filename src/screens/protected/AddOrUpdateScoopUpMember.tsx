@@ -5,15 +5,19 @@ import {Layout} from './Layout';
 import {STYLES} from '../../constants/styles';
 import {Card} from '../../components/general/Card';
 import {useNavigation} from '@react-navigation/native';
-import {TextInput} from 'react-native';
 import {Button} from '../../components';
-import {addDataToFirestore} from '../../utils/firebaseFunction';
+import {
+  addDocument,
+  getDocumentById,
+  updateDocument,
+} from '../../utils/firebaseFunctions';
+import {TitleWithInputField} from './EditProfile';
 
-export default function AddScoopupMemberWithDrawer({route}: any) {
-  return <ScoopUpMemberForm info={route?.params?.data} />;
+export default function AddOrUpdateScoopUpMember({route}: any) {
+  return <ScoopUpMemberForm scooperId={route?.params?.scooperId} />;
 }
 
-function ScoopUpMemberForm({info}: any) {
+function ScoopUpMemberForm({scooperId}: any) {
   const navigation = useNavigation();
   return (
     <Layout navigation={navigation} backIcon={true}>
@@ -25,13 +29,13 @@ function ScoopUpMemberForm({info}: any) {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}>
-        <PersonalInformation info={info} />
+        <PersonalInformation scooperId={scooperId} />
       </View>
     </Layout>
   );
 }
 
-const PersonalInformation = () => {
+const PersonalInformation = ({scooperId}: any) => {
   const [prefilledData, setPrefilledData] = useState({
     first_name: '',
     last_name: '',
@@ -45,6 +49,18 @@ const PersonalInformation = () => {
       user_picture: '',
     },
   });
+
+  useEffect(() => {
+    const init = async () => {
+      const response = await getDocumentById({
+        collectionName: 'scoop_up_member',
+        docId: scooperId,
+      });
+      const finalPrefillableData = preparePayload(response);
+      setPrefilledData(finalPrefillableData);
+    };
+    init();
+  }, [scooperId]);
 
   const handleChange = (path: any, value: any) => {
     setPrefilledData((prevState: any) => {
@@ -70,17 +86,42 @@ const PersonalInformation = () => {
   const navigation = useNavigation();
 
   const handleSave = async () => {
-    const payload = {
-      ...prefilledData,
-    };
+    try {
+      let payload = {
+        ...prefilledData,
+      };
 
-    const response = await addDataToFirestore({
-      collectionName: 'scoop_up_member',
-      payload,
-    });
-    if (response) {
-      Alert.alert('Scoop Up Member Added Successfully');
-      navigation.canGoBack() ? navigation.goBack() : null;
+      console.log(
+        '🚀 ~ file: AddOrUpdateScoopUpMember.tsx:79 ~ handleSave ~ scooperId:',
+        scooperId,
+      );
+      if (scooperId) {
+        const updatedResponse = await updateDocument({
+          collectionName: 'scoop_up_member',
+          payload,
+          docId: scooperId,
+        });
+        console.log(
+          '🚀 ~ file: AddOrUpdateScoopUpMember.tsx:88 ~ handleSave ~ updatedResponse:',
+          updatedResponse,
+        );
+        if (updatedResponse) {
+          Alert.alert('Scoop Up Member Updated Successfully');
+          return navigation.canGoBack() ? navigation.goBack() : null;
+        }
+        return;
+      }
+
+      const response = await addDocument({
+        collectionName: 'scoop_up_member',
+        payload,
+      });
+      if (response) {
+        Alert.alert('Scoop Up Member Added Successfully');
+        return navigation.canGoBack() ? navigation.goBack() : null;
+      }
+    } catch (error) {
+      Alert.alert('Oops! Something went wrong');
     }
   };
 
@@ -100,7 +141,7 @@ const PersonalInformation = () => {
           fontSize: 12,
           paddingBottom: 14,
         }}>
-        Add Scoop-up Member
+        {scooperId ? 'Update' : 'Add'} Scoop-up Member
       </Text>
 
       <View
@@ -138,8 +179,11 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Phone Number'}
-            handleChange={(value: string) => handleChange('phone', value)}
-            inputFieldValue={prefilledData?.phone}
+            keyboardType="numeric"
+            handleChange={(value: string) =>
+              handleChange('phone_number', value)
+            }
+            inputFieldValue={prefilledData?.phone_number}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
@@ -180,6 +224,7 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Year'}
+            keyboardType="numeric"
             handleChange={(value: string) =>
               handleChange('vehicle.year', value)
             }
@@ -237,7 +282,7 @@ const PersonalInformation = () => {
               paddingHorizontal: 17,
               paddingVertical: 0,
             }}
-            title="Save"
+            title={scooperId ? 'Update' : 'Save'}
             onPress={handleSave}
             textStyles={{fontSize: 14, fontFamily: 'Nunito-SemiBold'}}
             // processing={isApiCalling}
@@ -252,7 +297,9 @@ const PersonalInformation = () => {
               borderWidth: 1,
             }}
             title="Cancel"
-            onPress={() => {}}
+            onPress={() => {
+              navigation.canGoBack() ? navigation.goBack() : null;
+            }}
             textStyles={{
               fontSize: 14,
               fontFamily: 'Nunito-Bold',
@@ -266,43 +313,29 @@ const PersonalInformation = () => {
   );
 };
 
-const TitleWithInputField = ({
-  title,
-  style = {},
-  titleStyle = {},
-  handleChange = () => {},
-  inputFieldValue = '',
-}: any) => {
-  return (
-    <View style={{...style}}>
-      <Text
-        style={{
-          color: STYLES.blackColor,
-          fontFamily: 'Nunito-Bold',
-          fontSize: 8,
-          ...titleStyle,
-        }}>
-        {title}
-      </Text>
-      <TextInput
-        onChangeText={handleChange}
-        style={{
-          paddingHorizontal: 7,
-          height: 18,
-          paddingVertical: 0,
-          fontSize: 6,
-          fontFamily: 'Nunito-Bold',
-          marginRight: 10,
-          borderRadius: 4,
-          marginTop: 7,
-          color: STYLES.lightGreenColor,
-          backgroundColor: STYLES.veryLightGrayColor,
-        }}
-        value={inputFieldValue}
-      />
-      {/* <Text style={{color: STYLES.greenColor, fontSize: 6, ...inputFieldStyle}}>
-        {inputFieldValue}
-      </Text> */}
-    </View>
-  );
-};
+function preparePayload(payload: any) {
+  // Define default values for missing keys
+  const defaultValues = {
+    first_name: '',
+    last_name: '',
+    phone_number: '',
+    relation: '',
+    vehicle: {
+      color: '',
+      license_color: '',
+      model: '',
+      year: '',
+      user_picture: '',
+    },
+  };
+
+  // Iterate through the default values and add missing keys to the payload
+  const updatedPayload = {...defaultValues, ...payload};
+
+  // If the 'vehicle' key is missing in the payload, add it with default values
+  if (!updatedPayload.vehicle) {
+    updatedPayload.vehicle = {...defaultValues.vehicle, ...payload.vehicle};
+  }
+
+  return updatedPayload;
+}

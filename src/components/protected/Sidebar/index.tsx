@@ -8,9 +8,8 @@ import LinearGradientBase from '../../general/LinearGradientBase';
 import {STYLES} from '../../../constants/styles';
 import {CustomModal} from '../../general/Modal';
 import Button from '../../Button';
-import {MotherSampleImageMedium} from '../../../svgs';
 import * as React from 'react';
-import {useSelector} from 'react-redux';
+import {ParentCard} from '../../../screens/protected/Settings';
 
 export interface MenuItemInterface {
   label: string;
@@ -34,6 +33,16 @@ const menuOptions = [
     icon: <Icon name="car" color="black" size={25} />,
   },
   {
+    name: 'switch_school_account',
+    title: 'Switch School Account',
+    icon: <Icon name="car" color="black" size={25} />,
+  },
+  {
+    name: 'submitted_requests',
+    title: 'Submitted Requests',
+    icon: <Icon name="car" color="black" size={25} />,
+  },
+  {
     name: 'logout',
     title: 'Log Out',
     icon: <Icon name="sign-out" color="black" size={25} />,
@@ -41,13 +50,10 @@ const menuOptions = [
 ];
 
 const SideBar: React.FC = ({id, navigation}: any) => {
-  // const navigation = useNavigation();
   // @ts-ignore
   const {signOut} = React.useContext(AuthContext);
   const [showLogoutConfirmationPopup, setShowLogoutConfirmationPopup] =
     useState(false);
-  // @ts-ignore
-  const {user} = useSelector(state => state?.user);
 
   const handleSelectOption = (value: string) => {
     switch (value) {
@@ -56,12 +62,23 @@ const SideBar: React.FC = ({id, navigation}: any) => {
         break;
       case 'scheduled_scoop_up':
         navigation.navigate('Protected', {
-          screen: 'SubmittedRequests',
+          screen: 'ScheduledScoopUp',
         });
         break;
       case 'family_management':
         navigation.navigate('Protected', {
-          screen: 'ScheduledScoopUp',
+          screen: 'Profile',
+        });
+        break;
+
+      case 'switch_school_account':
+        navigation.navigate('Protected', {
+          screen: '',
+        });
+        break;
+      case 'submitted_requests':
+        navigation.navigate('Protected', {
+          screen: 'SubmittedRequests',
         });
         break;
       default:
@@ -110,23 +127,10 @@ const SideBar: React.FC = ({id, navigation}: any) => {
           </Text>
         </TouchableOpacity>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: 5,
-          }}>
-          <MotherSampleImageMedium />
-          <Text
-            style={{
-              color: STYLES.lightGreenColor,
-              fontSize: 20,
-              fontFamily: 'Nunito-Bold',
-            }}>
-            {user?.displayName || user?.email || ''}
-          </Text>
+        <View style={{alignItems: 'center', paddingBottom: 12}}>
+          <ParentCard iconColor={'white'} textColor={'white'} />
         </View>
+
         <View
           style={{
             width: '100%',

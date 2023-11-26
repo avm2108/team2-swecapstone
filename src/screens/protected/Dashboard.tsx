@@ -10,6 +10,7 @@ import {Layout} from './Layout';
 import {FamilyListCard} from '../../components/protected/Location/FamilyListCard';
 import {EmergencyActions} from '../../components/protected/Location/EmergencyActions';
 import {useNavigation} from '@react-navigation/native';
+// import {AlertAdminWhenParentComesToSchoolGeoFence} from '../../components/protected/Location/AlertAdminWhenParentComesToSchoolGeoFence';
 
 const Drawer = createDrawerNavigator();
 
@@ -53,6 +54,7 @@ const Dashboard = () => {
             source={require('../../assets/dummyMap.png')}
             style={{width: '100%', height: '100%'}}
           />
+          {/* <AlertAdminWhenParentComesToSchoolGeoFence /> */}
           <View style={{position: 'absolute', bottom: 5, left: 16}}>
             <EmergencyActions />
           </View>

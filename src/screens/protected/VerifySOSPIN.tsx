@@ -90,7 +90,7 @@ export default function VerifySOSPIN() {
           pinInputContainerStyle={styles.pinInputContainerStyle}
           pinStyle={styles.pinStyle}
           keyTextStyle={styles.keyTextStyle}
-          tagline="Set SOS Pin"
+          tagline="Confirm SOS Pin"
           taglineStyle={styles.taglineStyle}
           tagline1="Verify 4-digit PIN"
           tagline1Style={styles.tagline1Style}
@@ -197,7 +197,7 @@ const BottomButtonActions = () => {
           // @ts-ignore
           // signOut();
           // setShowLogoutConfirmationPopup(false);
-          navigation.navigate('Protected', {screen: 'SendSOS'});
+          navigation.navigate('Protected', {screen: 'Dashboard'});
         }}
       />
 

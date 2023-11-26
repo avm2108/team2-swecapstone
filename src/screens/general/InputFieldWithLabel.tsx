@@ -26,7 +26,7 @@ export const InputFieldWithLabel = ({
       </Text>
       <TextInput
         keyboardType={keyboardType}
-        onChange={handleChange}
+        onChangeText={handleChange}
         style={{
           paddingHorizontal: 7,
           height: 18,

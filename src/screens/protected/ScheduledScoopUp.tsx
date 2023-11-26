@@ -1,28 +1,19 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
+import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {Layout} from './Layout';
-import {
-  CalenderIcon,
-  CalenderScreenSampleImage,
-  DeleteIcon,
-  FullCalender,
-  GreenColorTimer,
-  TimeDummyUI,
-  YellowColorTimer,
-} from '../../svgs';
+import {CalenderIcon, CalenderScreenSampleImage} from '../../svgs';
 import {STYLES} from '../../constants/styles';
 import {useNavigation} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import SideBar from '../../components/protected/Sidebar';
-import {allRequests, headers} from '../../utils/mockData';
+import {CustomCalendar} from '../../components/general/CustomCalender';
+import {Button, Dropdown} from '../../components';
+import {addDocument, getDocuments} from '../../utils/firebaseFunctions';
+import {useHandleTimePicker} from '../../hooks/useHandleTimePicker';
+import {DateTimePicker} from '../../components/general/DateTimePicker';
+import moment from 'moment';
 
 const Drawer = createDrawerNavigator();
 
@@ -55,40 +46,173 @@ export default function ScheduledScoopUpWithDrawer({navigation}: any) {
 
 function ScheduledScoopUp() {
   const navigation = useNavigation();
-  return (
-    <Layout navigation={navigation} backIcon>
-      <View
-        style={{
-          paddingTop: 29,
-          paddingBottom: 12,
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}>
-        <TabsWithRenderContent />
-      </View>
-    </Layout>
-  );
-}
 
-const ImageWithInfo = ({direction = 'row', image, info, style}: any) => {
+  const [payload, setPayload] = useState({
+    name: '',
+    approval_date: '',
+    release_date: '',
+    status: false,
+    scheduled_date: '',
+    scheduled_time: '',
+    notes: '',
+    scoop_up_person: '',
+    scoop_up_method: '',
+  });
+  console.log(
+    '🚀 ~ file: ScheduledScoopUp.tsx:61 ~ ScheduledScoopUp ~ payload:',
+    payload,
+  );
+
+  const handleSubmit = async () => {
+    try {
+      console.log(
+        '🚀 ~ file: ScheduledScoopUp.tsx:67 ~ handleSubmit ~ handleSubmit:',
+      );
+
+      const finalPrefillableData = preparePayload(payload);
+      console.log(
+        '🚀 ~ file: Profile.tsx:148 ~ init ~ finalPrefillableData:',
+        finalPrefillableData,
+      );
+      const response = await addDocument({
+        collectionName: 'submitted_requests',
+        payload: finalPrefillableData,
+      });
+      console.log(
+        '🚀 ~ file: ScheduledScoopUp.tsx:56 ~ handleSubmit ~ response:',
+        response,
+      );
+      if (response) {
+        Alert.alert('Status', 'Your Scoop Up is scheduled successfully', [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {
+            text: 'OK',
+            onPress: () => {
+              // @ts-ignore
+              navigation.navigate('Protected', {
+                screen: 'SubmittedRequests',
+              });
+            },
+          },
+        ]);
+      }
+    } catch (error) {
+      Alert.alert('Oops! Something went wrong');
+    }
+  };
+
   return (
     <>
-      <View
-        style={{
-          flexDirection: direction,
-          ...style,
-        }}>
-        {image}
-        {info}
+      <Layout navigation={navigation} backIcon>
+        <View
+          style={{
+            paddingTop: 29,
+            paddingBottom: 12,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}>
+          <TabsWithRenderContent payload={payload} setPayload={setPayload} />
+        </View>
+      </Layout>
+      <View style={{backgroundColor: 'white'}}>
+        <TouchableOpacity
+          onPress={handleSubmit}
+          style={{
+            backgroundColor: STYLES.lightGreenColor,
+            borderRadius: 6,
+            padding: 3,
+            marginHorizontal: 19,
+            marginBottom: 24,
+          }}>
+          <Text
+            style={{
+              color: STYLES.whiteColor,
+              fontSize: 16,
+              textAlign: 'center',
+              fontFamily: 'Nunito-Bold',
+            }}>
+            Confirm
+          </Text>
+        </TouchableOpacity>
       </View>
     </>
   );
-};
+}
 
-const TabsWithRenderContent = () => {
+const TabsWithRenderContent = ({payload, setPayload}: any) => {
+  const [scoopupMembers, setScoopupMembers] = useState([]);
+  const [openScoopupMemberDropdown, setOpenScoopupMemberDropdown] =
+    useState(false);
+  const [scoopupMethods, setScoopupMethods] = useState([]);
+  const [openScoopupMethodDropdown, setOpenScoopupMethodDropdown] =
+    useState(false);
   const [notes, setNotes] = useState('');
-  const [scoopUpPerson, setScoopUpPerson] = useState('');
-  const [scoopUpMethod, setScoopUpMethod] = useState('');
+
+  useEffect(() => {
+    const getScoopupMembers = async () => {
+      const response = await getDocuments({collectionName: 'scoop_up_member'});
+
+      const formattedResponse = response?.map((item: any) => {
+        return {
+          label: `${item?.first_name} ${item?.last_name}`,
+          value: item?.id,
+        };
+      });
+      setScoopupMembers(formattedResponse);
+    };
+
+    getScoopupMembers();
+  }, []);
+
+  useEffect(() => {
+    const getScoopupMethods = async () => {
+      const response = await getDocuments({
+        collectionName: 'scoop_up_methods',
+      });
+
+      const formattedResponse = response?.map((item: any) => {
+        return {
+          label: item?.label,
+          value: item?.id,
+        };
+      });
+      setScoopupMethods(formattedResponse);
+    };
+
+    getScoopupMethods();
+  }, []);
+
+  const {
+    open,
+    handleOpenTimer,
+    handleConfirmPickDate,
+    setOpen,
+    selectedDate: selectedTime,
+  } = useHandleTimePicker({onSelectedValidTime: () => {}});
+
+  // const handleSelectTime = (date: any) => {
+  //   console.log(
+  //     '🚀 ~ file: ScheduledScoopUp.tsx:143 ~ handleSelectTime ~ date:',
+  //     date,
+  //   );
+  //   setPayload((prevState: any) => ({
+  //     ...prevState,
+  //     scheduled_date: date,
+  //   }));
+  // };
+
+  useEffect(() => {
+    if (selectedTime) {
+      setPayload((prevState: any) => ({
+        ...prevState,
+        scheduled_time: moment(selectedTime).format('h:mm a'),
+      }));
+    }
+  }, [selectedTime]);
 
   return (
     <>
@@ -165,18 +289,20 @@ const TabsWithRenderContent = () => {
       </View>
 
       <View style={{paddingHorizontal: 13}}>
-        <Text
-          style={{
-            color: STYLES.greenColor,
-            fontSize: 16,
-            textAlign: 'center',
-            fontFamily: 'Nunito-Bold',
-            paddingVertical: 12,
-          }}>
-          FEBRUARY
-        </Text>
         <View style={{alignItems: 'center'}}>
-          <FullCalender />
+          {/* <FullCalender /> */}
+          <CustomCalendar
+            onSelectDate={(date: any) => {
+              console.log(
+                '🚀 ~ file: ScheduledScoopUp.tsx:182 ~ TabsWithRenderContent ~ date:',
+                date,
+              );
+              setPayload((prevState: any) => ({
+                ...prevState,
+                scheduled_date: date,
+              }));
+            }}
+          />
         </View>
         <View>
           <Text
@@ -191,14 +317,36 @@ const TabsWithRenderContent = () => {
           </Text>
         </View>
         <View style={{paddingBottom: 24}}>
-          <TimeDummyUI />
+          <Button
+            color={STYLES.greenColor}
+            wrapperStyle={{paddingHorizontal: 32}}
+            title="Select Time"
+            textStyles={{fontSize: 16, fontFamily: 'Nunito-Bold'}}
+            onPress={() => {
+              handleOpenTimer();
+            }}
+          />
+        </View>
+
+        <View style={{paddingBottom: 24}}>
+          <Text
+            style={{
+              color: 'black',
+              borderWidth: 1,
+              width: 75,
+              paddingVertical: 2,
+              textAlign: 'center',
+              borderRadius: 100,
+            }}>
+            {moment(selectedTime).format('h:mm a')}
+          </Text>
         </View>
         <View>
           <TextInput
             placeholder="Notes"
             placeholderTextColor={'grey'}
             value={notes}
-            onChange={value => {
+            onChangeText={value => {
               setNotes(value);
             }}
             style={{
@@ -220,275 +368,86 @@ const TabsWithRenderContent = () => {
             justifyContent: 'space-between',
             paddingTop: 14,
             gap: 24,
+            marginBottom: 150,
           }}>
           <View style={{flex: 1 / 2}}>
-            <TextInput
+            <Dropdown
+              data={scoopupMembers}
+              open={openScoopupMemberDropdown}
+              // @ts-ignore
+              setOpen={setOpenScoopupMemberDropdown}
               placeholder="Scoop-up Person"
-              placeholderTextColor={'grey'}
-              value={scoopUpPerson}
-              onChange={value => {
-                setScoopUpPerson(value);
-              }}
-              style={{
-                height: 30,
-                paddingVertical: 0,
-                borderWidth: 1,
-                borderColor: 'grey',
-                borderRadius: 3,
-                fontFamily: 'Nunito-SemiBold',
-                color: 'black',
-                fontSize: 13,
-                paddingHorizontal: 10,
-                width: '100%',
+              // @ts-ignore
+              value={payload?.scoop_up_person}
+              // @ts-ignore
+              onSelect={(data: any) => {
+                setPayload((prevState: any) => ({
+                  ...prevState,
+                  scoop_up_person: data?.value,
+                  name: data?.label,
+                }));
               }}
             />
           </View>
-          <View style={{flex: 1 / 2}}>
-            <TextInput
+          <View style={{flex: 1 / 2, zIndex: 11}}>
+            <Dropdown
+              data={scoopupMethods}
               placeholder="Scoop-up Method"
-              placeholderTextColor={'grey'}
-              value={scoopUpMethod}
-              onChange={value => {
-                setScoopUpMethod(value);
-              }}
-              style={{
-                height: 30,
-                paddingVertical: 0,
-                borderWidth: 1,
-                borderColor: 'grey',
-                borderRadius: 3,
-                fontFamily: 'Nunito-SemiBold',
-                color: 'black',
-                fontSize: 13,
-                paddingHorizontal: 10,
-                width: '100%',
+              // @ts-ignore
+              value={payload?.scoop_up_method}
+              // @ts-ignore
+              open={openScoopupMethodDropdown}
+              // @ts-ignore
+              setOpen={setOpenScoopupMethodDropdown}
+              // @ts-ignore
+              onSelect={(data: any) => {
+                setPayload((prevState: any) => ({
+                  ...prevState,
+                  scoop_up_method: data?.value,
+                }));
               }}
             />
           </View>
         </View>
-        <TouchableOpacity
-          onPress={() => {}}
-          style={{
-            backgroundColor: STYLES.lightGreenColor,
-            borderRadius: 6,
-            padding: 3,
-            // marginHorizontal: 24,
-            marginTop: 12,
-          }}>
-          <Text
-            style={{
-              color: STYLES.whiteColor,
-              fontSize: 16,
-              textAlign: 'center',
-              fontFamily: 'Nunito-Bold',
-            }}>
-            Confirm
-          </Text>
-        </TouchableOpacity>
       </View>
+
+      <DateTimePicker
+        // @ts-ignore
+        onConfirm={handleConfirmPickDate}
+        onCancel={() => {
+          setOpen(false);
+        }}
+        date={selectedTime}
+        modal={true}
+        open={open}
+        minuteInterval={30}
+        minimumDate={new Date()}
+      />
     </>
   );
 };
 
-const Requests = ({requests = [], headers = []}: any) => {
-  const [list] = useState(() => requests);
+function preparePayload(payload: any) {
+  // Define default values for missing keys
+  const defaultValues = {
+    name: '',
+    approval_date: '',
+    release_date: '',
+    status: false,
+    scheduled_date: '',
+    scheduled_time: '',
+    notes: '',
+    scoop_up_person: '',
+    scoop_up_method: '',
+  };
 
-  return (
-    <View style={{paddingTop: 12, paddingHorizontal: 7}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            color: STYLES.lightGreenColor,
-            fontFamily: 'Nunito-Bold',
-            fontSize: 9,
-            paddingBottom: 11,
-          }}>
-          SUBMITTED REQUESTS
-        </Text>
-      </View>
+  // Iterate through the default values and add missing keys to the payload
+  const updatedPayload = {...defaultValues, ...payload};
 
-      <ScrollView
-        horizontal
-        contentContainerStyle={{
-          flexDirection: 'row',
-          gap: 19,
-          alignItems: 'center',
-          width: '100%',
-          paddingBottom: 2,
-        }}>
-        {headers?.map((header: any, index: any) => {
-          return (
-            <View
-              key={index}
-              style={{flex: 1 / headers.length, alignItems: 'center'}}>
-              <Text
-                style={{
-                  color: STYLES.blackColor,
-                  fontFamily: 'Nunito-ExtraBold',
-                  fontSize: 7,
-                  flex: 1,
-                }}>
-                {header}
-              </Text>
-            </View>
-          );
-        })}
-      </ScrollView>
+  // If the 'vehicle' key is missing in the payload, add it with default values
+  if (!updatedPayload.vehicle) {
+    updatedPayload.vehicle = {...defaultValues, ...payload.vehicle};
+  }
 
-      <ScrollView
-        contentContainerStyle={{
-          width: '100%',
-          flex: 1,
-        }}>
-        {list?.map((item: any, index: any) => {
-          return (
-            <View
-              key={`familyMember_${index}`}
-              style={{
-                flexDirection: 'row',
-                flex: 1 / list.length,
-                backgroundColor: index % 2 === 0 ? '#4F4F4F46' : 'white',
-                overflow: 'scroll',
-                gap: 19,
-                alignItems: 'center',
-                // justifyContent: 'center',
-                paddingVertical: 10,
-                paddingHorizontal: 2,
-              }}>
-              <View style={{flex: 1}}>
-                <Text
-                  style={{
-                    color: item?.status?.color,
-                    fontFamily: 'Nunito-ExtraBold',
-                    fontSize: 7,
-                    backgroundColor: item?.status?.bgColor,
-                    borderRadius: 3,
-                    textAlign: 'center',
-                    // marginHorizontal: 2,
-                    paddingHorizontal: 3,
-                    paddingVertical: 2,
-                    // ...nameTextStyle,
-                  }}>
-                  {item?.status?.label}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-
-                  flex: 1,
-                }}>
-                <ImageWithInfo
-                  style={{
-                    gap: 2,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  image={item?.student?.image}
-                  info={
-                    <Text
-                      style={{
-                        color: STYLES.blackColor,
-                        fontFamily: 'Nunito-ExtraBold',
-                        fontSize: 6,
-                        // ...nameTextStyle,
-                      }}>
-                      {item?.student?.name}
-                    </Text>
-                  }
-                />
-              </View>
-              <View style={{flex: 1}}>
-                <Text
-                  style={{
-                    color: STYLES.blackColor,
-                    fontFamily: 'Nunito-ExtraBold',
-                    fontSize: 7,
-                    // ...nameTextStyle,
-                  }}>
-                  {item.release_date}
-                </Text>
-              </View>
-              <View style={{flex: 1}}>
-                <Text
-                  style={{
-                    color: STYLES.blackColor,
-                    fontFamily: 'Nunito-ExtraBold',
-                    fontSize: 7,
-                    // ...nameTextStyle,
-                  }}>
-                  {item.approval_date}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: 'flex-end',
-                }}>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: STYLES.lightGreenColor,
-                    paddingHorizontal: 7,
-                    paddingVertical: 2,
-                    borderRadius: 3,
-                  }}
-                  onPress={() => {}}>
-                  <Text
-                    style={{
-                      color: STYLES.whiteColor,
-                      fontFamily: 'Nunito-ExtraBold',
-                      fontSize: 7,
-                      // ...nameTextStyle,
-                    }}>
-                    {item.viewAction}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                }}
-                onPress={() => {}}>
-                <DeleteIcon />
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-      </ScrollView>
-    </View>
-  );
-};
-
-const tabs = [
-  {
-    title: 'SUBMITTED',
-    count: 10,
-    isSelected: true,
-    countColor: '#FFF27D',
-    titleColor: '#214C34',
-    backgroundColor: '#4EB780',
-    icon: <YellowColorTimer />,
-    borderColor: 'black',
-    renderContent: <Requests requests={allRequests} headers={headers} />,
-  },
-  {
-    title: 'APPROVED',
-    count: 9,
-    isSelected: false,
-    countColor: '#000000',
-    titleColor: '#4EB780',
-    backgroundColor: '#FFF27D',
-    icon: <GreenColorTimer />,
-    borderColor: 'transparent',
-  },
-];
-
-// const approvedRequests = [];
+  return updatedPayload;
+}

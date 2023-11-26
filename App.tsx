@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, Image, Alert} from 'react-native';
+import {View, Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Auth, Protected} from './src/stacks';
@@ -12,6 +12,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/redux/store';
 import firebaseAuth from '@react-native-firebase/auth';
+import General from './src/stacks/general';
 
 const Stack = createStackNavigator();
 export const AuthContext = React.createContext(null);
@@ -86,7 +87,6 @@ function App(): JSX.Element {
             'User account created & signed in!',
             JSON.stringify(firebaseResponse, null, 2),
           );
-          
           await AsyncStorage.setItem(
             '@user_email',
             JSON.stringify(firebaseResponse?.user?.email),
@@ -186,6 +186,11 @@ function App(): JSX.Element {
                   options={{headerShown: false}}
                 />
               )}
+              <Stack.Screen
+                name="General"
+                component={General}
+                options={{headerShown: false}}
+              />
             </Stack.Navigator>
           </NavigationContainer>
         </AuthContext.Provider>

@@ -10,7 +10,8 @@ import {
   SubmittedRequests,
   VerifySOSPIN,
 } from '../screens';
-import AddScoopupMember from '../screens/protected/AddScoopUpMember';
+import AddOrUpdateScoopUpMember from '../screens/protected/AddOrUpdateScoopUpMember';
+import ProfileWithDrawer from '../screens/protected/Profile';
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,13 @@ export default function Protected() {
         }}
       />
       <Stack.Screen
+        name="Profile"
+        component={ProfileWithDrawer}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="EditProfile"
         component={EditProfile}
         options={{
@@ -32,8 +40,8 @@ export default function Protected() {
         }}
       />
       <Stack.Screen
-        name="AddScoopUpMember"
-        component={AddScoopupMember}
+        name="AddOrUpdateScoopUpMember"
+        component={AddOrUpdateScoopUpMember}
         options={{
           headerShown: false,
         }}

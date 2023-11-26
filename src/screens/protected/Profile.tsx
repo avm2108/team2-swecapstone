@@ -1,28 +1,28 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import { Text, TouchableOpacity, View } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Layout } from './Layout';
+import {Text, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Layout} from './Layout';
 import {
   ArrowDownSmallIcon,
   ArrowRightSmallIcon,
-  MotherSampleImageMedium,
   PlusSmallIcon,
 } from '../../svgs';
-import { STYLES } from '../../constants/styles';
-import { Card } from '../../components/general/Card';
-import { useNavigation } from '@react-navigation/native';
-import { ScoopUpTeamInfo } from '../../components/protected/Profile/ScoopUpTeamInfo';
-import { familyList, scoopUpTeamList } from '../../lib/profileMockData';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import {STYLES} from '../../constants/styles';
+import {Card} from '../../components/general/Card';
+import {useNavigation} from '@react-navigation/native';
+import {ScoopUpTeamInfo} from '../../components/protected/Profile/ScoopUpTeamInfo';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import SideBar from '../../components/protected/Sidebar';
 import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ParentCard} from './Settings';
+import {CustomImage} from '../../components/general/CustomImage';
+import {usePersonDetails} from '../../hooks/usePersonDetails';
+import {FamilyListHorizontalInformation} from './EditProfile';
 
 const Drawer = createDrawerNavigator();
 
-
-export default function ProfileWithDrawer({ navigation }: any) {
+export default function ProfileWithDrawer({navigation}: any) {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -54,16 +54,18 @@ function Profile() {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}>
-        <ParentCard />
+        <View style={{alignItems: 'center', paddingBottom: 12}}>
+          <ParentCard />
+        </View>
         <PersonalInformation />
-        <FamilyInformation />
+        <FamilyListHorizontalInformation />
         <ScoopUpTeamList />
       </View>
     </Layout>
   );
 }
 
-const ImageWithInfo = ({ direction = 'row', image, info, style }: any) => {
+const ImageWithInfo = ({direction = 'row', image, info, style}: any) => {
   return (
     <>
       <View
@@ -97,7 +99,7 @@ const PersonInfo = ({
           {name}
         </Text>
         <Text
-          style={{ color: STYLES.greenColor, fontSize: 6, ...relationTextStyle }}>
+          style={{color: STYLES.greenColor, fontSize: 6, ...relationTextStyle}}>
           {relation}
         </Text>
       </View>
@@ -105,58 +107,31 @@ const PersonInfo = ({
   );
 };
 
-const ParentCard = () => {
-  return (
-    <ImageWithInfo
-      style={{
-        gap: 7,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      image={<MotherSampleImageMedium />}
-      info={<PersonInfo name={'Tracy Kim'} relation={'Mother'} />}
-    />
-  );
-};
-
 const PersonalInformation = () => {
-  const [personData, setPersonData] = useState<any>(null);
-
-  
   const navigation = useNavigation();
-  const handleEditClick = () => {
-    navigation.navigate('Protected', {screen: 'EditProfile', params: {data: personData}});
-  }
-  useEffect(() => {
-    // Reference to the "users" collection
-    AsyncStorage.getItem(
-      '@user_email'
-    ).then((res: any) => {
-      console.log('res', res);
-      const personRef = firestore().collection('person');
-      console.log(personRef);
-      personRef.onSnapshot((querySnapshot) => {
-        querySnapshot.forEach((documentSnapshot) => {
-          const personDetails = documentSnapshot.data();
-          personDetails.id = documentSnapshot.id;
-          setPersonData(personDetails ? personDetails : null);
-        });
-      })
-    });
+  const {personData} = usePersonDetails();
 
-  }, []);
+  const handleEditClick = () => {
+    // @ts-ignore
+    navigation.navigate('Protected', {
+      screen: 'EditProfile',
+      params: {data: personData},
+    });
+  };
+
   return (
     <Card
       style={{
         paddingVertical: 7,
         paddingLeft: 10,
-        paddingRight: 40,
+        paddingRight: 20,
         marginTop: 15,
       }}>
-      <View style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-      }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}>
         <View>
           <Text
             style={{
@@ -168,15 +143,15 @@ const PersonalInformation = () => {
           </Text>
         </View>
         <View>
-        <TouchableOpacity onPress={handleEditClick}>
-          <Text
-            style={{
-              color: STYLES.greenColor,
-              fontFamily: 'Nunito-Bold',
-              fontSize: 8,
-            }}>
-            Edit
-          </Text>
+          <TouchableOpacity onPress={handleEditClick}>
+            <Text
+              style={{
+                color: STYLES.greenColor,
+                fontFamily: 'Nunito-Bold',
+                fontSize: 8,
+              }}>
+              Edit
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -194,14 +169,14 @@ const PersonalInformation = () => {
             justifyContent: 'center',
           }}>
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Phone Number'}
             subtitle={personData ? personData?.phone : 'N/A'}
           />
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            subtitle={personData ? personData?.vehicleInfo?.vehicle_model?.value : 'N/A'}
+            subtitle={personData ? personData?.vehicle?.model : 'N/A'}
           />
         </View>
         <View
@@ -211,14 +186,14 @@ const PersonalInformation = () => {
             justifyContent: 'center',
           }}>
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Email Address'}
             subtitle={personData ? personData?.email : 'N/A'}
           />
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Vehicle Year'}
-            subtitle={personData ? personData?.vehicleInfo?.vehicle_year?.value : 'N/A'}
+            subtitle={personData ? personData?.vehicle?.year : 'N/A'}
           />
         </View>
         <View
@@ -228,14 +203,14 @@ const PersonalInformation = () => {
             justifyContent: 'center',
           }}>
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Gender'}
             subtitle={personData ? personData?.gender : 'N/A'}
           />
           <TitleWithSubText
-            style={{ flex: 1 / 2 }}
+            style={{flex: 1 / 2}}
             title={'Vehicle Color'}
-            subtitle={personData ? personData?.vehicleInfo?.vehicle_color?.value : 'N/A'}
+            subtitle={personData ? personData?.vehicle?.color : 'N/A'}
           />
         </View>
       </View>
@@ -251,7 +226,7 @@ const TitleWithSubText = ({
   subTitleStyle = {},
 }: any) => {
   return (
-    <View style={{ ...style }}>
+    <View style={{...style}}>
       <Text
         style={{
           color: STYLES.blackColor,
@@ -274,67 +249,33 @@ const TitleWithSubText = ({
   );
 };
 
-const FamilyInformation = () => {
-  return (
-    <Card
-      style={{
-        paddingVertical: 7,
-        paddingLeft: 10,
-        paddingRight: 40,
-        marginTop: 15,
-      }}>
-      <Text
-        style={{
-          color: STYLES.greenColor,
-          fontFamily: 'Nunito-Bold',
-          fontSize: 12,
-        }}>
-        Family
-      </Text>
-
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          paddingTop: 12,
-        }}>
-        {familyList?.map((familyMember, index) => {
-          return (
-            <ImageWithInfo
-              key={`familyMember_${index}`}
-              style={{
-                gap: 7,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              direction="column"
-              image={familyMember?.image}
-              info={
-                <PersonInfo
-                  name={familyMember?.name}
-                  relation={familyMember?.relation}
-                  relationTextStyle={{ textAlign: 'center' }}
-                />
-              }
-            />
-          );
-        })}
-      </View>
-    </Card>
-  );
-};
-
 const ScoopUpTeamList = () => {
-  const [list, setList] = useState(scoopUpTeamList);
   const navigation = useNavigation();
 
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    const scoopUpMembersRef = firestore().collection('scoop_up_member');
+
+    const unsubscribe = scoopUpMembersRef.onSnapshot(querySnapshot => {
+      const data: any = [];
+      if (!querySnapshot) {
+        return;
+      }
+      querySnapshot?.forEach(documentSnapshot => {
+        data.push({id: documentSnapshot.id, ...documentSnapshot.data()});
+      });
+      setList(data);
+    });
+    return () => unsubscribe();
+  }, []);
+
   const toggleShowInfo = useCallback(
-    (name: any) => {
+    (id: any) => {
       setList((prevList: any) => {
         return prevList?.map((item: any) => {
-          return item?.name === name
-            ? { ...item, isSelected: !item.isSelected }
+          return item?.id === id
+            ? {...item, isSelected: !item.isSelected}
             : item;
         });
       });
@@ -345,12 +286,12 @@ const ScoopUpTeamList = () => {
   const handleClickAddScoopUpTeam = () => {
     // @ts-ignore
     navigation.navigate('Protected', {
-      screen: 'AddScoopUpMember',
+      screen: 'AddOrUpdateScoopUpMember',
     });
   };
 
   return (
-    <View style={{ paddingTop: 12 }}>
+    <View style={{paddingTop: 12}}>
       <View
         style={{
           flexDirection: 'row',
@@ -370,7 +311,7 @@ const ScoopUpTeamList = () => {
         </TouchableOpacity>
       </View>
 
-      {list?.map((familyMember, index) => {
+      {list?.map((familyMember: any, index: any) => {
         return (
           <View key={`familyMember_${index}`}>
             <Card
@@ -388,17 +329,22 @@ const ScoopUpTeamList = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
-                image={familyMember?.image}
+                image={
+                  <CustomImage
+                    imageUrl={familyMember?.vehicle?.user_picture}
+                    imageStyles={{height: 40, width: 40}}
+                  />
+                }
                 info={
                   <PersonInfo
-                    name={familyMember?.name}
+                    name={familyMember?.first_name}
                     relation={familyMember?.relation}
                   />
                 }
               />
               <TouchableOpacity
-                onPress={() => toggleShowInfo(familyMember?.name)}
-                style={{ padding: 13 }}>
+                onPress={() => toggleShowInfo(familyMember?.id)}
+                style={{padding: 13}}>
                 {familyMember?.isSelected ? (
                   <ArrowDownSmallIcon />
                 ) : (
@@ -408,8 +354,8 @@ const ScoopUpTeamList = () => {
             </Card>
             {familyMember?.isSelected ? (
               <ScoopUpTeamInfo
-                id={familyMember?.id}
-                vehicleInfo={familyMember?.vehicleInfo}
+                id={familyMember?.id || index}
+                vehicleInfo={familyMember}
                 allInfo={familyMember}
               />
             ) : null}

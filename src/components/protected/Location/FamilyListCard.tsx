@@ -1,29 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
 import React from 'react';
-import {
-  DaughterSampleImageSmall,
-  LoveOutlineIcon,
-  SonSampleImageSmall,
-} from '../../../svgs';
+import {LoveOutlineIcon} from '../../../svgs';
 import {STYLES} from '../../../constants/styles';
-
-const familyList = [
-  {
-    name: 'Emily Kim',
-    status: 'Checked in',
-    checkedInSince: 'Since 8:24am',
-    image: <DaughterSampleImageSmall />,
-  },
-  {
-    name: 'Bryan Kim',
-    status: 'Checked out',
-    checkedInSince: 'Since 10:25am',
-    image: <SonSampleImageSmall />,
-  },
-];
+import {CustomImage} from '../../general/CustomImage';
+import {useGetFamilyList} from '../../../hooks/useGetFamilyList';
 
 export const FamilyListCard = () => {
+  const {familyList} = useGetFamilyList();
+  // console.log(
+  //   '🚀 ~ file: FamilyListCard.tsx:11 ~ FamilyListCard ~ familyList:',
+  //   familyList,
+  // );
+
   return (
     <>
       <View
@@ -44,13 +33,15 @@ export const FamilyListCard = () => {
           }}>
           Family
         </Text>
-        {familyList?.map((familyPerson, index) => {
+        {familyList?.map((familyPerson: any, index: any) => {
           return (
             <View
               key={`familyPerson_${index}`}
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={{flexDirection: 'row', gap: 7}}>
-                <View>{familyPerson.image}</View>
+                <View>
+                  <CustomImage imageUrl={familyPerson?.family_member_picture} />
+                </View>
                 <View>
                   <Text
                     style={{
@@ -58,7 +49,7 @@ export const FamilyListCard = () => {
                       fontFamily: 'Nunito-Bold',
                       color: STYLES.blackColor,
                     }}>
-                    {familyPerson.name}
+                    {familyPerson?.name}
                   </Text>
                   <Text
                     style={{
@@ -66,7 +57,7 @@ export const FamilyListCard = () => {
                       color: STYLES.greenColor,
                       fontFamily: 'Nunito-Regular',
                     }}>
-                    {familyPerson.status}
+                    {familyPerson?.status}
                   </Text>
                   <Text
                     style={{
@@ -74,7 +65,8 @@ export const FamilyListCard = () => {
                       color: STYLES.blackColor,
                       fontFamily: 'Nunito-Regular',
                     }}>
-                    {familyPerson.checkedInSince}
+                    {/* TODO: Since text should be dynamic */}
+                    Checked In Since {familyPerson?.checkedInSince}
                   </Text>
                 </View>
               </View>

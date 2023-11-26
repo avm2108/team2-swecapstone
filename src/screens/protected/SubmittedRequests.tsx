@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable react-native/no-inline-styles */
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {Alert, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Layout} from './Layout';
 import {DeleteIcon, GreenColorTimer, YellowColorTimer} from '../../svgs';
 import {STYLES} from '../../constants/styles';
@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import SideBar from '../../components/protected/Sidebar';
 import {allRequests, headers} from '../../utils/mockData';
+import {deleteDocument, getDocuments} from '../../utils/firebaseFunctions';
 
 const Drawer = createDrawerNavigator();
 
@@ -72,7 +73,13 @@ const ImageWithInfo = ({direction = 'row', image, info, style}: any) => {
 };
 
 const TabsWithRenderContent = () => {
-  const [tabsList, setTabsList] = useState(() => tabs);
+  const [tabsList] = useState(() => tabs);
+  const [submittedRequests, setSubmittedRequests] = useState([]);
+
+  const [statistics, setStatistics] = useState({
+    submittedCount: 0,
+    approvedCount: 0,
+  });
 
   // Uncomment below code to enable tab switching
   // const handleSelectTab = (tab: any) => {
@@ -95,6 +102,29 @@ const TabsWithRenderContent = () => {
   //     });
   //   });
   // };
+
+  const getSubmittedRequests = useCallback(async () => {
+    const response = await getDocuments({
+      collectionName: 'submitted_requests',
+    });
+    console.log(
+      '🚀 ~ file: SubmittedRequests.tsx:170 ~ getSubmittedRequests ~ response:',
+      response,
+    );
+    setSubmittedRequests(response);
+
+    const submittedCount = response?.filter(
+      (item: any) => item?.status === false,
+    )?.length;
+    const approvedCount = response?.filter(
+      (item: any) => item?.status === true,
+    )?.length;
+
+    setStatistics({submittedCount, approvedCount});
+  }, []);
+  useEffect(() => {
+    getSubmittedRequests();
+  }, []);
 
   return (
     <>
@@ -135,7 +165,7 @@ const TabsWithRenderContent = () => {
                     fontWeight: '700',
                     fontSize: 9,
                   }}>
-                  {tab.count}
+                  {tab?.title}
                 </Text>
                 <Text
                   style={{
@@ -143,7 +173,9 @@ const TabsWithRenderContent = () => {
                     fontWeight: '700',
                     fontSize: 9,
                   }}>
-                  {tab.title}
+                  {index === 0
+                    ? statistics?.submittedCount
+                    : statistics?.approvedCount}
                 </Text>
               </View>
               <View>{tab.icon}</View>
@@ -151,13 +183,46 @@ const TabsWithRenderContent = () => {
           );
         })}
       </View>
-      {tabsList?.find(item => item?.isSelected)?.renderContent}
+      <Requests
+        submittedRequests={submittedRequests}
+        headers={headers}
+        setSubmittedRequests={setSubmittedRequests}
+        getSubmittedRequests={getSubmittedRequests}
+      />
+      {/* {tabsList?.find(item => item?.isSelected)?.renderContent} */}
     </>
   );
 };
 
-const Requests = ({requests = [], headers = []}: any) => {
-  const [list] = useState(() => requests);
+const Requests = ({
+  submittedRequests,
+  getSubmittedRequests,
+  headers = [],
+}: any) => {
+  const handleDelete = async (id: any) => {
+    try {
+      console.log(
+        '🚀 ~ file: SubmittedRequests.tsx:178 ~ handleDelete ~ id:',
+        id,
+      );
+
+      const response = await deleteDocument({
+        collectionName: 'submitted_requests',
+        docId: id,
+      });
+      console.log(
+        '🚀 ~ file: ScoopUpTeamInfo.tsx:26 ~ handleDelete ~ response:',
+        response,
+      );
+      getSubmittedRequests();
+    } catch (error) {
+      console.log(
+        '🚀 ~ file: SubmittedRequests.tsx:192 ~ handleDelete ~ error:',
+        error,
+      );
+      Alert.alert('Oops! Something went wrong');
+    }
+  };
 
   return (
     <View style={{paddingTop: 12, paddingHorizontal: 7}}>
@@ -211,13 +276,13 @@ const Requests = ({requests = [], headers = []}: any) => {
           width: '100%',
           flex: 1,
         }}>
-        {list?.map((item: any, index: any) => {
+        {submittedRequests?.map((item: any, index: any) => {
           return (
             <View
               key={`familyMember_${index}`}
               style={{
                 flexDirection: 'row',
-                flex: 1 / list.length,
+                flex: 1 / 5,
                 backgroundColor: index % 2 === 0 ? '#4F4F4F46' : 'white',
                 overflow: 'scroll',
                 gap: 19,
@@ -229,10 +294,11 @@ const Requests = ({requests = [], headers = []}: any) => {
               <View style={{flex: 1}}>
                 <Text
                   style={{
-                    color: item?.status?.color,
+                    color: '#214C34',
                     fontFamily: 'Nunito-ExtraBold',
                     fontSize: 7,
-                    backgroundColor: item?.status?.bgColor,
+                    backgroundColor:
+                      item?.status === false ? '#FFF27D' : '#4EB780',
                     borderRadius: 3,
                     textAlign: 'center',
                     // marginHorizontal: 2,
@@ -240,7 +306,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                     paddingVertical: 2,
                     // ...nameTextStyle,
                   }}>
-                  {item?.status?.label}
+                  {item?.status === false ? 'Pending' : 'Approved'}
                 </Text>
               </View>
               <View
@@ -248,7 +314,6 @@ const Requests = ({requests = [], headers = []}: any) => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   alignItems: 'center',
-
                   flex: 1,
                 }}>
                 <ImageWithInfo
@@ -257,7 +322,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
-                  image={item?.student?.image}
+                  image={item?.image}
                   info={
                     <Text
                       style={{
@@ -266,7 +331,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                         fontSize: 6,
                         // ...nameTextStyle,
                       }}>
-                      {item?.student?.name}
+                      {item?.name}
                     </Text>
                   }
                 />
@@ -279,7 +344,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                     fontSize: 7,
                     // ...nameTextStyle,
                   }}>
-                  {item.release_date}
+                  {item?.release_date}
                 </Text>
               </View>
               <View style={{flex: 1}}>
@@ -290,7 +355,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                     fontSize: 7,
                     // ...nameTextStyle,
                   }}>
-                  {item.approval_date}
+                  {item?.approval_date}
                 </Text>
               </View>
               <View
@@ -313,7 +378,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                       fontSize: 7,
                       // ...nameTextStyle,
                     }}>
-                    {item.viewAction}
+                    {item?.viewAction}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -322,7 +387,7 @@ const Requests = ({requests = [], headers = []}: any) => {
                   flex: 1,
                   alignItems: 'center',
                 }}
-                onPress={() => {}}>
+                onPress={() => handleDelete(item?.id)}>
                 <DeleteIcon />
               </TouchableOpacity>
             </View>

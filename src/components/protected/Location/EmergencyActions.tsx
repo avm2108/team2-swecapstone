@@ -12,8 +12,9 @@ export const EmergencyActions = () => {
     console.log(
       '🚀 ~ file: EmergencyActions.tsx:16 ~ handleGoToSOS ~ handleGoToSOS:',
     );
+    // TODO: Implement SOS functionality
     navigation.navigate('Protected', {
-      screen: 'EnterSOSPIN',
+      screen: 'SendSOS',
     });
   };
 

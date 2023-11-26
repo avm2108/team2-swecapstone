@@ -1,19 +1,36 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, View} from 'react-native';
+import {Alert, Text, View} from 'react-native';
 import React from 'react';
 import {STYLES} from '../../../constants/styles';
 import {DeleteSmallIcon} from '../../../svgs';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {deleteDocument} from '../../../utils/firebaseFunctions';
 
 export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
   const navigation = useNavigation();
   const handleEdit = (scooperId: any) => {
     // @ts-ignore
-    navigation.replace('Protected', {
-      screen: 'EditProfile',
+    navigation.navigate('Protected', {
+      screen: 'AddOrUpdateScoopUpMember',
       params: {scooperId: scooperId, data: allInfo},
     });
+  };
+
+  const handleDelete = async (scooperId: any) => {
+    console.log(
+      '🚀 ~ file: ScoopUpTeamInfo.tsx:21 ~ handleDelete ~ scooperId:',
+      scooperId,
+    );
+    const response = await deleteDocument({
+      collectionName: 'scoop_up_member',
+      docId: scooperId,
+    });
+    console.log(
+      '🚀 ~ file: ScoopUpTeamInfo.tsx:26 ~ handleDelete ~ response:',
+      response,
+    );
+    Alert.alert('Scoop Up Member deleted successfully');
   };
   return (
     <View
@@ -31,14 +48,14 @@ export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
       <View style={{flexDirection: 'row'}}>
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={vehicleInfo?.vehicle_model?.label}
-          subtitle={vehicleInfo?.vehicle_model?.value}
+          title={'Model'}
+          subtitle={vehicleInfo?.vehicle?.model}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={vehicleInfo?.vehicle_color?.label}
-          subtitle={vehicleInfo?.vehicle_color?.value}
+          title={'Color'}
+          subtitle={vehicleInfo?.vehicle?.color}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <View style={{flex: 1 / 3, alignItems: 'flex-end'}}>
@@ -52,19 +69,23 @@ export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
       <View style={{flexDirection: 'row'}}>
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={vehicleInfo?.vehicle_year?.label}
-          subtitle={vehicleInfo?.vehicle_year?.value}
+          title={'Year'}
+          subtitle={vehicleInfo?.vehicle?.year}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
 
         <TitleWithSubText
           style={{flex: 1 / 3}}
-          title={vehicleInfo?.phone_number?.label}
-          subtitle={vehicleInfo?.phone_number?.value}
+          title={'Phone Number'}
+          subtitle={vehicleInfo?.phone_number}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <View style={{flex: 1 / 3, alignItems: 'flex-end'}}>
-          <DeleteSmallIcon />
+          <TouchableOpacity
+            onPress={() => handleDelete(id)}
+            hitSlop={{top: 10, left: 50, right: 50, bottom: 50}}>
+            <DeleteSmallIcon />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

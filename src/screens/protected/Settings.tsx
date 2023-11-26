@@ -11,14 +11,13 @@ import {
   accountSettingsList,
   systemSettingsList,
 } from '../../lib/profileMockData';
-import {
-  ArrowDownSmallIcon,
-  ArrowRightSmallIcon,
-  MotherSampleImageMedium,
-  PlusSmallIcon,
-} from '../../svgs';
+import {ArrowDownSmallIcon, ArrowRightSmallIcon} from '../../svgs';
 import {Card} from '../../components/general/Card';
-// import {ScoopUpTeamInfo} from '../../components/protected/Profile/ScoopUpTeamInfo';
+import {LogoutModal} from '../../components/general/LogoutModal';
+import {firebase} from '@react-native-firebase/firestore';
+import {Image} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {usePersonDetails} from '../../hooks/usePersonDetails';
 
 const Drawer = createDrawerNavigator();
 
@@ -67,7 +66,9 @@ function Settings() {
   );
 }
 
-const ParentCard = () => {
+export const ParentCard = ({iconColor, textColor}: any) => {
+  const {personData} = usePersonDetails();
+
   return (
     <ImageWithInfo
       style={{
@@ -75,8 +76,27 @@ const ParentCard = () => {
         alignItems: 'center',
         // justifyContent: 'center',
       }}
-      image={<MotherSampleImageMedium />}
-      info={<PersonInfo name={'Tracy Kim'} relation={'Mother'} />}
+      image={
+        personData?.photoURL ? (
+          <Image
+            source={{uri: personData?.photoURL}}
+            style={{height: 40, width: 40}}
+          />
+        ) : (
+          <MaterialCommunityIcons
+            name="account"
+            color={iconColor ? iconColor : STYLES.greenColor}
+            size={40}
+          />
+        )
+      }
+      info={
+        <PersonInfo
+          name={personData?.name || personData?.email}
+          relation={''}
+          textColor={textColor}
+        />
+      }
     />
   );
 };
@@ -86,6 +106,7 @@ const PersonInfo = ({
   relation,
   nameTextStyle = {},
   relationTextStyle = {},
+  textColor,
 }: any) => {
   return (
     <>
@@ -93,7 +114,7 @@ const PersonInfo = ({
         {name ? (
           <Text
             style={{
-              color: STYLES.blackColor,
+              color: textColor ? textColor : STYLES.blackColor,
               fontFamily: 'Nunito-Bold',
               fontSize: 12,
               ...nameTextStyle,
@@ -133,87 +154,108 @@ const ImageWithInfo = ({direction = 'row', image, info, style}: any) => {
 };
 
 const SettingsList = ({listItems = [], title}: any) => {
-  const [list, setList] = useState(listItems);
+  const [list] = useState(listItems);
+  const [showLogoutConfirmationPopup, setShowLogoutConfirmationPopup] =
+    useState(false);
+
+  const navigation = useNavigation();
+
+  const handleClickOption = (setting: any) => {
+    // @ts-ignore
+    navigation.navigate(`${setting?.navigateTo?.stack}`, {
+      screen: setting?.navigateTo?.screen,
+    });
+  };
 
   const toggleShowInfo = useCallback(
-    (name: any) => {
-      setList((prevList: any) => {
-        return prevList?.map((item: any) => {
-          return item?.name === name
-            ? {...item, isSelected: !item.isSelected}
-            : item;
-        });
-      });
+    (setting: any) => {
+      // setList((prevList: any) => {
+      //   return prevList?.map((item: any) => {
+      //     return item?.name === setting?.name
+      //       ? {...item, isSelected: !item.isSelected}
+      //       : item;
+      //   });
+      // });
+      handleClickOption(setting);
     },
     [list],
   );
 
   return (
-    <View style={{paddingTop: 24}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <Text
+    <>
+      <LogoutModal
+        showLogoutConfirmationPopup={showLogoutConfirmationPopup}
+        setShowLogoutConfirmationPopup={setShowLogoutConfirmationPopup}
+      />
+      <View style={{paddingTop: 24}}>
+        <View
           style={{
-            color: STYLES.greenColor,
-            fontFamily: 'Nunito-Bold',
-            fontSize: 12,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}>
-          {title}
-        </Text>
-        <PlusSmallIcon />
-      </View>
+          <Text
+            style={{
+              color: STYLES.greenColor,
+              fontFamily: 'Nunito-Bold',
+              fontSize: 12,
+            }}>
+            {title}
+          </Text>
+          {/* <PlusSmallIcon /> */}
+        </View>
 
-      {/* @ts-ignore */}
-      {list?.map((setting, index) => {
-        return (
-          <View key={`setting_${index}`}>
-            <TouchableOpacity
-              onPress={() => {
-                if (setting.name === 'Log Out') {
-                }
-              }}>
-              <Card
-                style={{
-                  paddingVertical: 7,
-                  paddingLeft: 10,
-                  marginTop: 15,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}>
-                <ImageWithInfo
-                  style={{
-                    gap: 7,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                  image={setting?.image}
-                  info={
-                    <PersonInfo
-                      name={setting?.name}
-                      // relation={setting?.relation}
-                    />
+        {/* @ts-ignore */}
+        {list?.map((setting, index) => {
+          return (
+            <View key={`setting_${index}`}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (setting.name === 'Log Out') {
+                    setShowLogoutConfirmationPopup(true);
+                  } else {
+                    handleClickOption(setting);
                   }
-                />
-                <TouchableOpacity
-                  onPress={() => toggleShowInfo(setting?.name)}
-                  style={{padding: 13}}>
-                  {setting?.isSelected ? (
-                    <ArrowDownSmallIcon />
-                  ) : (
-                    <ArrowRightSmallIcon />
-                  )}
-                </TouchableOpacity>
-              </Card>
-              {/* {setting?.isSelected ? <ScoopUpTeamInfo /> : null} */}
-            </TouchableOpacity>
-          </View>
-        );
-      })}
-    </View>
+                }}>
+                <Card
+                  style={{
+                    paddingVertical: 7,
+                    paddingLeft: 10,
+                    marginTop: 15,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <ImageWithInfo
+                    style={{
+                      gap: 7,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                    image={setting?.image}
+                    info={
+                      <PersonInfo
+                        name={setting?.name}
+                        // relation={setting?.relation}
+                      />
+                    }
+                  />
+                  <TouchableOpacity
+                    onPress={() => toggleShowInfo(setting)}
+                    style={{padding: 13}}>
+                    {setting?.isSelected ? (
+                      <ArrowDownSmallIcon />
+                    ) : (
+                      <ArrowRightSmallIcon />
+                    )}
+                  </TouchableOpacity>
+                </Card>
+                {/* {setting?.isSelected ? <ScoopUpTeamInfo /> : null} */}
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+      </View>
+    </>
   );
 };

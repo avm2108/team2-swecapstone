@@ -5,7 +5,6 @@ import {View, Text, StyleSheet} from 'react-native';
 import {Button, InputField} from '../../components';
 import {AuthContext} from '../../../App';
 import AuthScreenWrapper from '../../components/hoc/AuthWrapper';
-import {authErrors} from '../../constants/auth';
 import {STYLES} from '../../constants/styles';
 import {ScooperLogo} from '../../svgs/ScooperLogo';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -98,7 +97,9 @@ export default function LoginWithEmailAndPassword() {
   };
 
   return (
-    <AuthScreenWrapper showBackArrowIcon={false}>
+    <AuthScreenWrapper
+      showBackArrowIcon={navigation.canGoBack()}
+      backArrowIconWrapperStyle={{paddingLeft: 19, paddingTop: 24}}>
       <View
         style={{
           alignItems: 'center',

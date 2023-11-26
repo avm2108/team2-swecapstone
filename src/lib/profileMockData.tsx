@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   DaughterSampleImageSmall,
   FatherSampleImageSmall,
@@ -33,16 +34,19 @@ export const accountSettingsList = [
     name: 'Change Password',
     image: <KeyIcon />,
     isSelected: false,
+    navigateTo: {stack: 'General', screen: 'ChangePassword'},
   },
   {
     name: 'Change SOS Pin',
     image: <LifeBuoyIcon />,
     isSelected: false,
+    navigateTo: {stack: 'Protected', screen: 'EnterSOSPIN'},
   },
   {
     name: 'Update Scoopup Team',
     image: <PeopleIcon />,
     isSelected: false,
+    navigateTo: {stack: 'Protected', screen: 'AddOrUpdateScoopUpMember'},
   },
 ];
 
@@ -51,11 +55,13 @@ export const systemSettingsList = [
     name: 'Location Settings',
     image: <MapIcon />,
     isSelected: false,
+    navigateTo: '',
   },
   {
     name: 'Support',
     image: <SupportIcon />,
     isSelected: false,
+    navigateTo: '',
   },
   {
     name: 'Log Out',

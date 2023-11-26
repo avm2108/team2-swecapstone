@@ -1,14 +1,16 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Layout} from './Layout';
-import {MotherSampleImageMedium} from '../../svgs';
 import {STYLES} from '../../constants/styles';
 import {Card} from '../../components/general/Card';
 import {useNavigation} from '@react-navigation/native';
-import {familyList} from '../../lib/profileMockData';
 import {TextInput} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import {ParentCard} from './Settings';
+import {useGetFamilyList} from '../../hooks/useGetFamilyList';
+import {addDocument, updateDocument} from '../../utils/firebaseFunctions';
+import {firebase} from '@react-native-firebase/firestore';
+import {CustomImage} from '../../components/general/CustomImage';
 
 export default function EditProfileWithDrawer({route}: any) {
   return <Profile info={route?.params?.data} />;
@@ -26,9 +28,12 @@ function Profile({info}: any) {
           borderTopLeftRadius: 20,
           borderTopRightRadius: 20,
         }}>
-        <ParentCard />
+        <View style={{alignItems: 'center', paddingBottom: 12}}>
+          <ParentCard />
+        </View>
+
         <PersonalInformation info={info} />
-        <FamilyInformation />
+        <FamilyListHorizontalInformation />
       </View>
     </Layout>
   );
@@ -81,29 +86,19 @@ const PersonInfo = ({
   );
 };
 
-const ParentCard = () => {
-  return (
-    <ImageWithInfo
-      style={{
-        gap: 7,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      image={<MotherSampleImageMedium />}
-      info={<PersonInfo name={'Tracy Kim'} relation={'Mother'} />}
-    />
-  );
-};
-
 const PersonalInformation = ({info}: any) => {
-  const [prefilledData, setPrefilledData] = useState(() => info);
+  console.log(
+    '🚀 ~ file: EditProfile.tsx:89 ~ PersonalInformation ~ info:',
+    info,
+  );
+  const [prefilledData, setPrefilledData] = useState(null);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setPrefilledData(info);
   }, [info]);
 
-  const handleChange = (path: any, valueInput: any) => {
-    const value = valueInput.nativeEvent.text;
+  const handleChange = (path: any, value: any) => {
     setPrefilledData((prevState: any) => {
       const newState = {...prevState};
       const keys = path?.split('.');
@@ -124,13 +119,40 @@ const PersonalInformation = ({info}: any) => {
     });
   };
 
-  const handleSave = () => {
-    const docRef = firestore().collection('person').doc(info?.id);
-    delete prefilledData?.id;
-    docRef.update(prefilledData).then((result: any) => {
-      console.log('Success', result);
-    });
+  const handleSaveOrUpdate = async () => {
+    try {
+      const currentPersonId = info?.id;
+      const currentUserUid = firebase.auth().currentUser?.uid;
 
+      if (!currentUserUid) {
+        // Handle the case where the user is not logged in
+        console.log('User not logged in');
+        return;
+      }
+      if (currentPersonId) {
+        const updatedResponse = await updateDocument({
+          collectionName: 'person',
+          payload: {...prefilledData, uid: currentUserUid},
+          docId: currentPersonId,
+        });
+
+        if (updatedResponse) {
+          Alert.alert('Profile Updated Successfully');
+          return navigation.canGoBack() ? navigation.goBack() : null;
+        }
+        return;
+      }
+      const response = await addDocument({
+        collectionName: 'person',
+        payload: prefilledData,
+      });
+      if (response) {
+        Alert.alert('Profile Added Successfully');
+        return navigation.canGoBack() ? navigation.goBack() : null;
+      }
+    } catch (error) {
+      return error;
+    }
   };
 
   return (
@@ -156,7 +178,7 @@ const PersonalInformation = ({info}: any) => {
           }}>
           Personal Information
         </Text>
-        <TouchableOpacity onPress={handleSave}>
+        <TouchableOpacity onPress={handleSaveOrUpdate}>
           <Text
             style={{
               color: STYLES.greenColor,
@@ -184,16 +206,16 @@ const PersonalInformation = ({info}: any) => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Phone Number'}
+            keyboardType={'numeric'}
+            // maxLength={10}
             handleChange={(value: string) => handleChange('phone', value)}
             inputFieldValue={prefilledData?.phone}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            handleChange={(value: any) =>
-              handleChange('vehicleInfo.vehicle_model.value', value)
-            }
-            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_model?.value}
+            handleChange={(value: any) => handleChange('vehicle.model', value)}
+            inputFieldValue={prefilledData?.vehicle?.model}
           />
         </View>
         <View
@@ -212,9 +234,10 @@ const PersonalInformation = ({info}: any) => {
             style={{flex: 1 / 2}}
             title={'Vehicle Year'}
             handleChange={(value: string) =>
-              handleChange('vehicleInfo.vehicle_year.value', value)
+              handleChange('vehicle.year', value)
             }
-            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_year?.value}
+            keyboardType="numeric"
+            inputFieldValue={prefilledData?.vehicle?.year}
           />
         </View>
         <View
@@ -232,10 +255,8 @@ const PersonalInformation = ({info}: any) => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Color'}
-            handleChange={(value: any) =>
-              handleChange('vehicleInfo.vehicle_color.value', value)
-            }
-            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
+            handleChange={(value: any) => handleChange('vehicle.color', value)}
+            inputFieldValue={prefilledData?.vehicle?.color}
           />
         </View>
       </View>
@@ -243,12 +264,14 @@ const PersonalInformation = ({info}: any) => {
   );
 };
 
-const TitleWithInputField = ({
+export const TitleWithInputField = ({
   title,
   style = {},
   titleStyle = {},
   handleChange = () => {},
   inputFieldValue = '',
+  maxLength,
+  keyboardType,
 }: any) => {
   return (
     <View style={{...style}}>
@@ -262,7 +285,7 @@ const TitleWithInputField = ({
         {title}
       </Text>
       <TextInput
-        onChange={handleChange}
+        onChangeText={handleChange}
         style={{
           paddingHorizontal: 7,
           height: 18,
@@ -275,7 +298,9 @@ const TitleWithInputField = ({
           color: STYLES.lightGreenColor,
           backgroundColor: STYLES.veryLightGrayColor,
         }}
+        maxLength={maxLength}
         value={inputFieldValue}
+        keyboardType={keyboardType}
       />
       {/* <Text style={{color: STYLES.greenColor, fontSize: 6, ...inputFieldStyle}}>
         {inputFieldValue}
@@ -284,7 +309,9 @@ const TitleWithInputField = ({
   );
 };
 
-const FamilyInformation = () => {
+export const FamilyListHorizontalInformation = () => {
+  const {familyList} = useGetFamilyList();
+
   return (
     <Card
       style={{
@@ -309,7 +336,7 @@ const FamilyInformation = () => {
           justifyContent: 'space-between',
           paddingTop: 12,
         }}>
-        {familyList?.map((familyMember, index) => {
+        {familyList?.map((familyMember: any, index: any) => {
           return (
             <ImageWithInfo
               key={`familyMember_${index}`}
@@ -319,7 +346,9 @@ const FamilyInformation = () => {
                 justifyContent: 'center',
               }}
               direction="column"
-              image={familyMember?.image}
+              image={
+                <CustomImage imageUrl={familyMember?.family_member_picture} />
+              }
               info={
                 <PersonInfo
                   name={familyMember?.name}
