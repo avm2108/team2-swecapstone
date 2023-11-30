@@ -15,30 +15,31 @@ struct Menu: View {
                 .ignoresSafeArea()
             
             
-            VStack(spacing: 30) {
+            VStack(alignment: .leading,spacing: 30) {
                 Spacer()
                 
                 NavigationLink {
-                    StudentDetails()
+                    StudentMenuView()
                 } label: {
                     VStack {
-                        HStack(spacing: 20) {
-                            Image(systemName: "person.fill.badge.plus")
+                        HStack(spacing: 10) {
+                            Image(systemName: "person.crop.rectangle")
                                 .resizable()
-                                .frame(width: 40, height: 40)
+                                .frame(width: 45, height: 35)
                                 .foregroundStyle(Color("scooperYellow"))
-                            Text("Add Student")
+                            Text("Students")
                                 .font(.title.bold())
                                 .foregroundStyle(Color.white)
                         }
                     }
                 }
+                .padding(.leading, 80)
                 
                 NavigationLink {
                     SchedulingView()
                 } label: {
                     VStack {
-                        HStack(spacing: 20) {
+                        HStack {
                             Image(systemName: "calendar.badge.clock")
                                 .resizable()
                                 .frame(width: 50, height: 40)
@@ -49,7 +50,7 @@ struct Menu: View {
                         }
                     }
                 }
-                .padding(.trailing)
+                .padding(.leading, 80)
                 
                 Spacer()
                 

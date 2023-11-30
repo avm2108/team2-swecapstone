@@ -15,6 +15,7 @@ struct Dismissal: View {
     @State private var queueStatus: Queue = .waiting
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
     @Environment(\.dismiss) var dismiss
+    @State private var isPresented = false
     enum Queue {
         case waiting
         case preparing
@@ -58,9 +59,24 @@ struct Dismissal: View {
             Text("Slot: ")
                 .font(.title)
         }
+        .alert("Dismissal failed", isPresented: $isPresented, actions: {
+            Button("OK") {
+                isPresented = false
+            }
+        }, message: {
+            Text("Please try again.")
+        })
         Spacer()
         Button {
-            vm.dismiss(status: false, id: id, position: 0)
+            vm.dismiss(status: false, id: id, position: 1000)
+            
+            Task {
+                do {
+                    try await vm.removeFromQueue()
+                } catch {
+                    isPresented = true
+                }
+            }
             self.dismiss.callAsFunction()
         } label: {
             Text("Dismiss")

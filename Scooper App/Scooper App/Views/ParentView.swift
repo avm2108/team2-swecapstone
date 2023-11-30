@@ -10,17 +10,19 @@ import SwiftUI
 struct ParentView: View {
     
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
-    @State var info: Student
+    @State var info: Vehicle
+    @State var id: String?
+    @State var guardianName: String?
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         //Display unique code here
         ScrollView(.vertical) {
             VStack() {
-                Text(info.guardian.name)
+                Text(guardianName ?? "")
                     .font(.largeTitle.bold())
                 
-                AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/https://us-central1-scooper-df18f.cloudfunctions.net/student/\(info.id)"))
+                AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id ?? "")"))
                 
                 VStack {
                     Text("Code:")
@@ -29,37 +31,39 @@ struct ParentView: View {
                     
                     ForEach(vm.secureKey ?? [Key(key: "")]) { item in
                         
-                        Text(item.key)
-                            .font(.system(size: 80, weight: .semibold))
-                            .fontWeight(.semibold)
-                            .padding(30)
-                            .frame(width: 350, height: 100, alignment: .center)
-                            .foregroundColor(.gray)
+                        VStack {
+                            Text(item.key)
+                                .font(.system(size: 80, weight: .semibold))
+                                .fontWeight(.semibold)
+                                .padding(30)
+                                .frame(width: 350, height: 100, alignment: .center)
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
                 .onAppear(perform: {
                     Task {
-                        try await vm.getKey()
+                        try await vm.getKey(id: id ?? "")
                     }
                 })
                 
                 VStack(alignment: .center) {
-                    Text("Vehicle: \(info.guardian.vehicle.licensePlate)")
+                    Text("Vehicle: \(info.licensePlate)")
                         .font(.title)
                         .fontWeight(.heavy)
                     HStack(spacing: 10) {
-                        Text("Make: \(info.guardian.vehicle.make)")
+                        Text("Make: \(info.make)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-                        Text("Model: \(info.guardian.vehicle.model)")
+                        Text("Model: \(info.model)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
                     }
                     HStack(spacing: 20) {
-                        Text("Color: \(info.guardian.vehicle.color)")
+                        Text("Color: \(info.color)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
-                        Text("Year: \(info.guardian.vehicle.year)")
+                        Text("Year: \(info.year)")
                             .font(.title3)
                             .foregroundStyle(Color.gray)
                     }
@@ -85,7 +89,7 @@ struct ParentView: View {
 }
     
 #Preview {
-    ParentView(info: Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "john@test.com", name: "John Doe", phone: "534-563-5321", relation: "Father", vehicle: Vehicle(color: "White", year: "2022", model: "Civic", make: "Honda", licensePlate: "MFG5352"))))
+    ParentView(info: Vehicle(color: "Black", year: "1993", model: "Civic", make: "Honda", licensePlate: "EXS1923"), guardianName: "John Doe")
 }
 
 extension String {

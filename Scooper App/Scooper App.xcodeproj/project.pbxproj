@@ -11,8 +11,12 @@
 		91037E822B06BF08000329BC /* StudentDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E812B06BF08000329BC /* StudentDetails.swift */; };
 		91037E842B06C4C9000329BC /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E832B06C4C9000329BC /* Menu.swift */; };
 		91037E862B06C872000329BC /* SchedulingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E852B06C872000329BC /* SchedulingView.swift */; };
+		910ADF972B177847007FA57D /* StudentRemovalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910ADF962B177847007FA57D /* StudentRemovalView.swift */; };
+		913E516B2B16877500269583 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913E516A2B16877500269583 /* ProfileView.swift */; };
 		916C09C92B05FEB0008009C9 /* Loading Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916C09C82B05FEB0008009C9 /* Loading Screen.swift */; };
 		916C09CC2B0615AD008009C9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 916C09CB2B0615AD008009C9 /* Launch Screen.storyboard */; };
+		918276A22B163BB10082503A /* StudentMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918276A12B163BB10082503A /* StudentMenuView.swift */; };
+		918276A42B1643660082503A /* StudentProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918276A32B1643660082503A /* StudentProfileView.swift */; };
 		91ABC2A92B05B45F00676EC1 /* ParentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2A82B05B45F00676EC1 /* ParentView.swift */; };
 		91ABC2AB2B05B4D800676EC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2AA2B05B4D800676EC1 /* User.swift */; };
 		91ABC2AD2B05B52A00676EC1 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2AC2B05B52A00676EC1 /* Student.swift */; };
@@ -20,6 +24,10 @@
 		91ABC2B12B05B5A000676EC1 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B02B05B5A000676EC1 /* Key.swift */; };
 		91ABC2B62B05B8F800676EC1 /* ScooperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */; };
 		91ABC2B92B05B95300676EC1 /* Dismissal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B82B05B95300676EC1 /* Dismissal.swift */; };
+		91AC4F732B0F956E009CB7F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AC4F722B0F956E009CB7F6 /* GoogleService-Info.plist */; };
+		91E5482C2B0CF6C0004B54D7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 91E5482B2B0CF6C0004B54D7 /* FirebaseAuth */; };
+		91E5482E2B0CF6C0004B54D7 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 91E5482D2B0CF6C0004B54D7 /* FirebaseMessaging */; };
+		91E548332B0D0286004B54D7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E548322B0D0286004B54D7 /* NotificationManager.swift */; };
 		91F794F22AB39843000F6575 /* Scooper_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F794F12AB39843000F6575 /* Scooper_AppApp.swift */; };
 		91F794F42AB39843000F6575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F794F32AB39843000F6575 /* ContentView.swift */; };
 		91F794F62AB39844000F6575 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91F794F52AB39844000F6575 /* Assets.xcassets */; };
@@ -51,9 +59,13 @@
 		91037E812B06BF08000329BC /* StudentDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentDetails.swift; sourceTree = "<group>"; };
 		91037E832B06C4C9000329BC /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		91037E852B06C872000329BC /* SchedulingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulingView.swift; sourceTree = "<group>"; };
+		910ADF962B177847007FA57D /* StudentRemovalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentRemovalView.swift; sourceTree = "<group>"; };
+		913E516A2B16877500269583 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		916C09C82B05FEB0008009C9 /* Loading Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Loading Screen.swift"; sourceTree = "<group>"; };
 		916C09CA2B06153D008009C9 /* Scooper-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Scooper-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		916C09CB2B0615AD008009C9 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		918276A12B163BB10082503A /* StudentMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentMenuView.swift; sourceTree = "<group>"; };
+		918276A32B1643660082503A /* StudentProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentProfileView.swift; sourceTree = "<group>"; };
 		91ABC2A82B05B45F00676EC1 /* ParentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentView.swift; sourceTree = "<group>"; };
 		91ABC2AA2B05B4D800676EC1 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		91ABC2AC2B05B52A00676EC1 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
@@ -61,6 +73,9 @@
 		91ABC2B02B05B5A000676EC1 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScooperViewModel.swift; sourceTree = "<group>"; };
 		91ABC2B82B05B95300676EC1 /* Dismissal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dismissal.swift; sourceTree = "<group>"; };
+		91AC4F722B0F956E009CB7F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		91E5482F2B0CF7DC004B54D7 /* Scooper App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Scooper App.entitlements"; sourceTree = "<group>"; };
+		91E548322B0D0286004B54D7 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		91F794EE2AB39843000F6575 /* Scooper App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scooper App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91F794F12AB39843000F6575 /* Scooper_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scooper_AppApp.swift; sourceTree = "<group>"; };
 		91F794F32AB39843000F6575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,6 +93,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91E5482E2B0CF6C0004B54D7 /* FirebaseMessaging in Frameworks */,
+				91E5482C2B0CF6C0004B54D7 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -113,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */,
+				91E548322B0D0286004B54D7 /* NotificationManager.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -127,6 +145,10 @@
 				91037E7F2B06B515000329BC /* MapView.swift */,
 				91037E832B06C4C9000329BC /* Menu.swift */,
 				91037E852B06C872000329BC /* SchedulingView.swift */,
+				918276A12B163BB10082503A /* StudentMenuView.swift */,
+				918276A32B1643660082503A /* StudentProfileView.swift */,
+				913E516A2B16877500269583 /* ProfileView.swift */,
+				910ADF962B177847007FA57D /* StudentRemovalView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -155,7 +177,9 @@
 		91F794F02AB39843000F6575 /* Scooper App */ = {
 			isa = PBXGroup;
 			children = (
+				91E5482F2B0CF7DC004B54D7 /* Scooper App.entitlements */,
 				916C09CA2B06153D008009C9 /* Scooper-App-Info.plist */,
+				91AC4F722B0F956E009CB7F6 /* GoogleService-Info.plist */,
 				91ABC2B72B05B93500676EC1 /* Views */,
 				91ABC2B42B05B8D700676EC1 /* ViewModels */,
 				91ABC2B32B05B6B800676EC1 /* Models */,
@@ -208,6 +232,10 @@
 			dependencies = (
 			);
 			name = "Scooper App";
+			packageProductDependencies = (
+				91E5482B2B0CF6C0004B54D7 /* FirebaseAuth */,
+				91E5482D2B0CF6C0004B54D7 /* FirebaseMessaging */,
+			);
 			productName = "Scooper App";
 			productReference = 91F794EE2AB39843000F6575 /* Scooper App.app */;
 			productType = "com.apple.product-type.application";
@@ -280,6 +308,9 @@
 				Base,
 			);
 			mainGroup = 91F794E52AB39843000F6575;
+			packageReferences = (
+				91E5482A2B0CF6C0004B54D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 91F794EF2AB39843000F6575 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -297,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				916C09CC2B0615AD008009C9 /* Launch Screen.storyboard in Resources */,
+				91AC4F732B0F956E009CB7F6 /* GoogleService-Info.plist in Resources */,
 				91F794F92AB39844000F6575 /* Preview Assets.xcassets in Resources */,
 				91F794F62AB39844000F6575 /* Assets.xcassets in Resources */,
 			);
@@ -323,18 +355,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				910ADF972B177847007FA57D /* StudentRemovalView.swift in Sources */,
 				91ABC2B62B05B8F800676EC1 /* ScooperViewModel.swift in Sources */,
 				91ABC2B12B05B5A000676EC1 /* Key.swift in Sources */,
 				91037E862B06C872000329BC /* SchedulingView.swift in Sources */,
 				91ABC2AB2B05B4D800676EC1 /* User.swift in Sources */,
 				91037E802B06B515000329BC /* MapView.swift in Sources */,
 				91ABC2AF2B05B55800676EC1 /* School.swift in Sources */,
+				918276A42B1643660082503A /* StudentProfileView.swift in Sources */,
 				91F794F42AB39843000F6575 /* ContentView.swift in Sources */,
+				918276A22B163BB10082503A /* StudentMenuView.swift in Sources */,
 				916C09C92B05FEB0008009C9 /* Loading Screen.swift in Sources */,
+				913E516B2B16877500269583 /* ProfileView.swift in Sources */,
 				91ABC2B92B05B95300676EC1 /* Dismissal.swift in Sources */,
 				91037E822B06BF08000329BC /* StudentDetails.swift in Sources */,
 				91037E842B06C4C9000329BC /* Menu.swift in Sources */,
 				91ABC2A92B05B45F00676EC1 /* ParentView.swift in Sources */,
+				91E548332B0D0286004B54D7 /* NotificationManager.swift in Sources */,
 				91ABC2AD2B05B52A00676EC1 /* Student.swift in Sources */,
 				91F794F22AB39843000F6575 /* Scooper_AppApp.swift in Sources */,
 			);
@@ -496,6 +533,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Scooper App/Scooper App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Scooper App/Preview Content\"";
@@ -503,6 +541,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Scooper-App-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -514,7 +553,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Ryheem-Heard.Scooper-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -527,6 +566,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Scooper App/Scooper App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Scooper App/Preview Content\"";
@@ -534,6 +574,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Scooper-App-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -545,7 +586,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Ryheem-Heard.Scooper-App";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Ryheem-Heard.Scooper-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -669,6 +710,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		91E5482A2B0CF6C0004B54D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.18.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		91E5482B2B0CF6C0004B54D7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91E5482A2B0CF6C0004B54D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		91E5482D2B0CF6C0004B54D7 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91E5482A2B0CF6C0004B54D7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 91F794E62AB39843000F6575 /* Project object */;
 }

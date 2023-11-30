@@ -35,6 +35,7 @@ struct Address: Codable, Identifiable {
 
 struct Parent: Codable, Identifiable {
     var id: String?
+    var key: String?
     var email, name, phone, relation: String
     var vehicle: Vehicle
 }

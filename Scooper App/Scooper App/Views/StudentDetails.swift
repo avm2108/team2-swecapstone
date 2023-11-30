@@ -66,6 +66,7 @@ struct StudentDetails: View {
                             .padding()
                             .border(.black)
                             .background(.white)
+                            .keyboardType(.alphabet)
                         
                         TextField("Last Name", text: $lname)
                             .padding()
@@ -76,8 +77,11 @@ struct StudentDetails: View {
                             .padding()
                             .border(.black)
                             .background(.white)
+                            .keyboardType(.numberPad)
                         
                         TextField("Email", text: $email)
+                            .textCase(.lowercase)
+                            .textInputAutocapitalization(.never)
                             .padding()
                             .border(.black)
                             .background(.white)
@@ -107,6 +111,7 @@ struct StudentDetails: View {
                                 .padding()
                                 .border(.black)
                                 .background(.white)
+                                .keyboardType(.numberPad)
                             
                             TextField("License Plate", text: $licensePlate)
                                 .padding()
@@ -162,6 +167,7 @@ struct StudentDetails: View {
                             .padding()
                             .border(.black)
                             .background(.white)
+                            .keyboardType(.numberPad)
                             
                         
                         Button {
@@ -205,11 +211,13 @@ struct StudentDetails: View {
                         .padding()
                         .border(.black)
                         .background(.white)
+                        .keyboardType(.numberPad)
                     
                     TextField("Grade", text: $grade)
                         .padding()
                         .border(.black)
                         .background(.white)
+                        .keyboardType(.numberPad)
                 }
                 .padding()
             }

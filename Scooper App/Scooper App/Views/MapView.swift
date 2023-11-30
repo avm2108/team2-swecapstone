@@ -28,7 +28,6 @@ struct MapView: View {
                 interactionModes: .all,
                 showsUserLocation: true)
             .ignoresSafeArea()
-            .ignoresSafeArea()
         }
     }
 }

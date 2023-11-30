@@ -15,7 +15,8 @@ struct ContentView: View {
     @State private var grade: String = ""
     @State private var isPresented: Bool = false
     @State private var showAlert = false
-    @ObservedObject private var vm: ScooperViewModel = ScooperViewModel()
+    @StateObject private var vm: ScooperViewModel = ScooperViewModel()
+    @StateObject private var notificationManager: NotificationManager = NotificationManager()
     
     var body: some View {
         NavigationStack {
@@ -50,11 +51,11 @@ struct ContentView: View {
                 ScrollView(.horizontal) {
                     
                     HStack {
-                        ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]) { item in
+                        ForEach(vm.students.sorted()) { item in
                             NavigationLink {
-                                ParentView(info: Student(id: item.id, name: item.name, birth: item.birth, address: Address(address: item.address.address, city: item.address.city, state: item.address.state, zipCode: item.address.zipCode, type: item.address.type), scooper: item.scooper, status: item.status, position: item.position, grade: item.grade, guardian: Parent(email: item.guardian.email, name: item.guardian.name, phone: item.guardian.phone, relation: item.guardian.relation, vehicle: Vehicle(color: item.guardian.vehicle.color, year: item.guardian.vehicle.year, model: item.guardian.vehicle.model, make: item.guardian.vehicle.make, licensePlate: item.guardian.vehicle.licensePlate))))
+                                ParentView(info: Vehicle(color: item.guardian.vehicle.color, year: item.guardian.vehicle.year, model: item.guardian.vehicle.model, make: item.guardian.vehicle.make, licensePlate: item.guardian.vehicle.licensePlate), id: item.id, guardianName: item.guardian.name)
                             } label: {
-                                if (item.scooper != "BUS") {
+                                if (item.scooper != "BUS" && item.position != 1000) {
                                     VStack {
                                         ZStack {
                                             Circle()
@@ -70,6 +71,10 @@ struct ContentView: View {
                                         Text(item.scooper)
                                             .font(.title3.bold())
                                             .foregroundStyle(Color.gray)
+                                        
+                                        Text("P:\(item.position)")
+                                            .font(.title.bold())
+                                        
                                     }
                                 }
                             }
@@ -102,8 +107,8 @@ struct ContentView: View {
                     List(content: {
                         
     //                        ACTIVE STUDENTS
-                        ForEach(vm.students?.sorted() ?? [Student(id: "", name: "", birth: "", address: Address(id: "", address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 1000, grade: "", guardian: Parent(id: "", email: "", name: "", phone: "", relation: "", vehicle: Vehicle(id: "", color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
-                            if (student.scooper != "BUS" && student.status) {
+                        ForEach(vm.students.sorted()) { student in
+                            if ((student.scooper != "BUS" && student.status) && student.position != 1000) {
                                 NavigationLink {
                                     Dismissal(grade: student.grade, name: student.name, id: student.id)
                                         .onDisappear {
@@ -133,6 +138,34 @@ struct ContentView: View {
                                             .font(.title2.bold())
                                     }
                                 }
+                            } else if (student.scooper != "BUS") {
+                                NavigationLink {
+                                    Dismissal(grade: student.grade, name: student.name, id: student.id)
+                                        .onDisappear {
+                                            Task(priority: .high) {
+                                                try await vm.getStudents()
+                                            }
+                                        }
+                                } label: {
+                                    HStack {
+                                        Circle()
+                                            .frame(width: 40, height: 40)
+                                            .foregroundStyle(Color.blue)
+                                        VStack(alignment: .leading) {
+                                            HStack {
+                                                Text(student.name )
+                                                    .font(.headline)
+                                                Circle()
+                                                    .frame(width: 5, height: 5)
+                                                    .foregroundStyle(Color.green)
+                                            }
+                                            Text(student.scooper )
+                                                .font(.subheadline)
+                                                .foregroundStyle(Color.gray.opacity(0.4))
+                                        }
+                                        Spacer()
+                                    }
+                                }
                             }
                         }
                         
@@ -140,7 +173,7 @@ struct ContentView: View {
                         
     //                        INACTIVE STUDENTS
                         Section {
-                            ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 1000, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
+                            ForEach(vm.students) { student in
                                 if (!student.status) {
                                     HStack {
                                         Circle()
@@ -167,7 +200,7 @@ struct ContentView: View {
                         
     //                        BUS RIDERS
                         Section {
-                            ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(id: "", address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 1000, grade: "", guardian: Parent(id: "", email: "", name: "", phone: "", relation: "", vehicle: Vehicle(id: "", color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
+                            ForEach(vm.students) { student in
                                 if (student.scooper == "BUS" && student.status) {
                                     NavigationLink {
                                         Dismissal(grade: student.grade , name: student.name , id: student.id)
@@ -224,9 +257,10 @@ struct ContentView: View {
         .onAppear(perform: {
             Task {
                 try await vm.getStudents()
+                await notificationManager.getStatus()
+                await notificationManager.requestPermissions()
             }
         })
-        .environmentObject(vm)
     }
 }
 

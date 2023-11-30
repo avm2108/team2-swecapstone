@@ -7,16 +7,16 @@
 
 import Foundation
 
+@MainActor
 final class ScooperViewModel: ObservableObject {
     @Published var secureKey: [Key]?
-    @Published var user: [User]?
     @Published var school: [School]?
-    @Published var students: [Student]?
+    @Published var students: [Student] = [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]
     @Published var isLoading = false
     
     
-    func getKey() async throws {
-        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/key") else {
+    func getKey(id: String) async throws {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/key/\(id)") else {
             fatalError("Missing URL")
         }
         
@@ -28,6 +28,9 @@ final class ScooperViewModel: ObservableObject {
         let decoder = JSONDecoder()
         let decoded = try decoder.decode([Key].self, from: data)
         self.secureKey = decoded
+        if let str = String(data: data, encoding: .utf8) {
+            print(str)
+        }
     }
     
 //    func getStudents() {
@@ -65,6 +68,20 @@ final class ScooperViewModel: ObservableObject {
 //        dataTask.resume()
 //    }
     
+    func searchStudent(id: String) async throws {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id)") else {
+            fatalError("Missing URL")
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode([Student].self, from: data)
+        self.students = decoded
+    }
+    
     func getStudents() async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student") else {
             fatalError("Missing URL")
@@ -78,6 +95,9 @@ final class ScooperViewModel: ObservableObject {
         let decoder = JSONDecoder()
         let decoded = try decoder.decode([Student].self, from: data)
         self.students = decoded
+//        if let str = String(data: data, encoding: .utf8) {
+//            print(str)
+//        }
     }
     
     
@@ -137,7 +157,42 @@ final class ScooperViewModel: ObservableObject {
         dataTask.resume()
     }
     
-    func updateStudent(id: String, parent: Parent = Parent(email: "Test", name: "Test", phone: "Test", relation: "Test", vehicle: Vehicle(id: "Test", color: "Test", year: "Test", model: "Test", make: "Test", licensePlate: "Test"))) {
+    func updateKey(id: String, key: String) {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/key/\(id)") else {
+            fatalError("Missing URL")
+        }
+                
+        let payload: [String: Any] = [
+            "guardian": [
+                "key": key
+            ]
+        ]
+
+        let jsonData = try? JSONSerialization.data(withJSONObject: payload)
+        
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
+        urlRequest.httpMethod = "PUT"
+        urlRequest.httpBody = jsonData
+        
+        let dataTask = URLSession.shared.uploadTask(with: urlRequest, from: jsonData) { (data, response, error) in
+            if let error = error {
+                print("Error making PUT request: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                print("server error")
+                return
+            }
+        }
+        dataTask.resume()
+    }
+    
+    
+    func updateStudent(id: String, parent: Parent = Parent(key: "", email: "Test", name: "Test", phone: "Test", relation: "Test", vehicle: Vehicle(id: "Test", color: "Test", year: "Test", model: "Test", make: "Test", licensePlate: "Test"))) {
         
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/parent/\(id)") else {
             fatalError("Missing URL")
@@ -146,6 +201,7 @@ final class ScooperViewModel: ObservableObject {
         let payload: [String: Any] = [
             "guardian": [
                 "email": parent.email,
+                "key": "",
                 "name": parent.name,
                 "phone": parent.phone,
                 "relation": parent.relation,
@@ -238,5 +294,42 @@ final class ScooperViewModel: ObservableObject {
             }
         }
         dataTask.resume()
+    }
+    
+    enum NetworkRequest: Error {
+        case badRequest
+    }
+    
+    func removeStudent(id: String) async throws {
+        
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id)") else {
+            fatalError("Missing URL")
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw NetworkRequest.badRequest }
+        if let str = String(data: data, encoding: .utf8) {
+            print(str)
+        }
+    }
+    
+    
+    
+    func removeFromQueue() async throws {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/queueManager") else {
+            fatalError("Missing URL")
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw NetworkRequest.badRequest }
+        if let str = String(data: data, encoding: .utf8) {
+            print(str)
+        }
     }
 }
