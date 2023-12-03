@@ -24,19 +24,19 @@ Scooper is a mobile application designed to address challenges associated with s
 Scooper's stakeholders consist of Iya (client), school administration, faculty, staff, parents, and the Scooper development team.
 
 # Testing Measures 
-- Scooper Parent (Android)
-Follow `kiran-scooper-staging` branch 
-Attached apk file in submission file can download the Android application.
+1. Scooper Parent (Android)
+- Follow `kiran-scooper-staging` branch 
+- Attached apk file in submission file can download the Android application.
 
-- Scooper Admin (Android)
-Follow `develop-code` branch
+2. Scooper Admin (Android)
+- Follow `develop-code` branch
 
-- iOS Scooper
-Follow `iOS ` branch instructions
+3. iOS Scooper
+- Follow `iOS ` branch instructions
 
-- General testing instructions:
-https://scooper-df18f.web.app
-You can login with user@test.com: qwerty or kiran@test.com: 123456
+4. General testing instructions:
+- https://scooper-df18f.web.app
+- You can login with user@test.com: qwerty or kiran@test.com: 123456
 
 
 # Building and Running Application
