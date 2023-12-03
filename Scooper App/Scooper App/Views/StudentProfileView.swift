@@ -13,7 +13,7 @@ struct StudentProfileView: View {
     
     var body: some View {
         List {
-            ForEach(vm.students ?? [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]) { student in
+            ForEach(vm.students) { student in
                 
                 
                 NavigationLink {

@@ -30,7 +30,7 @@ struct Student: Codable, Identifiable, Comparable {
 struct Address: Codable, Identifiable {
     var id: String?
     var address, city, state, zipCode: String
-    var type: String
+    var type: String?
 }
 
 struct Parent: Codable, Identifiable {

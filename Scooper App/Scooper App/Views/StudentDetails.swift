@@ -35,6 +35,34 @@ struct StudentDetails: View {
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
     @Environment(\.dismiss) var dismiss
     
+    var isFilled: Bool {
+        studentFname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        studentLname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        studentID.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        address.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        city.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        state.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        zipCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        grade.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
+    var isFilledParent: Bool {
+        fname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        lname.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        phone.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        email.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        relation.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        zipCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        vehicleColor.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        vehicleYear.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        vehicleModel.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        vehicleMake.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        licensePlate.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+    
+    @State private var showAlert = false
+    @State private var showAlert2 = false
+    
     var body: some View {
         VStack {
             HStack {
@@ -55,7 +83,7 @@ struct StudentDetails: View {
                         .padding()
                 }
             }
-            .popover(isPresented: $isPresented, content: {
+            .fullScreenCover(isPresented: $isPresented, content: {
                 VStack {
                     ScrollView(.vertical) {
                         Text("Add Guardian")
@@ -123,14 +151,28 @@ struct StudentDetails: View {
                                 .foregroundStyle(.black)
                         }
                     }
+                    .padding()
+                    .alert("Empty Fields", isPresented: $showAlert2, actions: {
+                        Button("OK") {
+                            showAlert2 = false
+                        }
+                    }, message: {
+                        Text("Must filled in all inforamtion.")
+                    })
+                    
+
                     
                     Spacer()
                     
                     Button {
-                        vm.updateStudent(id: studentID, parent: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate)))
-                        isPresented = false
-                        reset()
-                        self.dismiss.callAsFunction()
+                        if isFilledParent {
+                            showAlert2 = true
+                        } else {
+                            vm.updateStudent(id: studentID, parent: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate)))
+                            isPresented = false
+                            reset()
+                            self.dismiss.callAsFunction()
+                        }
                     } label: {
                         Text("Submit")
                     }
@@ -143,14 +185,12 @@ struct StudentDetails: View {
                     .cornerRadius(10)
                     .padding()
                 }
-                .padding()
             })
             .background(Color("scooperGreen"))
             
             Spacer()
             
             ScrollView(.vertical) {
-                
                 VStack(spacing: 20) {
                     TextField("First Name", text: $studentFname)
                         .padding()
@@ -221,13 +261,24 @@ struct StudentDetails: View {
                 }
                 .padding()
             }
-
+            .alert("Empty Fields", isPresented: $showAlert, actions: {
+                Button("OK") {
+                    showAlert = false
+                }
+            }, message: {
+                Text("Must filled in all inforamtion.")
+            })
+            
             Button {
-                let dateFomatter = DateFormatter()
-                dateFomatter.dateStyle = .short
-                self.birth = dateFomatter.string(from: birthdate)
-                vm.addStudent(student: Student(id: studentID, name: studentFname + " " + studentLname, birth: birth, address: Address(address: address, city: city, state: state, zipCode: zipCode, type: type), scooper: fname + " " + lname, status: true, position: 0, grade: grade, guardian: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate))))
-                isPresented = true
+                if isFilled {
+                    showAlert = true
+                } else {
+                    let dateFomatter = DateFormatter()
+                    dateFomatter.dateStyle = .short
+                    self.birth = dateFomatter.string(from: birthdate)
+                    vm.addStudent(student: Student(id: studentID, name: studentFname + " " + studentLname, birth: birth, address: Address(address: address, city: city, state: state, zipCode: zipCode, type: type), scooper: fname + " " + lname, status: true, position: 0, grade: grade, guardian: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate))))
+                    isPresented = true
+                }
             } label: {
                 Text("Add")
             }
@@ -239,6 +290,7 @@ struct StudentDetails: View {
             .clipShape(Rectangle())
             .cornerRadius(10)
             .padding()
+
         }
         .frame(maxWidth: .infinity)
         .background(Color.gray.opacity(0.2))
@@ -265,6 +317,20 @@ struct StudentDetails: View {
         self.email = ""
         self.relation = ""
         self.studentID = ""
+    }
+}
+
+extension String {
+    func applyPatternOnNumbers(pattern: String, replacementCharacter: Character) -> String {
+        var pureNumber = self.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
+        for index in 0 ..< pattern.count {
+            guard index < pureNumber.count else { return pureNumber }
+            let stringIndex = String.Index(utf16Offset: index, in: pattern)
+            let patternCharacter = pattern[stringIndex]
+            guard patternCharacter != replacementCharacter else { continue }
+            pureNumber.insert(patternCharacter, at: stringIndex)
+        }
+        return pureNumber
     }
 }
 

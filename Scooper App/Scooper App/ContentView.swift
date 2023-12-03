@@ -138,7 +138,7 @@ struct ContentView: View {
                                             .font(.title2.bold())
                                     }
                                 }
-                            } else if (student.scooper != "BUS") {
+                            } else if (student.scooper != "BUS" && student.status) {
                                 NavigationLink {
                                     Dismissal(grade: student.grade, name: student.name, id: student.id)
                                         .onDisappear {
@@ -254,9 +254,14 @@ struct ContentView: View {
                 }
             })
         }
-        .onAppear(perform: {
+        .onReceive(vm.$students, perform: { newValue in
             Task {
                 try await vm.getStudents()
+            }
+        })
+        .onAppear(perform: {
+            Task {
+//                try await vm.getStudents()
                 await notificationManager.getStatus()
                 await notificationManager.requestPermissions()
             }

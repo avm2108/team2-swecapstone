@@ -42,7 +42,12 @@ extension AppDelegate: MessagingDelegate {
         
         let deviceToken:[String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: deviceToken)
-//        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+        
+        Messaging.messaging().subscribe(toTopic: "scooper") {error in
+            print("Subscribed to scooper")
+        }
+        
+        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
     }
 }
 
@@ -63,6 +68,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
+        
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
