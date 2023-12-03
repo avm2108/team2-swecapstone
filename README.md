@@ -1,24 +1,24 @@
 # SWE7903 Software Engineering Capstone
 
 ## Team 2 Introduction 
-Iya Massah - Product Owner
-Alexis McNeill - Team Lead
-Milly Namukasa - Scrum Master
-Ryheem Heard - iOS & Backend Developer
-Kiran Kumar Burugu - Android Developer
-Gabriel Peret Pimentel - Android Developer
+- Iya Massah - Product Owner
+- Alexis McNeill - Team Lead
+- Milly Namukasa - Scrum Master
+- Ryheem Heard - iOS & Backend Developer
+- Kiran Kumar Burugu - Android Developer
+- Gabriel Peret Pimentel - Android Developer
 
 ## Project Description 
 
 Scooper is a mobile application designed to address challenges associated with school drop off and pick up. Scooper will function seamlessly across different devices and platforms including mobile devices and desktops.
 
 ## Technology Stack 
-Communication: Microsoft Teams
-Project Management: Trello
-Version Control: GitHub
-Frontend: Swift, React, JavaScript
-Database: Firebase
-External APIs: Core Location (Geofencing)
+- Communication: Microsoft Teams
+- Project Management: Trello
+- Version Control: GitHub
+- Frontend: Swift, React, JavaScript
+- Database: Firebase
+- External APIs: Core Location (Geofencing)
 
 ## Stakeholders
 Scooper's stakeholders consist of Iya (client), school administration, faculty, staff, parents, and the Scooper development team.
