@@ -1,18 +1,21 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-import {View, Image} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Auth, Protected} from './src/stacks';
-import {navigationRef} from './src/utils/rootNavigation';
+import { View, Image, Alert } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Auth, Protected } from './src/stacks';
+import { navigationRef } from './src/utils/rootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // @ts-ignore
 import ScooperImage from './src/assets/scooper.png';
-import {Provider} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
-import {store, persistor} from './src/redux/store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './src/redux/store';
 import firebaseAuth from '@react-native-firebase/auth';
 import General from './src/stacks/general';
+
+import { getDocuments } from './src/utils/firebaseFunctions';
+
 
 const Stack = createStackNavigator();
 export const AuthContext = React.createContext(null);
@@ -63,7 +66,7 @@ function App(): JSX.Element {
 
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({type: 'RESTORE_TOKEN', token: token});
+      dispatch({ type: 'RESTORE_TOKEN', token: token });
     };
 
     bootstrapAsync();
@@ -73,33 +76,48 @@ function App(): JSX.Element {
     () => ({
       signIn: async (payload: any) => {
         try {
-          console.log('🚀 ~ file: App.tsx:82 ~ signIn: ~ payload:', payload);
-
-          // Users can both register and sign in using a method called createUserWithEmailAndPassword
-          // sign in to an existing account with signInWithEmailAndPassword
-          const firebaseResponse =
-            await firebaseAuth().signInWithEmailAndPassword(
-              payload.email,
-              payload.password,
-            );
-
-          console.log(
-            'User account created & signed in!',
-            JSON.stringify(firebaseResponse, null, 2),
-          );
-          await AsyncStorage.setItem(
-            '@user_email',
-            JSON.stringify(firebaseResponse?.user?.email),
-          );
-          await AsyncStorage.setItem(
-            '@access_token',
-            firebaseResponse?.user?.uid,
-          );
-
-          dispatch({type: 'SIGN_IN', token: firebaseResponse?.user?.uid});
-          return firebaseResponse;
-          // }
-        } catch (error) {
+          const snapshot = await getDocuments({collectionName: 'users'});
+          if (snapshot.length) {
+            // Assuming you only want one record; if there are multiple, you might need to iterate over the docs
+            const firebaseResponse = snapshot.filter((obj: any) => obj.email === payload.email && obj.password === payload.password)?.[0];
+            if(firebaseResponse) {
+              if(firebaseResponse.password !== payload.password) {
+                return {
+                  success: false,
+                  errorType: 'no_user',
+                  message: 'No User exist with the details',
+                };
+              }
+              console.log(
+                'User account created & signed in!',
+                JSON.stringify(snapshot, null, 2),
+              );
+              await AsyncStorage.setItem(
+                '@user_email',
+                JSON.stringify(firebaseResponse?.email),
+              );
+              await AsyncStorage.setItem(
+                '@access_token',
+                firebaseResponse?.uid,
+              );
+              dispatch({ type: 'SIGN_IN', token: firebaseResponse?.uid });
+              return {...firebaseResponse, success: true};
+            } else {
+              return {
+                success: false,
+                errorType: 'no_user',
+                message: 'No User exist with the details',
+              };
+            }
+            
+          } else {
+            return {
+              success: false,
+              errorType: 'no_user',
+              message: 'No User exist with the details',
+            };
+          }
+        } catch (error: any) {
           console.log('🚀 ~ file: App.tsx:78 ~ signIn: ~ error:', error.code);
 
           if (error.code === 'auth/email-already-in-use') {
@@ -130,18 +148,12 @@ function App(): JSX.Element {
             };
           }
 
-          return {success: false, message: 'Something went wrong'};
+          return { success: false, message: 'Something went wrong' };
         }
       },
       signOut: async () => {
         await AsyncStorage.clear();
-        const firebaseResponse = await firebaseAuth().signOut();
-        console.log(
-          '🚀 ~ file: App.tsx:140 ~ signOut: ~ firebaseResponse:',
-          JSON.stringify(firebaseResponse, null, 2),
-        );
-
-        dispatch({type: 'SIGN_OUT'});
+        dispatch({ type: 'SIGN_OUT' });
       },
       signUp: async () => {
         // In a production app, we need to send user data to server and get a token
@@ -149,7 +161,7 @@ function App(): JSX.Element {
         // After getting token, we need to persist the token using `SecureStore` or any other encrypted storage
         // In the example, we'll use a dummy token
 
-        dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'});
+        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
     }),
     [],
@@ -166,7 +178,7 @@ function App(): JSX.Element {
               {state.isLoading ? (
                 <Stack.Screen
                   name="Splash"
-                  options={{headerShown: false}}
+                  options={{ headerShown: false }}
                   component={SplashScreen}
                 />
               ) : state.userToken === null || state.userToken === undefined ? (
@@ -183,13 +195,13 @@ function App(): JSX.Element {
                 <Stack.Screen
                   name="Protected"
                   component={Protected}
-                  options={{headerShown: false}}
+                  options={{ headerShown: false }}
                 />
               )}
               <Stack.Screen
                 name="General"
                 component={General}
-                options={{headerShown: false}}
+                options={{ headerShown: false }}
               />
             </Stack.Navigator>
           </NavigationContainer>
@@ -208,7 +220,7 @@ function SplashScreen() {
         justifyContent: 'center',
         backgroundColor: 'white',
       }}>
-      <Image source={ScooperImage} style={{height: 150, width: 150}} />
+      <Image source={ScooperImage} style={{ height: 150, width: 150 }} />
     </View>
   );
 }

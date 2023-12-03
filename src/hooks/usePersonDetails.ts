@@ -1,38 +1,35 @@
 import {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
 
 export function usePersonDetails() {
   const [personData, setPersonData] = useState<any>(null);
 
   useEffect(() => {
-    const personRef = firestore().collection('person');
+    const fetchRecord = async () => {
+      try {
+        // Assuming 'yourCollection' is the name of your Firestore collection
+        const token = await AsyncStorage.getItem('@access_token');
+        console.log(token, 'token');
+        const snapshot = await firestore()
+          .collection('users')
+          .where('uid', '==', token)
+          .get();
 
-    // .doc(currentUser.uid);
-    personRef.onSnapshot(querySnapshot => {
-      querySnapshot?.forEach(documentSnapshot => {
-        const personDetails = documentSnapshot.data();
-        personDetails.id = documentSnapshot.id;
-        const finalPrefillableData = preparePayload(personDetails);
-        setPersonData(finalPrefillableData ? finalPrefillableData : null);
-      });
-    });
-
-    // const init = async () => {
-    //   const response = await getDocumentById({
-    //     collectionName: 'person',
-    //   });
-    //   console.log(
-    //     '🚀 ~ file: AddOrUpdateScoopUpMember.tsx:58 ~ useEffect ~ response:',
-    //     response,
-    //   );
-    //   const finalPrefillableData = preparePayload(response);
-    //   console.log(
-    //     '🚀 ~ file: Profile.tsx:148 ~ init ~ finalPrefillableData:',
-    //     finalPrefillableData,
-    //   );
-    //   setPersonData(finalPrefillableData);
-    // };
-    // init();
+        if (!snapshot.empty) {
+          // Assuming you only want one record; if there are multiple, you might need to iterate over the docs
+          const personData = snapshot.docs[0].data();
+          setPersonData(personData);
+        } else {
+          Alert.alert('No User found ... Please logout and login again');
+          return;
+        }
+      } catch (error) {
+        Alert.alert('Something went wrong please try again');
+      }
+    };
+    fetchRecord();
   }, []);
 
   return {personData};

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Alert, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {Layout} from './Layout';
 import {STYLES} from '../../constants/styles';
@@ -7,7 +7,6 @@ import {Card} from '../../components/general/Card';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native';
 import {Button} from '../../components';
-import {addDataToFirestore} from '../../utils/firebaseFunction';
 
 export default function AddScoopupMemberWithDrawer({route}: any) {
   return <ScoopUpMemberForm info={route?.params?.data} />;
@@ -31,20 +30,12 @@ function ScoopUpMemberForm({info}: any) {
   );
 }
 
-const PersonalInformation = () => {
-  const [prefilledData, setPrefilledData] = useState({
-    first_name: '',
-    last_name: '',
-    phone_number: '',
-    relation: '',
-    vehicle: {
-      color: '',
-      license_color: '',
-      model: '',
-      year: '',
-      user_picture: '',
-    },
-  });
+const PersonalInformation = ({info}: any) => {
+  const [prefilledData, setPrefilledData] = useState(() => info);
+
+  useEffect(() => {
+    setPrefilledData(info);
+  }, [info]);
 
   const handleChange = (path: any, value: any) => {
     setPrefilledData((prevState: any) => {
@@ -67,22 +58,7 @@ const PersonalInformation = () => {
     });
   };
 
-  const navigation = useNavigation();
-
-  const handleSave = async () => {
-    const payload = {
-      ...prefilledData,
-    };
-
-    const response = await addDataToFirestore({
-      collectionName: 'scoop_up_member',
-      payload,
-    });
-    if (response) {
-      Alert.alert('Scoop Up Member Added Successfully');
-      navigation.canGoBack() ? navigation.goBack() : null;
-    }
-  };
+  const handleSave = () => {};
 
   return (
     <Card
@@ -119,14 +95,16 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'First Name'}
-            handleChange={(value: string) => handleChange('first_name', value)}
-            inputFieldValue={prefilledData?.first_name}
+            handleChange={(value: string) => handleChange('phone', value)}
+            inputFieldValue={prefilledData?.phone}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Last Name'}
-            handleChange={(value: string) => handleChange('last_name', value)}
-            inputFieldValue={prefilledData?.last_name}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_model.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_model?.value}
           />
         </View>
         <View
@@ -138,14 +116,16 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Phone Number'}
-            handleChange={(value: string) => handleChange('phone', value)}
-            inputFieldValue={prefilledData?.phone}
+            handleChange={(value: string) => handleChange('email', value)}
+            inputFieldValue={prefilledData?.email}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Relation'}
-            handleChange={(value: string) => handleChange('relation', value)}
-            inputFieldValue={prefilledData?.relation}
+            handleChange={(value: string) =>
+              handleChange('vehicleInfo.vehicle_year.value', value)
+            }
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_year?.value}
           />
         </View>
         <View
@@ -157,18 +137,16 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            handleChange={(value: string) =>
-              handleChange('vehicle.model', value)
-            }
-            inputFieldValue={prefilledData?.vehicle?.model}
+            handleChange={(value: string) => handleChange('gender', value)}
+            inputFieldValue={prefilledData?.gender}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'License Plate'}
             handleChange={(value: string) =>
-              handleChange('vehicle.license_plate', value)
+              handleChange('vehicleInfo.vehicle_color.value', value)
             }
-            inputFieldValue={prefilledData?.vehicle?.license_plate}
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
           />
         </View>
         <View
@@ -180,18 +158,16 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Year'}
-            handleChange={(value: string) =>
-              handleChange('vehicle.year', value)
-            }
-            inputFieldValue={prefilledData?.vehicle?.year}
+            handleChange={(value: string) => handleChange('gender', value)}
+            inputFieldValue={prefilledData?.gender}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Vehicle Color'}
+            title={'License Color'}
             handleChange={(value: string) =>
-              handleChange('vehicle.color', value)
+              handleChange('vehicleInfo.vehicle_color.value', value)
             }
-            inputFieldValue={prefilledData?.vehicle?.color}
+            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
           />
         </View>
         <View
@@ -203,10 +179,8 @@ const PersonalInformation = () => {
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'User Picture'}
-            handleChange={(value: string) =>
-              handleChange('vehicle.user_picture', value)
-            }
-            inputFieldValue={prefilledData?.vehicle?.user_picture}
+            handleChange={(value: string) => handleChange('gender', value)}
+            inputFieldValue={prefilledData?.gender}
           />
           <View style={{flex: 1 / 2}} />
           {/* 
@@ -238,7 +212,7 @@ const PersonalInformation = () => {
               paddingVertical: 0,
             }}
             title="Save"
-            onPress={handleSave}
+            onPress={() => {}}
             textStyles={{fontSize: 14, fontFamily: 'Nunito-SemiBold'}}
             // processing={isApiCalling}
           />
@@ -285,7 +259,7 @@ const TitleWithInputField = ({
         {title}
       </Text>
       <TextInput
-        onChangeText={handleChange}
+        onChange={handleChange}
         style={{
           paddingHorizontal: 7,
           height: 18,

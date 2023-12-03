@@ -13,11 +13,6 @@ import {useNavigation} from '@react-navigation/native';
 
 export default function Register() {
   const navigation = useNavigation();
-  const handleSubmit = async () => {
-    try {
-    } catch (error) {}
-  };
-
   return (
     <AuthScreenWrapper showBackArrowIcon={false}>
       <View
@@ -66,51 +61,6 @@ export default function Register() {
 
         <RegisterForm />
 
-        <View style={{alignItems: 'center'}}>
-          <Button
-            color={STYLES.greenColor}
-            wrapperStyle={{
-              marginTop: 16,
-              height: 33,
-              width: 190,
-              paddingVertical: 8,
-            }}
-            title="Register"
-            onPress={handleSubmit}
-            textStyles={{fontSize: 12, fontFamily: 'Nunito-Bold'}}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingTop: 10,
-              marginBottom: 24,
-            }}>
-            <Text
-              // @ts-ignore
-              style={{
-                color: STYLES.lightGreenColor,
-                fontSize: 10,
-                textAlign: 'center',
-                fontFamily: 'Nunito-Bold',
-              }}>
-              Incorrect Information?{' '}
-            </Text>
-            <TouchableOpacity>
-              <Text
-                // @ts-ignore
-                style={{
-                  color: STYLES.lightGreenColor,
-                  fontSize: 10,
-                  fontFamily: 'Nunito-Bold',
-                  textAlign: 'center',
-                  textDecorationLine: 'underline',
-                }}>
-                Contact School
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
       </View>
     </AuthScreenWrapper>
   );

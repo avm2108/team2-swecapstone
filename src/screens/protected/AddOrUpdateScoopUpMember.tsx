@@ -12,6 +12,8 @@ import {
   updateDocument,
 } from '../../utils/firebaseFunctions';
 import {TitleWithInputField} from './EditProfile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isObjectNotEmpty } from '../../utils/utils';
 
 export default function AddOrUpdateScoopUpMember({route}: any) {
   return <ScoopUpMemberForm scooperId={route?.params?.scooperId} />;
@@ -38,16 +40,27 @@ function ScoopUpMemberForm({scooperId}: any) {
 const PersonalInformation = ({scooperId}: any) => {
   const [prefilledData, setPrefilledData] = useState({
     first_name: '',
+    gender: '',
     last_name: '',
-    phone_number: '',
-    relation: '',
+    phone: '',
+    child_relation: '',
+    user_picture: '',
+    uid: '',
     vehicle: {
-      color: '',
-      license_color: '',
-      model: '',
-      year: '',
-      user_picture: '',
+      model: {
+        value: '',
+      },
+      color: {
+        value: '',
+      },
+      year: {
+        value: '',
+      },
+      plate: {
+        value: '',
+      },
     },
+    role: "SCOOP_MEMBER"
   });
 
   useEffect(() => {
@@ -59,7 +72,9 @@ const PersonalInformation = ({scooperId}: any) => {
       const finalPrefillableData = preparePayload(response);
       setPrefilledData(finalPrefillableData);
     };
-    init();
+    if(scooperId) {
+      init();
+    }
   }, [scooperId]);
 
   const handleChange = (path: any, value: any) => {
@@ -91,6 +106,22 @@ const PersonalInformation = ({scooperId}: any) => {
         ...prefilledData,
       };
 
+      const uid = (await AsyncStorage.getItem('@access_token')) ?? '';
+
+      if(uid) {
+        payload.uid = uid;
+      } else {
+        Alert.alert('User ID not found ... Login and try again');
+      }
+
+      const temp = Object.assign({...prefilledData});
+      delete temp.user_picture;
+      delete temp.uid;
+      const isNotEmpty = isObjectNotEmpty(temp);
+      if (!isNotEmpty) {
+        Alert.alert('Fill mandatory fields');
+        return;
+      }
       console.log(
         '🚀 ~ file: AddOrUpdateScoopUpMember.tsx:79 ~ handleSave ~ scooperId:',
         scooperId,
@@ -107,7 +138,7 @@ const PersonalInformation = ({scooperId}: any) => {
         );
         if (updatedResponse) {
           Alert.alert('Scoop Up Member Updated Successfully');
-          return navigation.canGoBack() ? navigation.goBack() : null;
+          navigation.canGoBack() ? navigation.goBack() : null;
         }
         return;
       }
@@ -118,7 +149,8 @@ const PersonalInformation = ({scooperId}: any) => {
       });
       if (response) {
         Alert.alert('Scoop Up Member Added Successfully');
-        return navigation.canGoBack() ? navigation.goBack() : null;
+        navigation.canGoBack() ? navigation.goBack() : null;
+        return;
       }
     } catch (error) {
       Alert.alert('Oops! Something went wrong');
@@ -181,15 +213,40 @@ const PersonalInformation = ({scooperId}: any) => {
             title={'Phone Number'}
             keyboardType="numeric"
             handleChange={(value: string) =>
-              handleChange('phone_number', value)
+              handleChange('phone', value)
             }
-            inputFieldValue={prefilledData?.phone_number}
+            inputFieldValue={prefilledData?.phone}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Relation'}
-            handleChange={(value: string) => handleChange('relation', value)}
-            inputFieldValue={prefilledData?.relation}
+            handleChange={(value: string) => handleChange('child_relation', value)}
+            inputFieldValue={prefilledData?.child_relation}
+          />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <TitleWithInputField
+            style={{flex: 1 / 2}}
+            title={'User Picture'}
+            handleChange={(value: string) =>
+              handleChange('user_picture', value)
+            }
+            inputFieldValue={prefilledData?.user_picture}
+          />
+          {/* <View style={{flex: 1 / 2}} /> */}
+          
+          <TitleWithInputField
+            style={{flex: 1 / 2}}
+            title={'Gender'}
+            handleChange={(value: string) =>
+              handleChange('gender', value)
+            }
+            inputFieldValue={prefilledData?.gender}
           />
         </View>
         <View
@@ -202,17 +259,17 @@ const PersonalInformation = ({scooperId}: any) => {
             style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
             handleChange={(value: string) =>
-              handleChange('vehicle.model', value)
+              handleChange('vehicle.model.value', value)
             }
-            inputFieldValue={prefilledData?.vehicle?.model}
+            inputFieldValue={prefilledData?.vehicle?.model?.value}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'License Plate'}
             handleChange={(value: string) =>
-              handleChange('vehicle.license_plate', value)
+              handleChange('vehicle.plate.value', value)
             }
-            inputFieldValue={prefilledData?.vehicle?.license_plate}
+            inputFieldValue={prefilledData?.vehicle?.plate?.value}
           />
         </View>
         <View
@@ -226,44 +283,20 @@ const PersonalInformation = ({scooperId}: any) => {
             title={'Vehicle Year'}
             keyboardType="numeric"
             handleChange={(value: string) =>
-              handleChange('vehicle.year', value)
+              handleChange('vehicle.year.value', value)
             }
-            inputFieldValue={prefilledData?.vehicle?.year}
+            inputFieldValue={prefilledData?.vehicle?.year?.value}
           />
           <TitleWithInputField
             style={{flex: 1 / 2}}
             title={'Vehicle Color'}
             handleChange={(value: string) =>
-              handleChange('vehicle.color', value)
+              handleChange('vehicle.color.value', value)
             }
-            inputFieldValue={prefilledData?.vehicle?.color}
+            inputFieldValue={prefilledData?.vehicle?.color?.value}
           />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
-            title={'User Picture'}
-            handleChange={(value: string) =>
-              handleChange('vehicle.user_picture', value)
-            }
-            inputFieldValue={prefilledData?.vehicle?.user_picture}
-          />
-          <View style={{flex: 1 / 2}} />
-          {/* 
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
-            title={'License Color'}
-            handleChange={(value: string) =>
-              handleChange('vehicleInfo.vehicle_color.value', value)
-            }
-            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
-          /> */}
-        </View>
+  
 
         <View
           style={{
@@ -317,16 +350,27 @@ function preparePayload(payload: any) {
   // Define default values for missing keys
   const defaultValues = {
     first_name: '',
+    gender: '',
     last_name: '',
-    phone_number: '',
-    relation: '',
+    phone: '',
+    child_relation: '',
+    user_picture: '',
+    uid: '',
     vehicle: {
-      color: '',
-      license_color: '',
-      model: '',
-      year: '',
-      user_picture: '',
+      model: {
+        value: '',
+      },
+      color: {
+        value: '',
+      },
+      year: {
+        value: '',
+      },
+      plate: {
+        value: '',
+      },
     },
+    role: "SCOOP_MEMBER"
   };
 
   // Iterate through the default values and add missing keys to the payload

@@ -19,6 +19,7 @@ import {ParentCard} from './Settings';
 import {CustomImage} from '../../components/general/CustomImage';
 import {usePersonDetails} from '../../hooks/usePersonDetails';
 import {FamilyListHorizontalInformation} from './EditProfile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Drawer = createDrawerNavigator();
 
@@ -176,7 +177,7 @@ const PersonalInformation = () => {
           <TitleWithSubText
             style={{flex: 1 / 2}}
             title={'Vehicle Make/Model'}
-            subtitle={personData ? personData?.vehicle?.model : 'N/A'}
+            subtitle={personData ? personData?.vehicle?.model?.value : 'N/A'}
           />
         </View>
         <View
@@ -193,7 +194,7 @@ const PersonalInformation = () => {
           <TitleWithSubText
             style={{flex: 1 / 2}}
             title={'Vehicle Year'}
-            subtitle={personData ? personData?.vehicle?.year : 'N/A'}
+            subtitle={personData ? personData?.vehicle?.year?.value : 'N/A'}
           />
         </View>
         <View
@@ -210,7 +211,7 @@ const PersonalInformation = () => {
           <TitleWithSubText
             style={{flex: 1 / 2}}
             title={'Vehicle Color'}
-            subtitle={personData ? personData?.vehicle?.color : 'N/A'}
+            subtitle={personData ? personData?.vehicle?.color?.value : 'N/A'}
           />
         </View>
       </View>
@@ -255,21 +256,25 @@ const ScoopUpTeamList = () => {
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    const scoopUpMembersRef = firestore().collection('scoop_up_member');
-
-    const unsubscribe = scoopUpMembersRef.onSnapshot(querySnapshot => {
-      const data: any = [];
-      if (!querySnapshot) {
-        return;
-      }
-      querySnapshot?.forEach(documentSnapshot => {
-        data.push({id: documentSnapshot.id, ...documentSnapshot.data()});
-      });
-      setList(data);
-    });
-    return () => unsubscribe();
+    init();
   }, []);
 
+  const init = async () => {
+    const uid = await AsyncStorage.getItem('@access_token');
+    const scoopUpMembersRef = await firestore().collection('scoop_up_member')
+    .where('uid', "==", uid).get();
+    if(!scoopUpMembersRef.empty) {
+      const querySnapshot = scoopUpMembersRef.docs;
+      const data: any = [];
+        console.log(querySnapshot, 'querySnapshot');
+        querySnapshot?.forEach(documentSnapshot => {
+          data.push({id: documentSnapshot.id, ...documentSnapshot.data()});
+        });
+        setList(data);
+    } else {
+      setList([])
+    }
+  }
   const toggleShowInfo = useCallback(
     (id: any) => {
       setList((prevList: any) => {
@@ -331,14 +336,14 @@ const ScoopUpTeamList = () => {
                 }}
                 image={
                   <CustomImage
-                    imageUrl={familyMember?.vehicle?.user_picture}
+                    imageUrl={familyMember?.user_picture}
                     imageStyles={{height: 40, width: 40}}
                   />
                 }
                 info={
                   <PersonInfo
                     name={familyMember?.first_name}
-                    relation={familyMember?.relation}
+                    relation={familyMember?.child_relation}
                   />
                 }
               />
@@ -355,8 +360,9 @@ const ScoopUpTeamList = () => {
             {familyMember?.isSelected ? (
               <ScoopUpTeamInfo
                 id={familyMember?.id || index}
-                vehicleInfo={familyMember}
+                vehicleInfo={familyMember?.vehicle}
                 allInfo={familyMember}
+                scoopUpDeleteCallback={() => init()}
               />
             ) : null}
           </View>

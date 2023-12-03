@@ -7,7 +7,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {deleteDocument} from '../../../utils/firebaseFunctions';
 
-export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
+export function ScoopUpTeamInfo({id,allInfo, scoopUpDeleteCallback}: any) {
   const navigation = useNavigation();
   const handleEdit = (scooperId: any) => {
     // @ts-ignore
@@ -30,6 +30,7 @@ export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
       '🚀 ~ file: ScoopUpTeamInfo.tsx:26 ~ handleDelete ~ response:',
       response,
     );
+    navigation.canGoBack() ? navigation.goBack() : null;
     Alert.alert('Scoop Up Member deleted successfully');
   };
   return (
@@ -49,13 +50,13 @@ export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
         <TitleWithSubText
           style={{flex: 1 / 3}}
           title={'Model'}
-          subtitle={vehicleInfo?.vehicle?.model}
+          subtitle={allInfo?.vehicle?.model?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <TitleWithSubText
           style={{flex: 1 / 3}}
           title={'Color'}
-          subtitle={vehicleInfo?.vehicle?.color}
+          subtitle={allInfo?.vehicle?.color?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <View style={{flex: 1 / 3, alignItems: 'flex-end'}}>
@@ -70,14 +71,14 @@ export function ScoopUpTeamInfo({id, vehicleInfo, allInfo}: any) {
         <TitleWithSubText
           style={{flex: 1 / 3}}
           title={'Year'}
-          subtitle={vehicleInfo?.vehicle?.year}
+          subtitle={allInfo?.vehicle?.year?.value}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
 
         <TitleWithSubText
           style={{flex: 1 / 3}}
           title={'Phone Number'}
-          subtitle={vehicleInfo?.phone_number}
+          subtitle={allInfo?.phone}
           subTitleStyle={{color: STYLES.lightGreenColor}}
         />
         <View style={{flex: 1 / 3, alignItems: 'flex-end'}}>

@@ -63,6 +63,7 @@ export default function LoginWithEmailAndPassword() {
 
           const apiPasswordError = response.errorType === 'both';
 
+          const noUser = response.errorType === 'no_user';
           if (apiEmailError) {
             console.log('apiEmailError: ', apiEmailError);
             setPasswordError('');
@@ -73,6 +74,9 @@ export default function LoginWithEmailAndPassword() {
             console.log('apiPasswordError: ', apiPasswordError);
             setEmailError('');
             //@ts-ignore
+            setPasswordError(response?.message);
+            setIsApiCalling(false);
+          } else if(noUser) {
             setPasswordError(response?.message);
             setIsApiCalling(false);
           }

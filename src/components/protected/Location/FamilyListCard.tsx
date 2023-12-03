@@ -1,17 +1,33 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {LoveOutlineIcon} from '../../../svgs';
 import {STYLES} from '../../../constants/styles';
 import {CustomImage} from '../../general/CustomImage';
-import {useGetFamilyList} from '../../../hooks/useGetFamilyList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 
 export const FamilyListCard = () => {
-  const {familyList} = useGetFamilyList();
-  // console.log(
-  //   '🚀 ~ file: FamilyListCard.tsx:11 ~ FamilyListCard ~ familyList:',
-  //   familyList,
-  // );
+  const [familyList, setFamilyList] = useState<any>([]);
+  useEffect(() => {
+    const init = async () => {
+      const uid = await AsyncStorage.getItem('@access_token')
+      const snapshot = await firestore().collection('scoop_up_member').where('uid', '==', uid).get();
+
+      if (!snapshot.empty) {
+        const querySnapshot = snapshot.docs;
+        const data: any = [];
+        console.log(querySnapshot, 'querySnapshot');
+        querySnapshot?.forEach(documentSnapshot => {
+          data.push({ id: documentSnapshot.id, ...documentSnapshot.data() });
+        });
+        setFamilyList(data);
+      } else {
+        setFamilyList([])
+      }
+    };
+    init();
+  }, []);
 
   return (
     <>
@@ -40,7 +56,7 @@ export const FamilyListCard = () => {
               style={{flexDirection: 'row', justifyContent: 'space-between'}}>
               <View style={{flexDirection: 'row', gap: 7}}>
                 <View>
-                  <CustomImage imageUrl={familyPerson?.family_member_picture} />
+                  <CustomImage imageUrl={familyPerson?.user_picture} />
                 </View>
                 <View>
                   <Text
@@ -49,7 +65,7 @@ export const FamilyListCard = () => {
                       fontFamily: 'Nunito-Bold',
                       color: STYLES.blackColor,
                     }}>
-                    {familyPerson?.name}
+                    {familyPerson?.first_name}
                   </Text>
                   <Text
                     style={{
@@ -80,3 +96,4 @@ export const FamilyListCard = () => {
     </>
   );
 };
+

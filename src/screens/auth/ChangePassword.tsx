@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {Pressable, View} from 'react-native';
+import {Alert, Pressable, View} from 'react-native';
 import React, {useState} from 'react';
 import ProtectedWrapper from '../../components/hoc/ProtectedWrapper';
 import Button from '../../components/Button';
@@ -8,6 +8,11 @@ import {InputFieldWithLabel} from '../general/InputFieldWithLabel';
 import {Text} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
+import {firebase} from '@react-native-firebase/firestore';
+import { updateDocument } from '../../utils/firebaseFunctions';
+import { REGEX_EXPRESSIONS } from '../../utils/regex.constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChangePassword() {
   const navigation = useNavigation();
@@ -36,7 +41,53 @@ export default function ChangePassword() {
     });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    try {
+      const currentUserUid = await AsyncStorage.getItem('@access_token');
+      if (!currentUserUid) {
+        // Handle the case where the user is not logged in
+        console.log('User not logged in');
+        return;
+      }
+      if(!(new RegExp(REGEX_EXPRESSIONS.PASSWORD).test(passwordResetPayload.password))) {
+        Alert.alert('Not met the password criteria');
+        return
+      }
+      if(passwordResetPayload.confirm_password !== passwordResetPayload.password) {
+        Alert.alert('Password and confirm password should be same');
+        return;
+      }
+      if (currentUserUid) {
+        const snapshot = await firestore()
+          .collection('users')
+          .where('uid', '==', currentUserUid)
+          .get();
+          if (!snapshot.empty) {
+            // Assuming you only want one record; if there are multiple, you might need to iterate over the docs
+            const docId = snapshot.docs[0].id;
+            console.log('doc id ***', docId);
+            const updatedResponse = await updateDocument({
+              collectionName: 'users',
+              payload: {password: passwordResetPayload.password},
+              docId: docId,
+            });
+    
+            if (updatedResponse) {
+              Alert.alert('Password Updated Successfully');
+              return navigation.canGoBack() ? navigation.goBack() : null;
+            }
+            return;
+          } else {
+            Alert.alert('No User found ... Please logout and login again');
+            return;
+          }
+      } else {
+        Alert.alert('No User found ... Please logout and login again');
+      }
+    } catch (error) {
+      return error;
+    }
+  };
 
   return (
     // @ts-ignore

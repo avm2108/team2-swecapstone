@@ -14,7 +14,6 @@ import {
 import {ArrowDownSmallIcon, ArrowRightSmallIcon} from '../../svgs';
 import {Card} from '../../components/general/Card';
 import {LogoutModal} from '../../components/general/LogoutModal';
-import {firebase} from '@react-native-firebase/firestore';
 import {Image} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {usePersonDetails} from '../../hooks/usePersonDetails';
