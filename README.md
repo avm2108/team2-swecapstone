@@ -32,8 +32,9 @@ Scooper's stakeholders consist of Iya (client), school administration, faculty, 
 - Follow `develop-code` branch
 
 3. iOS Scooper
-- Follow `iOS ` branch instructions
-
+- Follow `iOS` branch instructions
+- Test Scooper application following this link: https://testflight.apple.com/join/DFLtXmAL
+  
 4. General testing instructions:
 - https://scooper-df18f.web.app
 - You can login with user@test.com: qwerty or kiran@test.com: 123456
