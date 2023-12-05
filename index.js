@@ -441,6 +441,97 @@ key.put("/:id", async (req, res) => {
 
 exports.key = functions.https.onRequest(key);
 
+const scoop = express();
+scoop.use(cors({origin: true}));
+
+scoop.get("/", async (req, res) => {
+  try {
+    const scoopRef = db.collection("scoopRequest");
+    const snapshot = await scoopRef.get();
+    const list = [];
+  
+    snapshot.forEach(doc => {
+      list.push(doc.data());
+    });
+  
+    res.status(200).json(list);
+  } catch (error) {
+    res.status(400).json({message: error.message});
+  }
+});
+
+scoop.post("/", async (req, res) => {
+  try {
+    let data = req.body;
+    const scoopRef = db.collection("scoopRequest").doc();
+    const result = await scoopRef.set({
+      id: scoopRef.id,
+      date: data.date,
+      time: data.time,
+      note: data.note,
+      status: false,
+      student: data.student,
+    });
+    res.status(200).send(scoopRef.id);
+  } catch (err) {
+    res.status(400).json({message: err.message});
+  }
+});
+
+scoop.put("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const scoopRef = db.collection("scoopRequest").doc(id);
+    await scoopRef.update({
+      status: data.status,
+    });
+    res.status(200).send("Success!");
+  } catch (err) {
+    res.status(400).json({message: err.message});
+  }
+});
+
+scoop.get("/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const scoopRef = db.collection("scoopRequest").doc(id);
+    const observer = scoopRef.onSnapshot(docSnapshot => {
+      res.status(200).json(docSnapshot.data());
+    });
+  } catch (err) {
+    res.status(400).json({message: err.message});
+  }
+});
+
+exports.scoop = functions.https.onRequest(scoop);
+
+exports.listen = functions.https.onRequest( async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+
+  if (req.method === "OPTIONS") {
+    res.set("Access-Control-Allow-Methods", "GET");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    res.set("Access-Control-Max-Age", "3600");
+    res.status(200).send("OK");
+  }
+
+  try {
+    const arrivalStatusRef = db.collection("student");
+    const snapshot = await arrivalStatusRef.where("position", "!=", 1000).get();
+
+    if (snapshot.empty) {
+      res.status(400).send("No matching documents.");
+    }
+
+    snapshot.forEach(doc => {
+      res.status(200).json([doc.get("position")]);
+    });
+  } catch (err) {
+    res.status(400).json({message: err.message});
+  }
+});
+
 // location api --------------------------------------------->
 exports.location = functions.https.onRequest( async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
