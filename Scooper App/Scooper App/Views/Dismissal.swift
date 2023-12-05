@@ -16,6 +16,9 @@ struct Dismissal: View {
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
     @Environment(\.dismiss) var dismiss
     @State private var isPresented = false
+    @State var position: Int
+    @State var status: Bool
+    
     enum Queue {
         case waiting
         case preparing
@@ -54,11 +57,22 @@ struct Dismissal: View {
                     .foregroundStyle(.gray.opacity(0.6))
                     .padding(.bottom)
             }
-            Text("Zone: ")
-                .font(.title)
-            Text("Slot: ")
-                .font(.title)
+            
+            if (position != 1000) {
+//                Text("Zone: ")
+//                    .font(.title)
+                
+                Text("Slot: \(position)")
+                    .font(.title)
+            }
         }
+        .onAppear(perform: {
+            if (position != 1000) {
+                queueStatus = .preparing
+            } else if (position == 1000 && !status) {
+                queueStatus = .dispatching
+            }
+        })
         .alert("Dismissal failed", isPresented: $isPresented, actions: {
             Button("OK") {
                 isPresented = false
@@ -94,5 +108,5 @@ struct Dismissal: View {
 
 
 #Preview {
-    Dismissal(grade: "", name: "John Doe", id: "")
+    Dismissal(grade: "", name: "John Doe", id: "", position: 1, status: .random())
 }

@@ -22,7 +22,7 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 
-//                  HAMBURGER MENU
+                //                  HAMBURGER MENU
                 ZStack(alignment: .topLeading) {
                     MapView()
                     
@@ -47,7 +47,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-//               PARENTS QUEUE
+                //               PARENTS QUEUE
                 ScrollView(.horizontal) {
                     
                     HStack {
@@ -106,11 +106,11 @@ struct ContentView: View {
                 NavigationStack {
                     List(content: {
                         
-    //                        ACTIVE STUDENTS
+                        //                        ACTIVE STUDENTS
                         ForEach(vm.students.sorted()) { student in
                             if ((student.scooper != "BUS" && student.status) && student.position != 1000) {
                                 NavigationLink {
-                                    Dismissal(grade: student.grade, name: student.name, id: student.id)
+                                    Dismissal(grade: student.grade, name: student.name, id: student.id, position: student.position, status: student.status)
                                         .onDisappear {
                                             Task(priority: .high) {
                                                 try await vm.getStudents()
@@ -140,7 +140,7 @@ struct ContentView: View {
                                 }
                             } else if (student.scooper != "BUS" && student.status) {
                                 NavigationLink {
-                                    Dismissal(grade: student.grade, name: student.name, id: student.id)
+                                    Dismissal(grade: student.grade, name: student.name, id: student.id, position: student.position, status: student.status)
                                         .onDisappear {
                                             Task(priority: .high) {
                                                 try await vm.getStudents()
@@ -171,7 +171,7 @@ struct ContentView: View {
                         
                         
                         
-    //                        INACTIVE STUDENTS
+                        //                        INACTIVE STUDENTS
                         Section {
                             ForEach(vm.students) { student in
                                 if (!student.status) {
@@ -198,12 +198,12 @@ struct ContentView: View {
                             Text("Inactive")
                         }
                         
-    //                        BUS RIDERS
+                        //                        BUS RIDERS
                         Section {
                             ForEach(vm.students) { student in
                                 if (student.scooper == "BUS" && student.status) {
                                     NavigationLink {
-                                        Dismissal(grade: student.grade , name: student.name , id: student.id)
+                                        Dismissal(grade: student.grade , name: student.name , id: student.id, position: student.position, status: student.status)
                                     } label: {
                                         HStack {
                                             Circle()
@@ -255,13 +255,13 @@ struct ContentView: View {
             })
         }
         .onReceive(vm.$students, perform: { newValue in
-            Task {
+            Task(priority: .high) {
                 try await vm.getStudents()
             }
         })
         .onAppear(perform: {
             Task {
-//                try await vm.getStudents()
+                try await vm.getStudents()
                 await notificationManager.getStatus()
                 await notificationManager.requestPermissions()
             }

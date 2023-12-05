@@ -25,6 +25,7 @@
 		91ABC2B62B05B8F800676EC1 /* ScooperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */; };
 		91ABC2B92B05B95300676EC1 /* Dismissal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2B82B05B95300676EC1 /* Dismissal.swift */; };
 		91AC4F732B0F956E009CB7F6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AC4F722B0F956E009CB7F6 /* GoogleService-Info.plist */; };
+		91C8EE8A2B1ED28600D833A0 /* ScoopRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C8EE892B1ED28600D833A0 /* ScoopRequest.swift */; };
 		91E5482C2B0CF6C0004B54D7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 91E5482B2B0CF6C0004B54D7 /* FirebaseAuth */; };
 		91E5482E2B0CF6C0004B54D7 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 91E5482D2B0CF6C0004B54D7 /* FirebaseMessaging */; };
 		91E548332B0D0286004B54D7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91E548322B0D0286004B54D7 /* NotificationManager.swift */; };
@@ -74,6 +75,7 @@
 		91ABC2B52B05B8F800676EC1 /* ScooperViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScooperViewModel.swift; sourceTree = "<group>"; };
 		91ABC2B82B05B95300676EC1 /* Dismissal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dismissal.swift; sourceTree = "<group>"; };
 		91AC4F722B0F956E009CB7F6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		91C8EE892B1ED28600D833A0 /* ScoopRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoopRequest.swift; sourceTree = "<group>"; };
 		91E5482F2B0CF7DC004B54D7 /* Scooper App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Scooper App.entitlements"; sourceTree = "<group>"; };
 		91E548322B0D0286004B54D7 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		91F794EE2AB39843000F6575 /* Scooper App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Scooper App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +124,7 @@
 				91ABC2AC2B05B52A00676EC1 /* Student.swift */,
 				91ABC2AE2B05B55800676EC1 /* School.swift */,
 				91ABC2AA2B05B4D800676EC1 /* User.swift */,
+				91C8EE892B1ED28600D833A0 /* ScoopRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -361,6 +364,7 @@
 				91037E862B06C872000329BC /* SchedulingView.swift in Sources */,
 				91ABC2AB2B05B4D800676EC1 /* User.swift in Sources */,
 				91037E802B06B515000329BC /* MapView.swift in Sources */,
+				91C8EE8A2B1ED28600D833A0 /* ScoopRequest.swift in Sources */,
 				91ABC2AF2B05B55800676EC1 /* School.swift in Sources */,
 				918276A42B1643660082503A /* StudentProfileView.swift in Sources */,
 				91F794F42AB39843000F6575 /* ContentView.swift in Sources */,

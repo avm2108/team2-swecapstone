@@ -18,7 +18,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
-        
+                
         UIApplication.shared.registerForRemoteNotifications()
         
         return true

@@ -16,6 +16,9 @@ struct ProfileView: View {
     @State var relation: String?
     @State var email: String?
     @State var phone: String?
+    @State var id: String?
+    @StateObject private var vm = ScooperViewModel()
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ScrollView(.vertical) {
@@ -60,6 +63,20 @@ struct ProfileView: View {
             .background {
                 Color.gray.opacity(0.1)
             }
+            
+            Spacer()
+            Button {
+                vm.dismiss(status: true, id: id ?? "", position: 1000)
+            } label: {
+                Text("Mark Present")
+            }
+            .font(.headline)
+            .frame(height: 55)
+            .frame(minWidth: 360)
+            .foregroundColor(.white)
+            .background(Color("scooperGreen"))
+            .clipShape(Rectangle())
+            .cornerRadius(10)
         }
         .toolbar(content: {
             EditButton()

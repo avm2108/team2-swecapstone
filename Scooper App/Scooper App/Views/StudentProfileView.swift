@@ -17,7 +17,7 @@ struct StudentProfileView: View {
                 
                 
                 NavigationLink {
-                    ProfileView(name: student.name, dob: student.birth, parent: student.guardian.name, address: student.address, relation: student.guardian.relation, email: student.guardian.email, phone: student.guardian.phone)
+                    ProfileView(name: student.name, dob: student.birth, parent: student.guardian.name, address: student.address, relation: student.guardian.relation, email: student.guardian.email, phone: student.guardian.phone, id: student.id)
                 } label: {
                     HStack {
                         Circle()
@@ -35,7 +35,6 @@ struct StudentProfileView: View {
                         Spacer()
                     }
                 }
-
             }
         }
         .onAppear(perform: {
