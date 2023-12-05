@@ -14,6 +14,9 @@ import {addDocument, getDocuments} from '../../utils/firebaseFunctions';
 import {useHandleTimePicker} from '../../hooks/useHandleTimePicker';
 import {DateTimePicker} from '../../components/general/DateTimePicker';
 import moment from 'moment';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -154,15 +157,26 @@ const TabsWithRenderContent = ({payload, setPayload}: any) => {
 
   useEffect(() => {
     const getScoopupMembers = async () => {
-      const response = await getDocuments({collectionName: 'scoop_up_member'});
+      const uid = await AsyncStorage.getItem('@access_token');
+      const snapshot = await firestore().collection('scoop_up_member').where('uid', '==', uid).get();
 
-      const formattedResponse = response?.map((item: any) => {
-        return {
-          label: `${item?.first_name} ${item?.last_name}`,
-          value: item?.id,
-        };
-      });
+      if (!snapshot.empty) {
+        const querySnapshot = snapshot.docs;
+        const data: any = [];
+        console.log(querySnapshot, 'querySnapshot');
+        querySnapshot?.forEach(documentSnapshot => {
+          data.push({ id: documentSnapshot.id, ...documentSnapshot.data() });
+        });
+        const formattedResponse = data?.map((item: any) => {
+          return {
+            label: `${item?.first_name} ${item?.last_name}`,
+            value: item?.id,
+          };
+        });
       setScoopupMembers(formattedResponse);
+      } else {
+        setScoopupMembers([]);
+      }
     };
 
     getScoopupMembers();

@@ -24,6 +24,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Drawer = createDrawerNavigator();
 
 export default function ProfileWithDrawer({navigation}: any) {
+
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -205,14 +206,10 @@ const PersonalInformation = () => {
           }}>
           <TitleWithSubText
             style={{flex: 1 / 2}}
-            title={'Gender'}
-            subtitle={personData ? personData?.gender : 'N/A'}
-          />
-          <TitleWithSubText
-            style={{flex: 1 / 2}}
             title={'Vehicle Color'}
             subtitle={personData ? personData?.vehicle?.color?.value : 'N/A'}
           />
+          <View style={{flex: 1 / 2}} />
         </View>
       </View>
     </Card>

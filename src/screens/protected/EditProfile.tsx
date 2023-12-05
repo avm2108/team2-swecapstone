@@ -146,7 +146,8 @@ const PersonalInformation = ({ info }: any) => {
 
           if (updatedResponse) {
             Alert.alert('Profile Updated Successfully');
-            navigation.canGoBack() ? navigation.goBack() : null;
+            // navigation.canGoBack() ? navigation.goBack() : null;
+            // navigation.('Protected', {screen: 'Home'});
           }
           return;
         } else {
@@ -262,16 +263,11 @@ const PersonalInformation = ({ info }: any) => {
           }}>
           <TitleWithInputField
             style={{ flex: 1 / 2 }}
-            title={'Gender'}
-            handleChange={(value: string) => handleChange('gender', value)}
-            inputFieldValue={prefilledData?.gender}
-          />
-          <TitleWithInputField
-            style={{ flex: 1 / 2 }}
             title={'Vehicle Color'}
             handleChange={(value: any) => handleChange('vehicle.color.value', value)}
             inputFieldValue={prefilledData?.vehicle?.color?.value}
           />
+          <View style={{flex: 1 / 2}} />
         </View>
       </View>
     </Card>

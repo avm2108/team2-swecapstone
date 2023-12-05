@@ -91,7 +91,7 @@ export const ParentCard = ({iconColor, textColor}: any) => {
       }
       info={
         <PersonInfo
-          name={personData?.name || personData?.email}
+          name={personData?.first_name || personData?.email}
           relation={''}
           textColor={textColor}
         />

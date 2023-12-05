@@ -40,7 +40,6 @@ function ScoopUpMemberForm({scooperId}: any) {
 const PersonalInformation = ({scooperId}: any) => {
   const [prefilledData, setPrefilledData] = useState({
     first_name: '',
-    gender: '',
     last_name: '',
     phone: '',
     child_relation: '',
@@ -138,7 +137,7 @@ const PersonalInformation = ({scooperId}: any) => {
         );
         if (updatedResponse) {
           Alert.alert('Scoop Up Member Updated Successfully');
-          navigation.canGoBack() ? navigation.goBack() : null;
+          // navigation.canGoBack() ? navigation.goBack() : null;
         }
         return;
       }
@@ -149,7 +148,7 @@ const PersonalInformation = ({scooperId}: any) => {
       });
       if (response) {
         Alert.alert('Scoop Up Member Added Successfully');
-        navigation.canGoBack() ? navigation.goBack() : null;
+        // navigation.canGoBack() ? navigation.goBack() : null;
         return;
       }
     } catch (error) {
@@ -238,16 +237,7 @@ const PersonalInformation = ({scooperId}: any) => {
             }
             inputFieldValue={prefilledData?.user_picture}
           />
-          {/* <View style={{flex: 1 / 2}} /> */}
-          
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
-            title={'Gender'}
-            handleChange={(value: string) =>
-              handleChange('gender', value)
-            }
-            inputFieldValue={prefilledData?.gender}
-          />
+          <View style={{flex: 1 / 2}} />
         </View>
         <View
           style={{
@@ -350,7 +340,6 @@ function preparePayload(payload: any) {
   // Define default values for missing keys
   const defaultValues = {
     first_name: '',
-    gender: '',
     last_name: '',
     phone: '',
     child_relation: '',

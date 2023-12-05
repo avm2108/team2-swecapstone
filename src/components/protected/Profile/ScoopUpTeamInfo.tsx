@@ -32,6 +32,7 @@ export function ScoopUpTeamInfo({id,allInfo, scoopUpDeleteCallback}: any) {
     );
     navigation.canGoBack() ? navigation.goBack() : null;
     Alert.alert('Scoop Up Member deleted successfully');
+    navigation.replace('Protected', {screen: 'Dashboard'});
   };
   return (
     <View

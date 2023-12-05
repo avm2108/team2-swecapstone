@@ -136,12 +136,6 @@ const PersonalInformation = ({info}: any) => {
           }}>
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Vehicle Make/Model'}
-            handleChange={(value: string) => handleChange('gender', value)}
-            inputFieldValue={prefilledData?.gender}
-          />
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
             title={'License Plate'}
             handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_color.value', value)
@@ -157,41 +151,12 @@ const PersonalInformation = ({info}: any) => {
           }}>
           <TitleWithInputField
             style={{flex: 1 / 2}}
-            title={'Vehicle Year'}
-            handleChange={(value: string) => handleChange('gender', value)}
-            inputFieldValue={prefilledData?.gender}
-          />
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
             title={'License Color'}
             handleChange={(value: string) =>
               handleChange('vehicleInfo.vehicle_color.value', value)
             }
             inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
           />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
-            title={'User Picture'}
-            handleChange={(value: string) => handleChange('gender', value)}
-            inputFieldValue={prefilledData?.gender}
-          />
-          <View style={{flex: 1 / 2}} />
-          {/* 
-          <TitleWithInputField
-            style={{flex: 1 / 2}}
-            title={'License Color'}
-            handleChange={(value: string) =>
-              handleChange('vehicleInfo.vehicle_color.value', value)
-            }
-            inputFieldValue={prefilledData?.vehicleInfo?.vehicle_color?.value}
-          /> */}
         </View>
 
         <View

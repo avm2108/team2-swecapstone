@@ -78,7 +78,6 @@ export const scoopUpTeamList = [
     image: <FatherSampleImageSmall />,
     email: 'anne.more@gmail.com',
     phone: '404-234-2345',
-    gender: 'Female',
     isSelected: false,
     vehicleInfo: {
       vehicle_model: {
@@ -106,7 +105,6 @@ export const scoopUpTeamList = [
     image: <FatherSampleImageSmall />,
     email: 'jim.more@gmail.com',
     phone: '494-134-8345',
-    gender: 'Male',
     isSelected: false,
     vehicleInfo: {
       vehicle_model: {
@@ -134,7 +132,6 @@ export const scoopUpTeamList = [
     image: <FatherSampleImageSmall />,
     email: 'trish.reed@gmail.com',
     phone: '454-690-3145',
-    gender: 'Male',
     isSelected: false,
     vehicleInfo: {
       vehicle_model: {

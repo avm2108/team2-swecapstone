@@ -63,7 +63,6 @@ export function RegisterForm() {
   };
   const [prefilledData, setPrefilledData] = useState(() => ({
     first_name: '',
-    gender: '',
     last_name: '',
     phone: '',
     email: '',
@@ -92,7 +91,6 @@ export function RegisterForm() {
   useEffect(() => {
     setPrefilledData({
       first_name: '',
-      gender: '',
       last_name: '',
       phone: '',
       email: '',
@@ -253,22 +251,6 @@ export function RegisterForm() {
                 }
                 textInputStyles={{ height: 26 }}
                 inputFieldValue={prefilledData?.child_relation}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <InputFieldWithLabel
-                style={{ flex: 1 / 2 }}
-                title={'Gender'}
-                handleChange={(value: string) =>
-                  handleChange('gender', value)
-                }
-                textInputStyles={{ height: 26 }}
-                inputFieldValue={prefilledData?.gender}
               />
             </View>
           </View>
