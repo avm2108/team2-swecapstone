@@ -15,6 +15,10 @@ final class ScooperViewModel: ObservableObject {
     @Published var scoopTeam: [ScoopTeam] = [ScoopTeam(id: "", team: [Team(id: "", phone: "", name: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: ""))])]
     
     @Published var scooper: String = ""
+    
+    @Published var scoopRequest: [ScoopRequest] = [ScoopRequest(id: "", date: "", note: "", student: "", time: "", status: false)]
+    
+    @Published var familyStatus: [Student] = [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]
         
     @MainActor
     func getStudent(id: String) async throws {
@@ -47,7 +51,7 @@ final class ScooperViewModel: ObservableObject {
         guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw NetworkError.badRequest }
         let decoder = JSONDecoder()
         let decoded = try decoder.decode([Student].self, from: data)
-        self.students = decoded
+        self.familyStatus = decoded
     }
     
     enum NetworkError: Error {
@@ -67,9 +71,9 @@ final class ScooperViewModel: ObservableObject {
         let decoder = JSONDecoder()
         let decoded = try decoder.decode([ScoopTeam].self, from: data)
         self.scoopTeam = decoded
-//        if let str = String(data: data, encoding: .utf8) {
-//            print(str)
-//        }
+        if let str = String(data: data, encoding: .utf8) {
+            print(str)
+        }
     }
     
     func updateScooper(id: String, scooper: String) async throws {
@@ -95,6 +99,46 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
+    func scoopRequest(date: String, time: String, note: String, student: String) async throws {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop") else { fatalError("Missing URL") }
+        
+        let payload: [String: Any] = [
+            "date": date,
+            "time": time,
+            "note": note,
+            "student": student
+        ]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: payload)
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "POST"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-type")
+        urlRequest.httpBody = jsonData
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
+        if let str = String(data: data, encoding: .utf8) {
+            print(str)
+        }
+    }
+    
+    func getScoopRequest() async throws {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop") else { fatalError("Missing URL") }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw NetworkError.badRequest }
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode([ScoopRequest].self, from: data)
+        self.scoopRequest = decoded
+//        if let str = String(data: data, encoding: .utf8) {
+//            print(str)
+//        }
+    }
+    
     func addToQueue(id: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/queueManager/\(id)") else {
             fatalError("Missing URL")
@@ -110,22 +154,22 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
-     private func getAccessToken() async throws -> String {
-        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/security") else {
-            fatalError("Missing URL")
-        }
-        
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "GET"
-        
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return response.textEncodingName ?? ""}
-        
-        if let accessToken = String(data: data, encoding: .utf8) {
-            return accessToken
-        }
-        return ""
+    private func getAccessToken() async throws -> String {
+    guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/security") else {
+        fatalError("Missing URL")
     }
+    
+    var urlRequest = URLRequest(url: url)
+    urlRequest.httpMethod = "GET"
+    
+    let (data, response) = try await URLSession.shared.data(for: urlRequest)
+    guard (response as? HTTPURLResponse)?.statusCode == 200 else { return response.textEncodingName ?? ""}
+    
+    if let accessToken = String(data: data, encoding: .utf8) {
+        return accessToken
+    }
+    return ""
+}
     
     func sendArrivalNotification(deviceToken: String = "", name: String) async throws {
         

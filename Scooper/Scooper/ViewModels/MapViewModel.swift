@@ -26,7 +26,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation()
         
-        monitorRegionAtLocation(center: CLLocationCoordinate2D(latitude: 37.33532825911976, longitude: -122.04207827665276), identifier: "Valley Church")
+        monitorRegionAtLocation(center: CLLocationCoordinate2D(latitude: 37.33436, longitude: -122.041445), identifier: "Bullard Elementary")
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -69,7 +69,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         self.hasArrived = false
         print("Exited: \(region.identifier)")
-        locationManager.stopMonitoring(for: region)
     }
     
     func monitorRegionAtLocation(center: CLLocationCoordinate2D, identifier: String) {
@@ -83,6 +82,9 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         geofenceRegion.notifyOnExit = true
         
         locationManager.startMonitoring(for: geofenceRegion)
-        print(locationManager.monitoredRegions)
+    }
+    
+    deinit {
+        locationManager.stopUpdatingLocation()
     }
 }

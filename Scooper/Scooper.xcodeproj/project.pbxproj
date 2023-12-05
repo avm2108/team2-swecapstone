@@ -22,6 +22,8 @@
 		911E92152B0B1C950050D162 /* ScooperUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E92142B0B1C950050D162 /* ScooperUITestsLaunchTests.swift */; };
 		911E92252B0B1D070050D162 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E92242B0B1D070050D162 /* MapView.swift */; };
 		911E92272B0B1D250050D162 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E92262B0B1D250050D162 /* MapViewModel.swift */; };
+		913785C22B1EB99200394C95 /* SchedulingMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913785C12B1EB99100394C95 /* SchedulingMenuView.swift */; };
+		913785C42B1EBCC900394C95 /* ScoopRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913785C32B1EBCC900394C95 /* ScoopRequest.swift */; };
 		91503B952B0C42B800079516 /* ScooperViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91503B942B0C42B800079516 /* ScooperViewModel.swift */; };
 		91503B972B0C435400079516 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91503B962B0C435400079516 /* Student.swift */; };
 		91503B9B2B0C61F500079516 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91503B9A2B0C61F500079516 /* MenuView.swift */; };
@@ -64,6 +66,8 @@
 		911E92142B0B1C950050D162 /* ScooperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScooperUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		911E92242B0B1D070050D162 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		911E92262B0B1D250050D162 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		913785C12B1EB99100394C95 /* SchedulingMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulingMenuView.swift; sourceTree = "<group>"; };
+		913785C32B1EBCC900394C95 /* ScoopRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoopRequest.swift; sourceTree = "<group>"; };
 		91503B942B0C42B800079516 /* ScooperViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScooperViewModel.swift; sourceTree = "<group>"; };
 		91503B962B0C435400079516 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		91503B9A2B0C61F500079516 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 			children = (
 				91503B962B0C435400079516 /* Student.swift */,
 				910E227B2B1A8B0B001BA9AF /* ScoopTeam.swift */,
+				913785C32B1EBCC900394C95 /* ScoopRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				910E22812B1C1C72001BA9AF /* RequestView.swift */,
 				910E22832B1C3BFF001BA9AF /* StudentSelectMenu.swift */,
 				910E22852B1C4ACD001BA9AF /* FamilyView.swift */,
+				913785C12B1EB99100394C95 /* SchedulingMenuView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -326,11 +332,13 @@
 				91503B9B2B0C61F500079516 /* MenuView.swift in Sources */,
 				91503B952B0C42B800079516 /* ScooperViewModel.swift in Sources */,
 				910E227E2B1AA6CA001BA9AF /* ScoopTeamProfileView.swift in Sources */,
+				913785C42B1EBCC900394C95 /* ScoopRequest.swift in Sources */,
 				91503B972B0C435400079516 /* Student.swift in Sources */,
 				911E91FA2B0B1C920050D162 /* ContentView.swift in Sources */,
 				910E22822B1C1C72001BA9AF /* RequestView.swift in Sources */,
 				911E92252B0B1D070050D162 /* MapView.swift in Sources */,
 				911E91F82B0B1C920050D162 /* ScooperApp.swift in Sources */,
+				913785C22B1EB99200394C95 /* SchedulingMenuView.swift in Sources */,
 				910E22842B1C3BFF001BA9AF /* StudentSelectMenu.swift in Sources */,
 				911E92272B0B1D250050D162 /* MapViewModel.swift in Sources */,
 			);

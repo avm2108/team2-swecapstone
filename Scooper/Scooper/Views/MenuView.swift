@@ -22,7 +22,7 @@ struct MenuView: View {
                 
                 NavigationLink {
                     ForEach(info) { info in
-                        FamilyView(guardianName: info.guardian.name, info: [info.name, info.guardian.email])
+                        FamilyView(guardianName: info.guardian.name, info: [info.name, info.guardian.email, info.guardian.phone, info.guardian.vehicle.licensePlate, info.guardian.vehicle.make, info.guardian.vehicle.model, info.guardian.vehicle.year, info.guardian.vehicle.color, info.guardian.relation])
                     }
                 } label: {
                     VStack {
@@ -39,7 +39,7 @@ struct MenuView: View {
                 }
                 
                 NavigationLink {
-                    StudentSelectMenu()
+                    SchedulingMenuView()
                 } label: {
                     VStack {
                         HStack {

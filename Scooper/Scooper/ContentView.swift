@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var isPresented = false
+    @State private var isShowingStatus = false
     @StateObject private var location: MapViewModel = MapViewModel()
     @StateObject private var vm: ScooperViewModel = ScooperViewModel()
     
@@ -41,7 +42,7 @@ struct ContentView: View {
                                 Text(student.guardian.name)
                                     .font(.largeTitle.bold())
                                 
-                                AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/https://us-central1-scooper-df18f.cloudfunctions.net/student/\(student.id)"))
+                                AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/https://us-central1-scooper-df18f.cloudfunctions.net/parent/\(student.guardian.name)"))
                                 
                                 Text("Code:")
                                     .font(.title)
@@ -53,35 +54,51 @@ struct ContentView: View {
                                     .padding(30)
                                     .frame(width: 350, height: 100, alignment: .center)
                                     .foregroundColor(.gray)
-                                
+                            }
+                            
+                            if (isShowingStatus) {
                                 Text("Family Status")
-                                    .font(.title.bold())
-                                    .foregroundStyle(.blue)
+                                    .font(.title2.bold())
                                 
                                 ScrollView(.horizontal) {
-                                    ZStack {
-                                        Circle()
-                                            .foregroundColor(Color("scooperGreen").opacity(0.3))
-                                            .frame(width: 180, height: 180)
-                                        Circle()
-                                            .foregroundColor(Color("scooperGreen"))
-                                            .frame(width: 160, height: 170)
-                                        Text(student.name.first?.description ?? "")
-                                            .font(.system(size: 80).bold())
-                                            .foregroundStyle(Color.white)
-                                    }
-                                    Text(student.name)
-                                        .font(.title3.bold())
-                                        .foregroundStyle(Color.black)
                                     
-                                    if(student.status) {
-                                        Text("Releasing...")
-                                            .foregroundStyle(.gray.opacity(0.7))
-                                    } else {
-                                        Text("Released")
-                                            .foregroundStyle(.gray.opacity(0.7))
+                                    HStack {
+                                        ForEach(vm.familyStatus) { student in
+                                            VStack {
+                                                ZStack {
+                                                    Circle()
+                                                        .frame(width: 140, height: 140)
+                                                        .foregroundStyle(.scooperGreen.opacity(0.4))
+                                                    
+                                                    Circle()
+                                                        .frame(width: 120, height: 120)
+                                                        .foregroundStyle(.scooperGreen)
+                                                    
+                                                    Text(student.name.first?.description ?? "")
+                                                        .font(.system(size: 70).bold())
+                                                        .foregroundStyle(.white)
+                                                    
+                                                }
+                                                Text(student.name)
+                                                if(!location.hasArrived && student.status) {
+                                                    Text("Waiting...")
+                                                        .foregroundStyle(.blue)
+                                                } else if (location.hasArrived && student.status) {
+                                                    Text("Releasing...")
+                                                        .foregroundStyle(.blue)
+                                                } else if (!student.status) {
+                                                    Text("Dismissed...")
+                                                        .foregroundStyle(.blue)
+                                                }
+                                            }
+                                        }
                                     }
                                 }
+                                .onAppear(perform: {
+                                    Task {
+                                        try await vm.getChilren()
+                                    }
+                                })
                             }
                         }
                         .padding()
@@ -116,9 +133,12 @@ struct ContentView: View {
             .clipShape(Rectangle())
             .cornerRadius(10)
         }
+        .onChange(of: isPresented, {
+            isShowingStatus.toggle()
+        })
         .onAppear(perform: {
             Task {
-                    try await vm.getStudent(id: "5NlmPhRjYs34QVz22Avs")
+                try await vm.getStudent(id: "5NlmPhRjYs34QVz22Avs")
             }
         })
         .onReceive(location.$hasArrived, perform: { _ in

@@ -14,9 +14,9 @@ struct StudentSelectMenu: View {
     var body: some View {
         
         List {
-            ForEach(vm.students) { student in
+            ForEach(vm.familyStatus) { student in
                 NavigationLink {
-                    SchedulingView(id: student.id)
+                    SchedulingView(id: student.id, student: student.name)
                 } label: {
                     Text(student.name)
                 }

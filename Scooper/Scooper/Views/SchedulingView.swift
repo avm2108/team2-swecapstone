@@ -16,6 +16,7 @@ struct SchedulingView: View {
     @State private var isPresented = false
     @State var scoopDate: String = ""
     @State var scoopTime: String = ""
+    @State var student: String?
     
     var body: some View {
         ZStack {
@@ -25,6 +26,7 @@ struct SchedulingView: View {
             VStack {
                 Text("Schedule Scoop Up")
                     .font(.largeTitle.bold())
+                    .padding(.top)
                 
                 ScrollView(.vertical) {
                     VStack {
@@ -88,6 +90,7 @@ struct SchedulingView: View {
                     scoopTime = dateFormatter.string(from: self.date)
                     Task {
                         try await vm.sendScheduleScoopUpNotification(name: "Deborah Williams")
+                        try await vm.scoopRequest(date: scoopDate, time: scoopTime, note: text, student: student ?? "")
                     }
                 } label: {
                     Text("Request")
