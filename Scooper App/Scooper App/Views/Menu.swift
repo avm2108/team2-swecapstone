@@ -16,6 +16,11 @@ struct Menu: View {
             
             
             VStack(alignment: .leading,spacing: 30) {
+                
+                Text("Menu")
+                    .font(.largeTitle.bold())
+                    .padding(.leading)
+                
                 Spacer()
                 
                 NavigationLink {

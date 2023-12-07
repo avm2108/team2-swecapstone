@@ -22,7 +22,7 @@ struct ParentView: View {
                 Text(guardianName ?? "")
                     .font(.largeTitle.bold())
                 
-                AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id ?? "")"))
+//                AsyncImage(url: URL(string: "https://barcodeapi.org/api/qr/https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id ?? "")"))
                 
                 VStack {
                     Text("Code:")

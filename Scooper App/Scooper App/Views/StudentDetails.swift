@@ -88,23 +88,22 @@ struct StudentDetails: View {
                     ScrollView(.vertical) {
                         Text("Add Guardian")
                             .font(.largeTitle.bold())
-                            .foregroundStyle(.black)
                         
                         TextField("First Name", text: $fname)
                             .padding()
                             .border(.black)
-                            .background(.white)
+                            .background(Color.white.opacity(0.4))
                             .keyboardType(.alphabet)
                         
                         TextField("Last Name", text: $lname)
                             .padding()
                             .border(.black)
-                            .background(.white)
+                            .background(Color.white.opacity(0.4))
                         
                         TextField("Phone Number", text: $phone)
                             .padding()
                             .border(.black)
-                            .background(.white)
+                            .background(Color.white.opacity(0.4))
                             .keyboardType(.numberPad)
                         
                         TextField("Email", text: $email)
@@ -112,43 +111,42 @@ struct StudentDetails: View {
                             .textInputAutocapitalization(.never)
                             .padding()
                             .border(.black)
-                            .background(.white)
+                            .background(Color.white.opacity(0.4))
                         
                         TextField("Relation", text: $relation)
                             .padding()
                             .border(.black)
-                            .background(.white)
+                            .background(Color.white.opacity(0.4))
                         
                         Section {
                             TextField("Color", text: $vehicleColor)
                                 .padding()
                                 .border(.black)
-                                .background(.white)
+                                .background(Color.white.opacity(0.4))
                             
                             TextField("Make", text: $vehicleMake)
                                 .padding()
                                 .border(.black)
-                                .background(.white)
+                                .background(Color.white.opacity(0.4))
                             
                             TextField("Model", text: $vehicleModel)
                                 .padding()
                                 .border(.black)
-                                .background(.white)
+                                .background(Color.white.opacity(0.4))
                             
                             TextField("Year", text: $vehicleYear)
                                 .padding()
                                 .border(.black)
-                                .background(.white)
+                                .background(Color.white.opacity(0.4))
                                 .keyboardType(.numberPad)
                             
                             TextField("License Plate", text: $licensePlate)
                                 .padding()
                                 .border(.black)
-                                .background(.white)
+                                .background(Color.white.opacity(0.4))
                         } header: {
                             Text("Car Information")
                                 .font(.largeTitle.bold())
-                                .foregroundStyle(.black)
                         }
                     }
                     .padding()
@@ -185,6 +183,7 @@ struct StudentDetails: View {
                     .cornerRadius(10)
                     .padding()
                 }
+                .padding()
             })
             .background(Color("scooperGreen"))
             
@@ -195,18 +194,18 @@ struct StudentDetails: View {
                     TextField("First Name", text: $studentFname)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                     
                     TextField("Last Name", text: $studentLname)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                     
                     ZStack(alignment: .trailing) {
                         TextField("Student ID\(studentID)", text: $studentID)
                             .padding()
                             .border(.black)
-                            .background(.white)
+                            .background(Color.white.opacity(0.4))
                             .keyboardType(.numberPad)
                             
                         
@@ -230,33 +229,33 @@ struct StudentDetails: View {
                     TextField("Address", text: $address)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                     
                     TextField("Apartment, suite, etc.", text: $type)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                     
                     TextField("City", text: $city)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                     
                     TextField("State/province", text: $state)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                     
                     TextField("Zip Code", text: $zipCode)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                         .keyboardType(.numberPad)
                     
                     TextField("Grade", text: $grade)
                         .padding()
                         .border(.black)
-                        .background(.white)
+                        .background(Color.white.opacity(0.4))
                         .keyboardType(.numberPad)
                 }
                 .padding()
