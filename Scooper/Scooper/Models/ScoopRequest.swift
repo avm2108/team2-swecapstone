@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct ScoopRequest: Codable, Identifiable {
+struct ScoopRequest: Codable, Identifiable, Comparable {
+    static func < (lhs: ScoopRequest, rhs: ScoopRequest) -> Bool {
+        return lhs.id < rhs.id
+    }
+    
     var id: String
     var date, note, student, time: String
     var status: Bool

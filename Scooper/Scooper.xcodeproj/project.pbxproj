@@ -13,6 +13,10 @@
 		910E22822B1C1C72001BA9AF /* RequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910E22812B1C1C72001BA9AF /* RequestView.swift */; };
 		910E22842B1C3BFF001BA9AF /* StudentSelectMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910E22832B1C3BFF001BA9AF /* StudentSelectMenu.swift */; };
 		910E22862B1C4ACD001BA9AF /* FamilyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910E22852B1C4ACD001BA9AF /* FamilyView.swift */; };
+		9118E57F2B22A5A5008DD48C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9118E57E2B22A5A5008DD48C /* LoginView.swift */; };
+		9118E5822B22B1D4008DD48C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 9118E5812B22B1D4008DD48C /* FirebaseAuth */; };
+		9118E5862B22C29F008DD48C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9118E5852B22C29F008DD48C /* GoogleService-Info.plist */; };
+		9118E5882B22C804008DD48C /* AuthDataResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9118E5872B22C804008DD48C /* AuthDataResultModel.swift */; };
 		911E91F82B0B1C920050D162 /* ScooperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E91F72B0B1C920050D162 /* ScooperApp.swift */; };
 		911E91FA2B0B1C920050D162 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911E91F92B0B1C920050D162 /* ContentView.swift */; };
 		911E91FC2B0B1C950050D162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 911E91FB2B0B1C950050D162 /* Assets.xcassets */; };
@@ -28,6 +32,7 @@
 		91503B972B0C435400079516 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91503B962B0C435400079516 /* Student.swift */; };
 		91503B9B2B0C61F500079516 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91503B9A2B0C61F500079516 /* MenuView.swift */; };
 		91503B9E2B0C98DA00079516 /* SchedulingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91503B9D2B0C98DA00079516 /* SchedulingView.swift */; };
+		91EFBA7A2B289C7200D80838 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EFBA792B289C7200D80838 /* LoginViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +59,9 @@
 		910E22812B1C1C72001BA9AF /* RequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestView.swift; sourceTree = "<group>"; };
 		910E22832B1C3BFF001BA9AF /* StudentSelectMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentSelectMenu.swift; sourceTree = "<group>"; };
 		910E22852B1C4ACD001BA9AF /* FamilyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyView.swift; sourceTree = "<group>"; };
+		9118E57E2B22A5A5008DD48C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		9118E5852B22C29F008DD48C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9118E5872B22C804008DD48C /* AuthDataResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResultModel.swift; sourceTree = "<group>"; };
 		911E91F42B0B1C920050D162 /* Scooper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scooper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		911E91F72B0B1C920050D162 /* ScooperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScooperApp.swift; sourceTree = "<group>"; };
 		911E91F92B0B1C920050D162 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -73,6 +81,8 @@
 		91503B9A2B0C61F500079516 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		91503B9C2B0C7C8400079516 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		91503B9D2B0C98DA00079516 /* SchedulingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulingView.swift; sourceTree = "<group>"; };
+		91C9DEA72B23A7BD0026FD02 /* Scooper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Scooper.entitlements; sourceTree = "<group>"; };
+		91EFBA792B289C7200D80838 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9118E5822B22B1D4008DD48C /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,7 +134,9 @@
 		911E91F62B0B1C920050D162 /* Scooper */ = {
 			isa = PBXGroup;
 			children = (
+				91C9DEA72B23A7BD0026FD02 /* Scooper.entitlements */,
 				91503B9C2B0C7C8400079516 /* Info.plist */,
+				9118E5852B22C29F008DD48C /* GoogleService-Info.plist */,
 				911E92232B0B1CE60050D162 /* Views */,
 				911E92222B0B1CD10050D162 /* ViewModels */,
 				911E92212B0B1CB50050D162 /* Models */,
@@ -167,6 +180,7 @@
 				91503B962B0C435400079516 /* Student.swift */,
 				910E227B2B1A8B0B001BA9AF /* ScoopTeam.swift */,
 				913785C32B1EBCC900394C95 /* ScoopRequest.swift */,
+				9118E5872B22C804008DD48C /* AuthDataResultModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -176,6 +190,7 @@
 			children = (
 				911E92262B0B1D250050D162 /* MapViewModel.swift */,
 				91503B942B0C42B800079516 /* ScooperViewModel.swift */,
+				91EFBA792B289C7200D80838 /* LoginViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -183,16 +198,25 @@
 		911E92232B0B1CE60050D162 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				91EFBA7B2B294B6D00D80838 /* Menu */,
 				911E92242B0B1D070050D162 /* MapView.swift */,
-				91503B9A2B0C61F500079516 /* MenuView.swift */,
-				91503B9D2B0C98DA00079516 /* SchedulingView.swift */,
-				910E227D2B1AA6CA001BA9AF /* ScoopTeamProfileView.swift */,
-				910E22812B1C1C72001BA9AF /* RequestView.swift */,
-				910E22832B1C3BFF001BA9AF /* StudentSelectMenu.swift */,
-				910E22852B1C4ACD001BA9AF /* FamilyView.swift */,
-				913785C12B1EB99100394C95 /* SchedulingMenuView.swift */,
+				9118E57E2B22A5A5008DD48C /* LoginView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		91EFBA7B2B294B6D00D80838 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				91503B9A2B0C61F500079516 /* MenuView.swift */,
+				910E22852B1C4ACD001BA9AF /* FamilyView.swift */,
+				913785C12B1EB99100394C95 /* SchedulingMenuView.swift */,
+				910E22812B1C1C72001BA9AF /* RequestView.swift */,
+				910E22832B1C3BFF001BA9AF /* StudentSelectMenu.swift */,
+				91503B9D2B0C98DA00079516 /* SchedulingView.swift */,
+				910E227D2B1AA6CA001BA9AF /* ScoopTeamProfileView.swift */,
+			);
+			path = Menu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,6 +235,9 @@
 			dependencies = (
 			);
 			name = Scooper;
+			packageProductDependencies = (
+				9118E5812B22B1D4008DD48C /* FirebaseAuth */,
+			);
 			productName = Scooper;
 			productReference = 911E91F42B0B1C920050D162 /* Scooper.app */;
 			productType = "com.apple.product-type.application";
@@ -283,6 +310,9 @@
 				Base,
 			);
 			mainGroup = 911E91EB2B0B1C920050D162;
+			packageReferences = (
+				9118E5802B22B1D4008DD48C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 911E91F52B0B1C920050D162 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -300,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				910ADF952B16ACBE007FA57D /* Launch Screen.storyboard in Resources */,
+				9118E5862B22C29F008DD48C /* GoogleService-Info.plist in Resources */,
 				911E91FF2B0B1C950050D162 /* Preview Assets.xcassets in Resources */,
 				911E91FC2B0B1C950050D162 /* Assets.xcassets in Resources */,
 			);
@@ -330,9 +361,11 @@
 				910E22862B1C4ACD001BA9AF /* FamilyView.swift in Sources */,
 				91503B9E2B0C98DA00079516 /* SchedulingView.swift in Sources */,
 				91503B9B2B0C61F500079516 /* MenuView.swift in Sources */,
+				9118E5882B22C804008DD48C /* AuthDataResultModel.swift in Sources */,
 				91503B952B0C42B800079516 /* ScooperViewModel.swift in Sources */,
 				910E227E2B1AA6CA001BA9AF /* ScoopTeamProfileView.swift in Sources */,
 				913785C42B1EBCC900394C95 /* ScoopRequest.swift in Sources */,
+				91EFBA7A2B289C7200D80838 /* LoginViewModel.swift in Sources */,
 				91503B972B0C435400079516 /* Student.swift in Sources */,
 				911E91FA2B0B1C920050D162 /* ContentView.swift in Sources */,
 				910E22822B1C1C72001BA9AF /* RequestView.swift in Sources */,
@@ -340,6 +373,7 @@
 				911E91F82B0B1C920050D162 /* ScooperApp.swift in Sources */,
 				913785C22B1EB99200394C95 /* SchedulingMenuView.swift in Sources */,
 				910E22842B1C3BFF001BA9AF /* StudentSelectMenu.swift in Sources */,
+				9118E57F2B22A5A5008DD48C /* LoginView.swift in Sources */,
 				911E92272B0B1D250050D162 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,13 +535,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Scooper/Scooper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Scooper/Preview Content\"";
 				DEVELOPMENT_TEAM = RVQQDT2H28;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Scooper/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Scooper would like to use your location for arrival and departure purposes.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Scooper would like to use your location for arrival and departure purposes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -516,6 +553,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -534,13 +572,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = Scooper/Scooper.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Scooper/Preview Content\"";
 				DEVELOPMENT_TEAM = RVQQDT2H28;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Scooper/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Scooper would like to use your location for arrival and departure purposes.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Scooper would like to use your location for arrival and departure purposes.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -549,6 +590,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -678,6 +720,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9118E5802B22B1D4008DD48C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.19.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9118E5812B22B1D4008DD48C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9118E5802B22B1D4008DD48C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 911E91EC2B0B1C920050D162 /* Project object */;
 }

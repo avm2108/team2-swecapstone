@@ -15,7 +15,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     private let locationManager = CLLocationManager()
     @Published var coordinates: CLLocationCoordinate2D?
     @Published var hasArrived: Bool = false
-    
+    static var parent = ""
     let shared = ScooperViewModel()
     
     override init() {
@@ -26,7 +26,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.startUpdatingLocation()
         
-        monitorRegionAtLocation(center: CLLocationCoordinate2D(latitude: 37.33436, longitude: -122.041445), identifier: "Bullard Elementary")
+        monitorRegionAtLocation(center: CLLocationCoordinate2D(latitude: 37.335331917398044, longitude: -122.04203589302388), identifier: "Home")
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -59,7 +59,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         self.hasArrived = true
         
         Task {
-            try await shared.addToQueue(id: "5NlmPhRjYs34QVz22Avs")
+            try await shared.addToQueue(id: MapViewModel.parent)
         }
         
         print("Entered: \(region.identifier)")
@@ -76,7 +76,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         
         let regionCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: center.latitude, longitude: center.longitude)
         
-        let geofenceRegion: CLCircularRegion = CLCircularRegion(center: regionCoordinate, radius: 100, identifier: identifier)
+        let geofenceRegion: CLCircularRegion = CLCircularRegion(center: regionCoordinate, radius: 250, identifier: identifier)
         
         geofenceRegion.notifyOnEntry = true
         geofenceRegion.notifyOnExit = true

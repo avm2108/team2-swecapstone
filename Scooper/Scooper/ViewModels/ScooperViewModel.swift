@@ -19,9 +19,11 @@ final class ScooperViewModel: ObservableObject {
     @Published var scoopRequest: [ScoopRequest] = [ScoopRequest(id: "", date: "", note: "", student: "", time: "", status: false)]
     
     @Published var familyStatus: [Student] = [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]
+    
+    @Published var authUser: AuthDataResultModel?
         
     @MainActor
-    func getStudent(id: String) async throws {
+    func getStudent(id: String) async throws -> String {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id)") else {
             fatalError("Missing URL")
         }
@@ -30,12 +32,15 @@ final class ScooperViewModel: ObservableObject {
         urlRequest.httpMethod = "GET"
         
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else { return }
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
+            return "Error"
+        }
         let decoder = JSONDecoder()
         let decoded = try decoder.decode([Student].self, from: data)
         self.students = decoded
         
         self.scooper = students[0].scooper
+        return students[0].id
     }
     
     func getChilren(name: String = "Deborah Williams") async throws {
@@ -99,10 +104,11 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
-    func scoopRequest(date: String, time: String, note: String, student: String) async throws {
+    func scoopRequest(id: String, date: String, time: String, note: String, student: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop") else { fatalError("Missing URL") }
         
         let payload: [String: Any] = [
+            "id": id,
             "date": date,
             "time": time,
             "note": note,
@@ -123,8 +129,8 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
-    func getScoopRequest() async throws {
-        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop") else { fatalError("Missing URL") }
+    func getScoopRequest(id: String = "") async throws {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop/\(id)") else { fatalError("Missing URL") }
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
