@@ -5,16 +5,16 @@ const {getFirestore} = require("firebase-admin/firestore");
 const express = require("express");
 const cors = require("cors");
 const {GoogleToken} = require("gtoken");
-
-const app = express();
-app.use(cors({origin: true}));
+const { getAuth } = require("firebase-admin/auth");
+const { userInfo } = require("os");
 
 initializeApp();
 const db = getFirestore();
+const auth = getAuth();
 db.settings({ignoreUndefinedProperties: true});
 
-// security api --------------------------------------------->
 
+// security api --------------------------------------------->
 const security = express();
 security.use(cors({origin: true}));
 
@@ -65,75 +65,107 @@ security.get("/", async (req, res) => {
 
 exports.security = functions.https.onRequest(security);
 
-// search user
-app.get("/:id", async (req, res) => {
+const key = express();
+key.use(cors({origin: true}));
+
+// Generates key
+key.get("/", async (req, res) => {
+  const key = crypto.randomUUID();
+  const response = [{
+    key: key,
+  }];
+  res.json(response).status(200);
+});
+
+key.get("/:id", async (req, res) => {
+  const randomKey = crypto.randomUUID();
+  const id = req.params.id;
+  const keyRef = db.collection("student").doc(id);
+  await keyRef.set( {
+    guardian: {
+      key: randomKey,
+    },
+  }, {merge: true});
+  res.status(200).json([{
+    key: randomKey,
+  }]);
+});
+
+// Updates parent key
+key.put("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const userRef = db.collection("person").doc(id);
-    const doc = await userRef.get();
-    if (!doc.exists) {
-      res.status(404).send("No such document");
-    } else {
-      res.status(200).json([doc.data()]);
-    }
+    const data = req.body;
+    const keyRef = db.collection("student").doc(id);
+    await keyRef.set({
+      guardian: {
+        key: data.guardian.key,
+      },
+    }, {merge: true});
+    res.status(200).send("Success!");
   } catch (err) {
     res.status(400).json({message: err.message});
   }
+});
+
+exports.key = functions.https.onRequest(key);
+
+const app = express();
+app.use(cors({origin: true}));
+
+// search user
+app.get("/:id", async (req, res) => {
+  
 });
 
 // create user
 app.post("/", async (req, res) => {
-  try {
-    const uuid = await db.collection("person").add(req.body);
-    await db.collection("person").doc(uuid.id).update({id: uuid.id});
-    res.status(200).json([uuid.id]);
-  } catch (err) {
-    res.status(400).json({message: err.message});
-  }
+  const auth = getAuth();
+  const email = req.body.email;
+  const displayName = req.body.displayName;
+  const id = req.body.id;
+  auth.createUser({
+    email: email,
+    password: "qwerty",
+    displayName: displayName,
+  }).then(async (userRecord) => {
+    const parentRef = db.collection("student").doc(id);
+    await parentRef.set({
+      guardian: {
+        uuid: userRecord.uid,
+      }
+    }, {merge: true});
+    res.status(200).send("User account created");
+  }).catch((err) => {
+    res.status(400).send("Error creating user", err);
+  });
 });
 
 // update user
 app.put("/:id", async (req, res) => {
-  const id = req.params.id;
-  const data = req.body;
-  const userRef = db.collection("person").doc(id);
-  if (data.email != null) {
-    await userRef.update({
-      email: data.email,
-    });
+  try {
+    const id = req.params.id;
+    const data = req.body;
+    const parentRef = db.collection("student").doc(id);
+    await parentRef.set({
+      guardian: {
+        uuid: data.guardian.uuid,
+      }
+    }, {merge: true});
+    res.status(200).send("Success!");
+  } catch (err) {
+    res.status(400).json({message: err.message});
   }
-
-  if (data.phone != null) {
-    await userRef.update({phone: data.phone});
-  }
-  res.json(["Update Successful!"]);
 });
 
 // delete user
 app.delete("/:id", async (req, res) => {
-  const id = req.params.id;
-  await db.collection("person").doc(id).delete();
-  res.json(["Delete successful!"]);
+  
 });
 
 // get all users
 app.get("/", async (req, res) => {
-  try {
-    const promises = [];
-    const userRef = db.collection("person");
-    const snapshot = await userRef.get();
-    if (snapshot.empty) {
-      console.log("No matching documents");
-      return;
-    }
-
-    snapshot.forEach((doc) => {
-      promises.push(doc.data());
-    });
-    res.status(200).json(promises);
-  } catch (err) {
-    res.status(400).json({message: err.message});
-  }
+  
 });
 
 exports.user = functions.https.onRequest(app);
@@ -145,13 +177,16 @@ student.use(cors({origin: true}));
 student.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const userRef = db.collection("student").doc(id);
-    const doc = await userRef.get();
-    if (!doc.exists) {
-      res.status(404).send("No such document");
-    } else {
-      res.status(200).json([doc.data()]);
+    const userRef = db.collection("student");
+    const snapshot = await userRef.where("guardian.uuid", "==", id).get();
+    if (snapshot.empty) {
+      res.status(400).send("No matching student.");
+      return;
     }
+
+    snapshot.forEach(doc => {
+      res.status(200).json([doc.data()]);
+    });
   } catch (err) {
     res.status(400).json({message: err.message});
   }
@@ -223,16 +258,16 @@ parent.get("/:name", async (req, res) => {
     const name = req.params.name;
     const parentRef = db.collection("student");
     const queryRef = await parentRef.where("guardian.name", "==", name).get();
-    const studentList = []
+    const studentpickUpQueue = []
 
     if (queryRef.empty) {
       res.status(400).send("No matching documents");
     }
 
     queryRef.forEach(doc => {
-      studentList.push(doc.data());
+      studentpickUpQueue.push(doc.data());
     });
-    res.status(200).json(studentList);
+    res.status(200).json(studentpickUpQueue);
   } catch (error) {
     res.status(400).json({message: err.message});
   }
@@ -251,13 +286,14 @@ parent.put("/:id", async (req, res) => {
         name: data.guardian.name,
         phone: data.guardian.phone,
         relation: data.guardian.relation,
+        uuid: data.guardian.uuid,
         vehicle: {
           color: data.guardian.vehicle.color,
           licensePlate: data.guardian.vehicle.licensePlate,
           make: data.guardian.vehicle.make,
           model: data.guardian.vehicle.model,
           year: data.guardian.vehicle.year,
-        },
+        }
       },
       position: 1000,
       scooper: data.scooper,
@@ -333,35 +369,57 @@ exports.position = functions.https.onRequest(position);
 const queueManager = express();
 queueManager.use(cors({origin: true}));
 
-var list = [];
+var pickUpQueue = [];
+var waitingQueue = [];
 var int = 1;
 var count = 0;
+var waitingQueueCount = int;
+var queueSize = 5;
 
 queueManager.get("/", async (req, res) => {
-  if (list.length !== 0) {
-    res.status(200).json(list);
-  } else if (list.length == 0) {
+  if (pickUpQueue.length !== 0) {
+    res.status(200).json({
+      "pickupQueue": pickUpQueue,
+      "waitingQueue": waitingQueue,
+  });
+  } else if (pickUpQueue.length == 0) {
     int = 1;
     count = 0;
+    waitingQueueCount = 0;
   }
   res.status(400).send("Queue is empty.");
 });
 
 queueManager.post("/:id", async (req, res) => {
   const id = req.params.id;
-  list.push([id,int]);
-  const studentRef = db.collection("student").doc(id);
-  await studentRef.update({
-    position: int,
-  });
+  if (int <= queueSize) {
+    pickUpQueue.push([id,int]);
+    const studentRef = db.collection("student").doc(id);
+    await studentRef.update({
+      position: int,
+    });  
+  } else {
+    waitingQueue.push([id, int]);
+  }
+  
   int = int + 1;
   res.status(200).send("OK");
 });
 
+queueManager.put("/:size", async (req, res) => {
+  try {
+    const size = req.params.size;
+    queueSize = size;
+    res.status(200).send("Success: Queue size updated.");
+  } catch (error) {
+    res.status(400).send("Unable to change queue size.");
+  }
+});
+
 queueManager.delete("/", async (req, res) => {
-  if (list.length !== 0) {
-    list.shift();
-    list.forEach(async (e) => {
+  if (pickUpQueue.length !== 0) {
+    pickUpQueue.shift();
+    pickUpQueue.forEach(async (e) => {
       count = e[1];
       count --;
       e[1] = count;
@@ -370,6 +428,24 @@ queueManager.delete("/", async (req, res) => {
         position: e[1],
       });
     });
+    if (waitingQueue.length !== 0) {
+      let next = waitingQueue.shift();
+      waitingQueue.forEach(async (e) => {
+        waitingQueueCount = e[1];
+        waitingQueueCount --;
+        e[1] = waitingQueueCount;
+      });
+      pickUpQueue.push([next[0], next[1] - 1]);
+      studentRef = db.collection("student").doc(next[0]);
+      await studentRef.update({
+        position: next[1] - 1
+      });
+      int = int - 1;
+    } else if (waitingQueue.length == 0) {
+      if (pickUpQueue.length < queueSize) {
+        int = count + 1;
+      }
+    }
     res.status(200).send("OK");
   }
   res.status(400).send("Queue is empty.");
@@ -396,51 +472,6 @@ exports.school = functions.https.onRequest( async (req, res) => {
   }
 });
 
-const key = express();
-key.use(cors({origin: true}));
-
-// Generates key
-key.get("/", async (req, res) => {
-  const key = crypto.randomUUID();
-  const response = [{
-    key: key,
-  }];
-  res.json(response).status(200);
-});
-
-key.get("/:id", async (req, res) => {
-  const randomKey = crypto.randomUUID();
-  const id = req.params.id;
-  const keyRef = db.collection("student").doc(id);
-  await keyRef.set( {
-    guardian: {
-      key: randomKey,
-    },
-  }, {merge: true});
-  res.status(200).json([{
-    key: randomKey,
-  }]);
-});
-
-// Updates parent key
-key.put("/:id", async (req, res) => {
-  try {
-    const id = req.params.id;
-    const data = req.body;
-    const keyRef = db.collection("student").doc(id);
-    await keyRef.set({
-      guardian: {
-        key: data.guardian.key,
-      },
-    }, {merge: true});
-    res.status(200).send("Success!");
-  } catch (err) {
-    res.status(400).json({message: err.message});
-  }
-});
-
-exports.key = functions.https.onRequest(key);
-
 const scoop = express();
 scoop.use(cors({origin: true}));
 
@@ -465,7 +496,7 @@ scoop.post("/", async (req, res) => {
     let data = req.body;
     const scoopRef = db.collection("scoopRequest").doc();
     const result = await scoopRef.set({
-      id: scoopRef.id,
+      id: data.id,
       date: data.date,
       time: data.time,
       note: data.note,
@@ -495,10 +526,17 @@ scoop.put("/:id", async (req, res) => {
 scoop.get("/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    const scoopRef = db.collection("scoopRequest").doc(id);
-    const observer = scoopRef.onSnapshot(docSnapshot => {
-      res.status(200).json(docSnapshot.data());
+    const scoopRef = db.collection("scoopRequest");
+    const queryRef = await scoopRef.where("id", "==", id).get();
+    const list = [];
+    if (queryRef.empty) {
+      res.status(400).send("No matching documents.");
+    }
+
+    queryRef.forEach(doc => {
+      list.push(doc.data());
     });
+    res.status(200).json(list);
   } catch (err) {
     res.status(400).json({message: err.message});
   }
