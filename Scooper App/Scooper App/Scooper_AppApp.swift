@@ -44,10 +44,10 @@ extension AppDelegate: MessagingDelegate {
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: deviceToken)
         
         Messaging.messaging().subscribe(toTopic: "scooper") {error in
-            print("Subscribed to scooper")
+//            print("Subscribed to scooper")
         }
         
-        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
+//        print("Device token: ", deviceToken) // This token can be used for testing notifications on FCM
     }
 }
 

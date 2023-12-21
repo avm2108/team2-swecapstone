@@ -20,6 +20,7 @@ struct Menu: View {
                 Text("Menu")
                     .font(.largeTitle.bold())
                     .padding(.leading)
+                    .foregroundStyle(.white)
                 
                 Spacer()
                 
@@ -50,6 +51,23 @@ struct Menu: View {
                                 .frame(width: 50, height: 40)
                                 .foregroundStyle(Color("scooperYellow"))
                             Text("Scheduling")
+                                .font(.title.bold())
+                                .foregroundStyle(Color.white)
+                        }
+                    }
+                }
+                .padding(.leading, 80)
+                                
+                NavigationLink {
+                    SettingsView()
+                } label: {
+                    VStack {
+                        HStack {
+                            Image(systemName: "gearshape.fill")
+                                .resizable()
+                                .frame(width: 45, height: 45)
+                                .foregroundStyle(Color("scooperYellow"))
+                            Text("Settings")
                                 .font(.title.bold())
                                 .foregroundStyle(Color.white)
                         }

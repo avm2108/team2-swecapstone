@@ -83,67 +83,46 @@ struct StudentDetails: View {
                         .padding()
                 }
             }
-            .fullScreenCover(isPresented: $isPresented, content: {
+            .popover(isPresented: $isPresented, content: {
                 VStack {
                     ScrollView(.vertical) {
                         Text("Add Guardian")
                             .font(.largeTitle.bold())
                         
                         TextField("First Name", text: $fname)
-                            .padding()
-                            .border(.black)
-                            .background(Color.white.opacity(0.4))
+                            .modernRoundField()
                             .keyboardType(.alphabet)
                         
                         TextField("Last Name", text: $lname)
-                            .padding()
-                            .border(.black)
-                            .background(Color.white.opacity(0.4))
+                            .modernRoundField()
                         
                         TextField("Phone Number", text: $phone)
-                            .padding()
-                            .border(.black)
-                            .background(Color.white.opacity(0.4))
-                            .keyboardType(.numberPad)
+                            .modernRoundField()
                         
                         TextField("Email", text: $email)
                             .textCase(.lowercase)
                             .textInputAutocapitalization(.never)
-                            .padding()
-                            .border(.black)
-                            .background(Color.white.opacity(0.4))
+                            .modernRoundField()
                         
                         TextField("Relation", text: $relation)
-                            .padding()
-                            .border(.black)
-                            .background(Color.white.opacity(0.4))
+                            .modernRoundField()
                         
                         Section {
                             TextField("Color", text: $vehicleColor)
-                                .padding()
-                                .border(.black)
-                                .background(Color.white.opacity(0.4))
+                                .modernRoundField()
                             
                             TextField("Make", text: $vehicleMake)
-                                .padding()
-                                .border(.black)
-                                .background(Color.white.opacity(0.4))
+                                .modernRoundField()
                             
                             TextField("Model", text: $vehicleModel)
-                                .padding()
-                                .border(.black)
-                                .background(Color.white.opacity(0.4))
+                                .modernRoundField()
                             
                             TextField("Year", text: $vehicleYear)
-                                .padding()
-                                .border(.black)
-                                .background(Color.white.opacity(0.4))
+                                .modernRoundField()
                                 .keyboardType(.numberPad)
                             
                             TextField("License Plate", text: $licensePlate)
-                                .padding()
-                                .border(.black)
-                                .background(Color.white.opacity(0.4))
+                                .modernRoundField()
                         } header: {
                             Text("Car Information")
                                 .font(.largeTitle.bold())
@@ -155,7 +134,7 @@ struct StudentDetails: View {
                             showAlert2 = false
                         }
                     }, message: {
-                        Text("Must filled in all inforamtion.")
+                        Text("Must provide all student and guardian information.")
                     })
                     
 
@@ -167,6 +146,10 @@ struct StudentDetails: View {
                             showAlert2 = true
                         } else {
                             vm.updateStudent(id: studentID, parent: Parent(email: email, name: fname + " " + lname, phone: phone, relation: relation, vehicle: Vehicle(color: vehicleColor, year: vehicleYear, model: vehicleModel, make: vehicleMake, licensePlate: licensePlate)))
+                            
+                            vm.createUser(with: email, for: fname + " " + lname, id: studentID)
+                            
+                            
                             isPresented = false
                             reset()
                             self.dismiss.callAsFunction()
@@ -183,7 +166,6 @@ struct StudentDetails: View {
                     .cornerRadius(10)
                     .padding()
                 }
-                .padding()
             })
             .background(Color("scooperGreen"))
             
@@ -192,20 +174,14 @@ struct StudentDetails: View {
             ScrollView(.vertical) {
                 VStack(spacing: 20) {
                     TextField("First Name", text: $studentFname)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                     
                     TextField("Last Name", text: $studentLname)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                     
                     ZStack(alignment: .trailing) {
                         TextField("Student ID\(studentID)", text: $studentID)
-                            .padding()
-                            .border(.black)
-                            .background(Color.white.opacity(0.4))
+                            .modernRoundField()
                             .keyboardType(.numberPad)
                             
                         
@@ -227,35 +203,23 @@ struct StudentDetails: View {
                         .datePickerStyle(.compact)
                     
                     TextField("Address", text: $address)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                     
                     TextField("Apartment, suite, etc.", text: $type)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                     
                     TextField("City", text: $city)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                     
                     TextField("State/province", text: $state)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                     
                     TextField("Zip Code", text: $zipCode)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                         .keyboardType(.numberPad)
                     
                     TextField("Grade", text: $grade)
-                        .padding()
-                        .border(.black)
-                        .background(Color.white.opacity(0.4))
+                        .modernRoundField()
                         .keyboardType(.numberPad)
                 }
                 .padding()
@@ -265,7 +229,7 @@ struct StudentDetails: View {
                     showAlert = false
                 }
             }, message: {
-                Text("Must filled in all inforamtion.")
+                Text("Must fill in all inforamtion.")
             })
             
             Button {
@@ -296,8 +260,8 @@ struct StudentDetails: View {
     }
     
     func generateUniqueID() {
-        let id = UUID().uuidString
-        self.studentID = id.trimmingCharacters(in: .alphanumerics)
+        let id = UUID().uuidString.trimmingCharacters(in: .alphanumerics)
+        self.studentID = id.replacingOccurrences(of: "-", with: "")
     }
     
     func reset() {
@@ -333,6 +297,20 @@ extension String {
     }
 }
 
+struct RoundedField: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding()
+            .background(.gray.opacity(0.3))
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+    }
+}
+
+extension View {
+    func modernRoundField() -> some View {
+        modifier(RoundedField())
+    }
+}
 #Preview {
     StudentDetails()
 }

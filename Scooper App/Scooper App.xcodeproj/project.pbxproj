@@ -12,6 +12,8 @@
 		91037E842B06C4C9000329BC /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E832B06C4C9000329BC /* Menu.swift */; };
 		91037E862B06C872000329BC /* SchedulingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91037E852B06C872000329BC /* SchedulingView.swift */; };
 		910ADF972B177847007FA57D /* StudentRemovalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910ADF962B177847007FA57D /* StudentRemovalView.swift */; };
+		9118E57B2B223402008DD48C /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9118E57A2B223402008DD48C /* Credentials.swift */; };
+		9118E57D2B228DCB008DD48C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9118E57C2B228DCB008DD48C /* SettingsView.swift */; };
 		913E516B2B16877500269583 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913E516A2B16877500269583 /* ProfileView.swift */; };
 		916C09C92B05FEB0008009C9 /* Loading Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916C09C82B05FEB0008009C9 /* Loading Screen.swift */; };
 		916C09CC2B0615AD008009C9 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 916C09CB2B0615AD008009C9 /* Launch Screen.storyboard */; };
@@ -61,6 +63,8 @@
 		91037E832B06C4C9000329BC /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		91037E852B06C872000329BC /* SchedulingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchedulingView.swift; sourceTree = "<group>"; };
 		910ADF962B177847007FA57D /* StudentRemovalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentRemovalView.swift; sourceTree = "<group>"; };
+		9118E57A2B223402008DD48C /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
+		9118E57C2B228DCB008DD48C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		913E516A2B16877500269583 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		916C09C82B05FEB0008009C9 /* Loading Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Loading Screen.swift"; sourceTree = "<group>"; };
 		916C09CA2B06153D008009C9 /* Scooper-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Scooper-App-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -125,6 +129,7 @@
 				91ABC2AE2B05B55800676EC1 /* School.swift */,
 				91ABC2AA2B05B4D800676EC1 /* User.swift */,
 				91C8EE892B1ED28600D833A0 /* ScoopRequest.swift */,
+				9118E57A2B223402008DD48C /* Credentials.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 				918276A32B1643660082503A /* StudentProfileView.swift */,
 				913E516A2B16877500269583 /* ProfileView.swift */,
 				910ADF962B177847007FA57D /* StudentRemovalView.swift */,
+				9118E57C2B228DCB008DD48C /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -361,6 +367,7 @@
 				910ADF972B177847007FA57D /* StudentRemovalView.swift in Sources */,
 				91ABC2B62B05B8F800676EC1 /* ScooperViewModel.swift in Sources */,
 				91ABC2B12B05B5A000676EC1 /* Key.swift in Sources */,
+				9118E57B2B223402008DD48C /* Credentials.swift in Sources */,
 				91037E862B06C872000329BC /* SchedulingView.swift in Sources */,
 				91ABC2AB2B05B4D800676EC1 /* User.swift in Sources */,
 				91037E802B06B515000329BC /* MapView.swift in Sources */,
@@ -378,6 +385,7 @@
 				91E548332B0D0286004B54D7 /* NotificationManager.swift in Sources */,
 				91ABC2AD2B05B52A00676EC1 /* Student.swift in Sources */,
 				91F794F22AB39843000F6575 /* Scooper_AppApp.swift in Sources */,
+				9118E57D2B228DCB008DD48C /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,7 +548,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Scooper App/Scooper App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Scooper App/Preview Content\"";
 				DEVELOPMENT_TEAM = RVQQDT2H28;
 				ENABLE_PREVIEWS = YES;
@@ -574,7 +582,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "Scooper App/Scooper App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"Scooper App/Preview Content\"";
 				DEVELOPMENT_TEAM = RVQQDT2H28;
 				ENABLE_PREVIEWS = YES;

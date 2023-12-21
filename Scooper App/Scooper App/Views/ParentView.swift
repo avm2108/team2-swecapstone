@@ -43,7 +43,7 @@ struct ParentView: View {
                 }
                 .onAppear(perform: {
                     Task {
-                        try await vm.getKey(id: id ?? "")
+                        try await vm.getKey(studentID: id ?? "")
                     }
                 })
                 

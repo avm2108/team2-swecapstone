@@ -81,6 +81,7 @@ struct Dismissal: View {
             Text("Please try again.")
         })
         Spacer()
+        
         Button {
             vm.dismiss(status: false, id: id, position: 1000)
             
@@ -89,6 +90,7 @@ struct Dismissal: View {
                     try await vm.removeFromQueue()
                 } catch {
                     isPresented = true
+                    print(error)
                 }
             }
             self.dismiss.callAsFunction()

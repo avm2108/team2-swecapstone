@@ -19,9 +19,7 @@ struct StudentRemovalView: View {
             
             Text("Enter student ID to remove")
             TextField("Student ID", text: $id)
-                .padding()
-                .border(.black)
-                .background(.white)
+                .modernRoundField()
                 .padding(.bottom)
             
             Text("Warning: Deletion is a permant action. Removes all data associated with the student.")
@@ -34,7 +32,7 @@ struct StudentRemovalView: View {
                 studentID = id
                 Task {
                     do {
-                        try await vm.removeStudent(id: studentID)
+                        try await vm.removeStudent(studentID: studentID)
                     } catch {
                         isPresented = true
                     }

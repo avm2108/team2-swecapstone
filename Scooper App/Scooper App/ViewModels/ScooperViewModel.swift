@@ -14,9 +14,11 @@ final class ScooperViewModel: ObservableObject {
     @Published var students: [Student] = [Student(id: "", name: "", birth: "", address: Address(address: "", city: "", state: "", zipCode: "", type: ""), scooper: "", status: false, position: 0, grade: "", guardian: Parent(email: "", name: "", phone: "", relation: "", vehicle: Vehicle(color: "", year: "", model: "", make: "", licensePlate: "")))]
     @Published var isLoading = false
     @Published var scoopRequest: [ScoopRequest] = [ScoopRequest(id: "", date: "", note: "", student: "", time: "", status: false)]
+    @Published var auth: [Credentials]?
     
-    
-    func getKey(id: String) async throws {
+    /// Generates & returns an idempotent key.
+    /// - Parameter id: ID of the student
+    func getKey(studentID id: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/key/\(id)") else {
             fatalError("Missing URL")
         }
@@ -34,41 +36,9 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
-//    func getPosition() {
-//        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/listen") else {
-//            fatalError("Missing URL")
-//        }
-//        
-//        var urlRequest = URLRequest(url: url)
-//        urlRequest.httpMethod = "GET"
-//        
-//        let dataTask = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
-//            if let error = error {
-//                print("Request error: ", error)
-//                return
-//            }
-//            
-//            guard let response = response as? HTTPURLResponse else {return}
-//            
-//            if response.statusCode == 200 {
-//                guard let data = data else {return}
-//                DispatchQueue.main.async { [weak self] in
-//                    do {
-//                        let decorder = JSONDecoder()
-//                        let decoded = try decorder.decode([Snapshot].self, from: data)
-//                        if let str = String(data: data, encoding: .utf8) {
-//                            print(str)
-//                        }
-//                    } catch let error {
-//                        print("Error decoding: ", error)
-//                    }
-//                }
-//            }
-//        }
-//        dataTask.resume()
-//    }
-    
-    func searchStudent(id: String) async throws {
+    /// Search for a specific student.
+    /// - Parameter id: ID of the student
+    func searchStudent(studentID id: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id)") else {
             fatalError("Missing URL")
         }
@@ -82,6 +52,7 @@ final class ScooperViewModel: ObservableObject {
         self.students = decoded
     }
     
+    /// Returns a search of all students.
     func getStudents() async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student") else {
             fatalError("Missing URL")
@@ -101,7 +72,9 @@ final class ScooperViewModel: ObservableObject {
     }
     
     
-    func getCoordinates(id: String) async throws {
+    /// Returns a school's coordinates.
+    /// - Parameter id: ID of the school
+    func getCoordinates(schoolID id: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/location") else {
             fatalError("Missing URL")
         }
@@ -121,6 +94,11 @@ final class ScooperViewModel: ObservableObject {
         self.school = decoded
     }
     
+    /// Dismisses a student.
+    /// - Parameters:
+    ///   - status: Student's attendance standing
+    ///   - id: ID of the student
+    ///   - position: Position of student's parent in the queue
     func dismiss(status: Bool, id: String, position: Int) {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student") else {
             fatalError("Missing URL")
@@ -157,6 +135,49 @@ final class ScooperViewModel: ObservableObject {
         dataTask.resume()
     }
     
+    /// Creates user account for parent.
+    /// - Parameters:
+    ///   - email: email for parent account
+    ///   - name: name of parent
+    ///   - id: ID of student
+    func createUser(with email: String, for name: String, id: String) {
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/user") else {
+            fatalError("Missing URL")
+        }
+        
+        let payload: [String: Any] = ["email": email, "displayName": name, "id": id]
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: payload)
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.httpMethod = "POST"
+        urlRequest.httpBody = jsonData
+        
+        let dataTask = URLSession.shared.uploadTask(with: urlRequest, from: jsonData) { (responseData, response, error) in
+            if let error = error {
+                print("Error making PUT request: \(error.localizedDescription)")
+                return
+            }
+            
+            if let responseCode = (response as? HTTPURLResponse)?.statusCode, let responseData = responseData {
+                guard responseCode == 200 else {
+                    print("Invalid response code: \(responseCode)")
+                    return
+                }
+                
+                if (try? JSONSerialization.jsonObject(with: responseData, options: .allowFragments)) != nil {
+                    print("Response JSON data = \(responseData)")
+                }
+            }
+        }
+        dataTask.resume()
+    }
+    
+    /// Acknowledges parent requests.
+    /// - Parameters:
+    ///   - status: Student's attendance standing
+    ///   - id: ID of student
     func approveRequest(status: Bool, id: String) {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop") else {
             fatalError("Missing URL")
@@ -193,6 +214,10 @@ final class ScooperViewModel: ObservableObject {
         dataTask.resume()
     }
     
+    /// Updates parent account with idempotent key
+    /// - Parameters:
+    ///   - id: ID of student
+    ///   - key: Idempotent key generated for pick up
     func updateKey(id: String, key: String) {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/key/\(id)") else {
             fatalError("Missing URL")
@@ -227,7 +252,10 @@ final class ScooperViewModel: ObservableObject {
         dataTask.resume()
     }
     
-    
+    /// Adds parent information to student account.
+    /// - Parameters:
+    ///   - id: ID of student
+    ///   - parent: Parent account information
     func updateStudent(id: String, parent: Parent = Parent(key: "", email: "Test", name: "Test", phone: "Test", relation: "Test", vehicle: Vehicle(id: "Test", color: "Test", year: "Test", model: "Test", make: "Test", licensePlate: "Test"))) {
         
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/parent/\(id)") else {
@@ -241,6 +269,7 @@ final class ScooperViewModel: ObservableObject {
                 "name": parent.name,
                 "phone": parent.phone,
                 "relation": parent.relation,
+                "uuid": "",
                 "vehicle": [
                     "color": parent.vehicle.color,
                     "licensePlate": parent.vehicle.licensePlate,
@@ -272,17 +301,12 @@ final class ScooperViewModel: ObservableObject {
                 print("server error")
                 return
             }
-            
-            if let mimeType = response.mimeType,
-               mimeType == "application/json",
-               let data = data,
-               let dataString = String(data: data, encoding: .utf8) {
-                print (dataString)
-            }
         }
         dataTask.resume()
     }
     
+    /// Register a new student
+    /// - Parameter student: Student information
     func addStudent(student: Student = Student(id: "0", name: "Test", birth: "04/1/2001", address: Address(address: "123 Test St", city: "Test", state: "Test", zipCode: "Test", type: "Test"), scooper: "Test", status: false, position: 0, grade: "Test", guardian: Parent(email: "Test", name: "Test", phone: "Test", relation: "Test", vehicle: Vehicle(color: "Test", year: "Test", model: "Test", make: "Test", licensePlate: "Test")))) {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student") else {
             fatalError("Missing URL")
@@ -336,7 +360,9 @@ final class ScooperViewModel: ObservableObject {
         case badRequest
     }
     
-    func removeStudent(id: String) async throws {
+    /// Permenantly deletes a student
+    /// - Parameter id: ID of student
+    func removeStudent(studentID id: String) async throws {
         
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/student/\(id)") else {
             fatalError("Missing URL")
@@ -352,8 +378,7 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
-    
-    
+    /// Removes parent from queue
     func removeFromQueue() async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/queueManager") else {
             fatalError("Missing URL")
@@ -369,7 +394,7 @@ final class ScooperViewModel: ObservableObject {
         }
     }
     
-    
+    /// Returns all requests made from parents
     func getScoopRequest() async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop") else { fatalError("Missing URL") }
         
@@ -386,6 +411,8 @@ final class ScooperViewModel: ObservableObject {
 //        }
     }
     
+    /// Returns request made from a specific parent
+    /// - Parameter id: ID of student
     func getScoopRequestWithID(id: String) async throws {
         guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/scoop/\(id)") else { fatalError("Missing URL") }
         
@@ -400,5 +427,22 @@ final class ScooperViewModel: ObservableObject {
 //        if let str = String(data: data, encoding: .utf8) {
 //            print(str)
 //        }
+    }
+    
+    /// Updates queue to size of positions.
+    /// - Parameter positions: Number of positions available in the queue
+    func updateQueuePositions(to positions: String) async throws{
+        guard let url = URL(string: "https://us-central1-scooper-df18f.cloudfunctions.net/queueManager/\(positions)") else {
+            fatalError("Missing URL!")
+        }
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PUT"
+        
+        let (data, response) = try await URLSession.shared.data(for: urlRequest)
+        guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw NetworkRequest.badRequest }
+        if let str = String(data: data, encoding: .utf8) {
+            print(str)
+        }
     }
 }
